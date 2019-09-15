@@ -1,0 +1,451 @@
+---
+name: product
+url: /product/:product_uid
+title: Product
+parent: dashboard
+controller: ProductController
+loginRequired: true
+---
+<div class="grid-block" ng-show="product">
+	<div class="grid-content large-12 medium-12 small-12" ng-show="unsaved_changes">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec unsaved-div">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="unsaved-label card-row-label center">You have unsaved changes</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Meta Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-4">
+						<label class="card-row-label">Disabled</label>
+						<input class="card-row-input status-highlight grey-out" type="text" required value="{{product.disabled && 'Yes' || 'No'}}" readonly/>
+					</div>
+					<div class="grid-content small-4 medium-4 large-4 ">
+						<label class="card-row-label">Last Updated</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{genService.convertStampToDate(product.updated_at).slice(0,25) || 'NOT YET UPDATED'}}"/>
+					</div>
+					<div class="grid-content small-4 medium-4 large-4 ">
+						<label class="card-row-label">Created</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{genService.convertStampToDate(product.created_at).slice(0,25) || 'NOT YET UPDATED'}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<form class="flex-form force-wrap large-12 medium-12 small-12" name="product_form">
+			<div class="card card-square large-12 medium-12 small-12">
+				<div class="card-divider white-card-divider white-text">General</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Name</label>
+							<input class="card-row-input status-highlight" type="text" required ng-model="product.name" ng-change="UnsavedChanges()"/>
+						</div>
+						<div class="grid-content small-6 medium-4 large-6">
+							<label class="card-row-label">Insurance Type</label>
+							<span>
+								<select name="typeselector" ng-model="product.insurance_type" required ng-change="UnsavedChanges()">
+									<option ng-repeat="(key, insurance_type) in insurance_types" value="{{key}}" ng-show="!insurance_type.disabled">{{insurance_type.name_en}}</option>
+								</select>
+							</span>
+						</div>
+						<div class="grid-content small-6 medium-4 large-6">
+							<label class="card-row-label">Carrier</label>
+							<span>
+								<select name="typeselector" ng-model="product.carrier" required ng-change="UnsavedChanges()">
+									<option ng-repeat="(key, carrier) in carriers" value="{{key}}" ng-show="!carrier.disabled">{{carrier.name}}</option>
+								</select>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<form class="flex-form force-wrap large-12 medium-12 small-12" name="instant_form">
+			<div class="card card-square large-12 medium-12 small-12">
+				<div class="card-divider white-card-divider white-text">Instant Thresholds</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left small-padding">
+						<div class="grid-content small-12 medium-12 large-12 small-margin-below">
+							<b>Select whether you want to include OR exclude the industries below</b>
+							<select ng-model="product.pre_triggers.industry.exclude_all" required ng-change="UnsavedChanges()">
+								<option value="{{true}}">Include every Industry below</option>
+								<option value="{{false}}">Exclude every Industry below</option>
+							</select>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<b>Select Industry Exceptions</b>
+							<select ng-model="industry_to_add" class="" ng-options="key as code.code+' - '+code.name_en disable when product.pre_triggers.industry.industry_codes[key] for (key, code) in codes_dict">
+							</select>
+							<div class="large-4 medium-4 small-4">
+								<label class="card-row-label"></label>
+								<input type="button" class="button button-slim" ng-click="AddIndustryToInsuranceType(industry_to_add);"  value="Add Industry" ng-disabled="!industry_to_add"></input>
+							</div>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<b></b>
+							<div class="large-12 medium-12 small-12 underline" ng-repeat="(key, value) in product.pre_triggers.industry.industry_codes">
+								<div class="grid-block align-left small-margin-above-below ">
+									<div class="grid-content small-1 medium-1 large-1">
+										<i ng-click="RemoveIndustryFromInsuranceType(key)" class="pointer fa fa-times" aria-hidden="true"></i>
+									</div>
+									<div class="grid-content small-1 medium-1 large-1">
+										{{codes_dict[key].code}}
+									</div>
+									<div class="grid-content small-10 medium-10 large-10">
+										{{codes_dict[key].name_en}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow">
+		<h6>Questions to Include this Product (General Questions) ({{pretrigger_question_length}})</h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			<div class="card-section left-card cus-card-sec status-highlight">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-4">
+						Question Text (DE)
+					</div>
+					<div class="grid-content small-4 medium-4 large-4">
+						Type
+					</div>
+					<div class="grid-content small-4 medium-4 large-2 right-align">
+						Instant If (condition)
+					</div>
+					<div class="grid-content small-4 medium-4 large-2 right-align">
+						Instant If (value)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, question) in product.pre_triggers.questions">
+		<div class="card card-square industry-margin">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-4">
+						<i ng-click="DeletePretriggerQuestion(key)" class="pointer fa fa-times" aria-hidden="true"></i> {{questions[key].question_text_de}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-4">
+						{{meta.input_types[questions[key].input_type]}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-2 right-align dark-hover"
+					ui-sref="pretriggereditor({product_uid:product_uid,question_uid:key})">
+					{{question.trigger.condition === 'no_threshold' && 'Any' || question.trigger.condition}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-2 right-align dark-hover" ui-sref="pretriggereditor({product_uid:product_uid,question_uid:key})">
+						{{question.trigger.condition === 'no_threshold' && 'Any' || question.trigger.on === false && 'No' || question.trigger.on === true && 'Yes' || question.trigger.max && (question.trigger.min+' - '+question.trigger.max) || question.trigger.on}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button button-slim" ng-disabled="!knockout_question_list" ui-sref="productquestionpicker({product_uid:product_uid, pre_trigger:true, order:false})" value="+ Add new questions"></input>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow small-top-margin">
+		<h6>Product Questions ({{knockout_question_list.length}})</h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			<div class="card-section left-card cus-card-sec status-highlight">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-1">
+						Controls
+					</div>
+					<div class="grid-content small-4 medium-4 large-1">
+						Order
+					</div>
+					<div class="grid-content small-4 medium-4 large-1">
+						Type
+					</div>
+					<div class="grid-content small-4 medium-4 large-1">
+						Instant If
+					</div>
+					<div class="grid-content small-4 medium-4 large-4">
+						Trigger
+					</div>
+					<div class="grid-content small-4 medium-4 large-4 right-align">
+						Question Text (DE)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(main_key, question) in knockout_question_list | orderBy:'question.order'">
+		<div class="card card-square industry-margin">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-1">
+						<i ng-click="DeleteQuestionFromMapping(question.key)" class="pointer fa fa-times" aria-hidden="true"></i>
+						<i ng-click="MoveUp(question.key)" class="pointer fa fa-arrow-up" aria-hidden="true" ng-disabled="question.question.order == 1"></i>
+						<i ng-click="MoveDown(question.key)" class="pointer fa fa-arrow-down" aria-hidden="true" ng-disabled="question.question.order == knockout_question_list.length"></i>
+						<i ng-click="MakeSubQuestionOfAbove(question.key, question.question.order)" class="pointer fa fa-arrow-right" aria-hidden="true" ng-disabled="question.question.order == 1 || question.question.children !== false"></i>
+					</div>
+					<div class="grid-content small-4 medium-4 large-1">
+						{{question.question.order || 'No Order'}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-1">
+						{{meta.input_types[questions[question.key].input_type]}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-1 dark-hover" ui-sref="productquestion({product_uid:product_uid,question_uid:question.key})" ng-show="questions[question.key].input_type == 'bool'">
+						{{question.question.knockout_trigger.on == 'no_threshold' && 'Any' || question.question.knockout_trigger.on == false && 'When No' || 'When Yes'}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-1 dark-hover" ui-sref="productquestion({product_uid:product_uid,question_uid:question.key})" ng-show="questions[question.key].input_type == 'currency' || questions[question.key].input_type == 'number'">
+						<!-- {{question.question.knockout_trigger.condition}} {{question.question.knockout_trigger.on}} -->
+						{{question.question.knockout_trigger.on == 'no_threshold' && 'Any' || question.question.knockout_trigger.max && (question.question.knockout_trigger.min+' - '+question.question.knockout_trigger.max) || '' + question.question.knockout_trigger.condition + ' ' + question.question.knockout_trigger.on }}
+					</div>
+					<div class="grid-content small-4 medium-4 large-1" ng-show="questions[question.key].input_type == 'text' || questions[question.key].input_type == 'date'">
+						Any
+					</div>
+					<div class="grid-content small-4 medium-4 large-4">
+
+					</div>
+					<div class="grid-content small-4 medium-4 large-4 right-align">
+						{{questions[question.key].question_text_de}}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card card-square industry-margin large-12" ng-repeat="(key, subquestion) in question.question.children">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-2 medium-2 large-2">
+						<i ng-click="DeleteSubQuestionFromProductMapping(question.key, key)" class="pointer fa fa-times" aria-hidden="true"></i>
+						<b>(Subquestion of {{question.question.order}})</b>
+					</div>
+					<div class="grid-content small-1 medium-1 large-1">
+						{{meta.input_types[questions[key].input_type]}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-1 dark-hover" ui-sref="productquestion({product_uid:product_uid,question_uid:question.key,child_question_uid:key})" ng-show="questions[key].input_type == 'bool'">
+						{{((subquestion.knockout_trigger.on == 'no_threshold') && 'Any' || subquestion.knockout_trigger.on == false && 'When No' || 'When Yes')}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-1 dark-hover" ui-sref="productquestion({product_uid:product_uid,question_uid:question.key,child_question_uid:key})" ng-show="questions[key].input_type == 'currency' || questions[key].input_type == 'number'">
+						{{subquestion.knockout_trigger.on == 'no_threshold' && 'Any' || subquestion.knockout_trigger.max && (subquestion.knockout_trigger.min+' - '+subquestion.knockout_trigger.max) || '' + subquestion.knockout_trigger.condition + ' ' + subquestion.knockout_trigger.on }}
+					</div>
+					<div class="grid-content small-1 medium-1 large-1" ng-if="questions[question.key].input_type === 'number' || questions[question.key].input_type === 'currency'">
+						<input class="button inline-input-no" type="submit" value="Save" ng-click="SetSubquestionTriggerNotBool(question.key, key, subquestion)"/>
+					</div>
+					<div class="grid-content small-1 medium-1 large-1" ng-show="questions[question.key].input_type === 'number' || questions[question.key].input_type === 'currency'">
+						<select name="typeselector" ng-model="subquestion.trigger.condition" class="inline-input-no" ng-change="SaveSubquestion(question.key, key, subquestion)" required>
+							<option selected disabled>Choose Condition</option>
+							<option ng-repeat="(value, condition) in meta.trigger_conditions" value="{{value}}">{{condition}}</option>
+						</select>
+					</div>
+					<div class="grid-content small-1 medium-1 large-1" ng-if="questions[question.key].input_type === 'number' || questions[question.key].input_type === 'currency'">
+						<input class="inline-input" type="number" placeholder="1000" ng-model="subquestion.trigger.on" required/>
+					</div>
+					<div class="grid-content small-1 medium-1 large-1" ng-if="questions[question.key].input_type === 'number' || questions[question.key].input_type === 'currency'">
+					</div>
+					<div class="grid-content small-4 medium-4 large-4" ng-if="questions[question.key].input_type === 'bool' && subquestion.trigger.on === true">
+						<input class="button inline-input-no" type="button" ng-click="SetSubquestionTriggerBool(question.key, key, subquestion, false)" value="Triggered when Yes"/>
+					</div>
+					<div class="grid-content small-4 medium-4 large-4" ng-if="questions[question.key].input_type === 'bool' && subquestion.trigger.on === false">
+						<input class="button inline-input-no" type="button" ng-click="SetSubquestionTriggerBool(question.key, key, subquestion, true)" value="Triggered when No"/>
+					</div>
+					<div class="grid-content small-4 medium-4 large-4" ng-if="questions[question.key].input_type === 'bool' && subquestion.trigger === false">
+						<input class="button alert inline-input-no" type="button" ng-click="SetSubquestionTriggerBool(question.key, key, subquestion, true)" value="Define"/>
+					</div>
+					<div class="grid-content small-4 medium-4 large-4" ng-if="questions_dict[question.key].input_type === 'text'">
+						{{}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-4 right-align">
+						{{questions[key].question_text_de}}
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button button-slim" ng-disabled="!knockout_question_list" ng-click="addQuestionToInsurence(false)" value="+ Add new questions"></input>
+	</div>
+	<div class="grid-block large-12 medium-12 small-12">
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section comparison-criteria-toggle-header" ng-click="show_comparison = !show_comparison">
+		<h6>Comparison Criteria <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_comparison"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_comparison"></i></h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<table class="compare-table compare-table-product" ng-hide="show_comparison" style="width: {{Math.min(comparison_count + 1, max_comparison_count) * 24 + 10}}%">
+			<tr class="subtitle">
+				<th colspan="{{comparison_count + 1}}">
+					<img class="insurance-type-icon-product-comparison" src="{{insurance_types[product.insurance_type].icon_url}}"/>
+					<h6>{{insurance_types[product.insurance_type].name_de}}</h6>
+				</th>
+			</tr>
+			<tr>
+				<th>Carrier</th>
+				<td ng-repeat="(key, option) in product.comparisons" ng-class="checkBasic(product.comparisons[key].basic)" rowspan="{{product.comparisons[key].basic ? 1 : 4}}">
+					{{::carriers[option.basic.carrier].name}}
+				</td>
+				<th ng-click="createNewComparison()" ng-show="!comparison_count || comparison_count < max_comparison_count " rowspan="4" class="new-comparison">
+					<span>{{adding_comparison ? 'Adding…' : 'New Comparison'}}</span>
+					<span ng-hide="adding_comparison"><i class="fa fa-plus-square-o" aria-hidden="true"></i></span>
+					<span ng-show="adding_comparison"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+				</th>
+			</tr>
+			<tr>
+				<th>Insurance Tax</th>
+				<td ng-repeat="(key, option) in product.comparisons" ng-if="option.basic">
+					{{::option.basic.insurance_tax}}%
+				</td>
+			</tr>
+			<tr>
+				<th>Annual Net Premium</th>
+				<td ng-repeat="(key, option) in product.comparisons" ng-if="option.basic">
+					{{::option.basic.premium | euro}}
+				</td>
+			</tr>
+			<tr>
+				<th>Annual Gross Premium</th>
+				<td ng-repeat="(key, option) in product.comparisons" ng-if="option.basic">
+					{{::option.basic.premium * ((option.basic.insurance_tax * 0.01) + 1) | euro}}
+				</td>
+			</tr>
+			<tr ng-repeat-end class="edit-link">
+				<th></th>
+				<td ng-repeat="comparison_key in comparison_keys">
+					<a class="" ui-sref="basicproductcriteria( {product_uid: product_uid,comparison_uid : comparison_key } )">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+					</a>
+				</td>
+			</tr>
+			<tr class="subtitle" ng-repeat-start="(branch_key, branch) in tree">
+				<th colspan="{{comparison_count + 1}}" ng-if="getSectionName(branch_key)!=='Specific' && getSectionName(branch_key)!=='Additional'">
+					<h6>{{getSectionName(branch_key)}}</h6>
+				</th>
+			</tr>
+			<tr ng-repeat-start="(insurance_type_key, insurance_type) in branch" class="insurance-type">
+				<th colspan="{{comparison_count + 1}}">
+					<h6 ng-class="checkEmpty(insurance_type)">
+						<img class="insurance-type-icon" src="{{insurance_types[insurance_type_key].icon_url}}"/>
+						{{insurance_types[insurance_type_key].name_de}} {{insurance_type === false ? ' (empty)' : ''}}
+					</h6>
+				</th>
+			</tr>
+			<tr ng-repeat-start="(criteria_key, criteria) in insurance_type" ng-class="checkObsolete(insurance_type_key, criteria_key)">
+				<th colspan="{{comparison_count + 1}}">
+					<b>{{getSectionName(criteria_key)}} <small ng-show="obsolete_criteria[insurance_type_key][criteria_key]">(Outdated)</small></b>
+					<a href="" ng-click="requestPurgeCriterion(insurance_type_key, criteria_key)" ng-show="obsolete_criteria[insurance_type_key][criteria_key]"><i class="fa fa-trash-o" aria-hidden="true"></i> Remove</a>
+				</th>
+			</tr>
+			<tr  ng-class="checkObsolete(insurance_type_key, criteria_key)">
+				<th>{{branch_key === 'general' ? 'Sum Insured' : 'Sublimit'}}</th>
+				<td ng-repeat="comparison_key in comparison_keys" ng-class="checkCoverage(criteria[comparison_key])" rowspan="{{criteria[comparison_key].included ? 1 : 4}}">
+					<span>{{criteria[comparison_key][branch_key === 'general' ? 'sum_insured' : 'sublimit'] | euro}}</span>
+					<p class="add-insurance-type">
+						<small>{{insurance_types[insurance_type_key].name_de}} not included in this comparison</small><br/>
+						<a href="" ng-click="addSingleComparison(comparison_key, insurance_type_key)">
+							<i class="fa fa-plus-square-o" aria-hidden="true"></i> Add {{insurance_types[insurance_type_key].name_de}} to this Comparison
+						</a>
+					</p>
+				</td>
+			</tr>
+			<tr  ng-class="checkObsolete(insurance_type_key, criteria_key)">
+				<th>Max Deductible</th>
+				<td ng-repeat="comparison_key in comparison_keys" ng-if="criteria[comparison_key].included">
+					<span ng-show="criteria[comparison_key].deductible_is_percent">{{criteria[comparison_key].deductible_percent_max}}%</span>
+					<span ng-hide="criteria[comparison_key].deductible_is_percent">{{criteria[comparison_key].deductible_absolute_max | euro}}</span>
+				</td>
+			</tr>
+			<tr  ng-class="checkObsolete(insurance_type_key, criteria_key)">
+				<th>Min Deductible</th>
+				<td ng-repeat="comparison_key in comparison_keys" ng-if="criteria[comparison_key].included">
+					<span ng-show="criteria[comparison_key].deductible_is_percent">{{criteria[comparison_key].deductible_absolute_min | euro}}</span>
+					<span ng-hide="criteria[comparison_key].deductible_is_percent">-</span>
+				</td>
+			</tr>
+			<tr  ng-class="checkObsolete(insurance_type_key, criteria_key)">
+				<th>Maximisation</th>
+				<td ng-repeat="comparison_key in comparison_keys" ng-if="criteria[comparison_key].included">
+					× {{criteria[comparison_key].maximisation}}
+				</td>
+			</tr>
+			<tr ng-show="false" ng-repeat-end></tr>
+			<tr ng-show="insurance_type !== false" ng-repeat-end class="edit-link">
+				<th></th>
+				<td ng-if="branch_key === 'general'" ng-repeat="comparison_key in comparison_keys">
+					<a class="" ui-sref="generalproductcriteria( { product_uid : product_uid , comparison_uid : comparison_key } )">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+					</a>
+				</td>
+				<td ng-if="branch_key !== 'general'" ng-repeat="comparison_key in comparison_keys">
+					<a class="" ui-sref="specificoffercriteria( { product_uid : product_uid , comparison_uid : comparison_key , insurance_uid : insurance_type_key } )" ng-show="product.comparisons[comparison_key].insurance_types[insurance_type_key]">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+					</a>
+					<a class="delete-link" href="" ng-show="product.comparisons[comparison_key].insurance_types[insurance_type_key]" ng-click="requestDeleteInsuranceType(insurance_type_key, comparison_key)" ng-if="branch_key === 'additional' && product.status === 'requested'">
+						<i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+					</a>
+				</td>
+			</tr>
+			<tr ng-show="branch_key === 'additional' " ng-repeat-end  class="edit-link" style="display: none;">
+				<th></th>
+				<td ng-repeat="comparison_key in comparison_keys">
+					<a ui-sref="additionalmodulecomparison({product_uid: product_uid, comparison_uid: comparison_key})">
+						<i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Insurance Types
+					</a>
+				</td>
+			</tr>
+			<tr class="delete-link">
+				<td></td>
+				<td ng-if="comparison_count" ng-repeat="comparison_key in comparison_keys">
+					<a href="" ng-click="requestDeleteComparison(comparison_key)">
+						<i class="fa fa-trash-o" aria-hidden="true"></i> Delete Comparison
+					</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" ng-click="SaveProduct()" value="Save" ng-disabled="(!product_form.$valid || !instant_form.$valid) && product.disabled === false"></input>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand success" ng-click="genService.setConfirmAction(EnableProduct)" value="Enable" ng-disabled="!product_form.$valid || !instant_form.$valid || product.disabled === false || unsaved_changes || !isComparisionCriteriaValid" zf-open="confirm_modal"></input>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand alert" ng-click="genService.setConfirmAction(DisableProduct)" value="Disable" ng-disabled="product.disabled === true" zf-open="confirm_modal"></input>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" ng-click="back()" value="Back"></input>
+	</div>
+</div>
+
+<div ng-include="" src="'partials/modals/confirm.html'"></div>
+<div ng-include="" src="'partials/modals/comparison_deletion_confirm.html'"></div>
+<div ng-include="" src="'partials/modals/insurance_type_deletion_confirm.html'"></div>
+<div ng-include="" src="'partials/modals/criterion_deletion_confirm.html'"></div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>
+<div ng-include="" src="'partials/modals/editalias.html'"></div>
+<div ng-include="" src="'partials/modals/managegenericfiles.html'"></div>
+<div ng-include="" src="'partials/modals/managefiles_nodelete.html'"></div>
+<div ng-include="" src="'partials/modals/productsforoffer.html'"></div>

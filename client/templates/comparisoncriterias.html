@@ -1,0 +1,51 @@
+---
+name: comparisoncriterias
+url: /comparisoncriterias
+title: Comparison Criterias
+parent: meta
+controller: ComparisonCriteriasController
+loginRequired: true
+securityLevel: 2
+---
+
+<div ui-view> <!-- Child Page --> </div>
+<div class="grid-block" ng-show="currentState === 'comparisoncriterias'">
+	<div class="grid-content small-6 medium-4 large-3">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="addcomparisoncriteria()" value="+ Add Comparison Criteria"></input>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			<div class="card-section left-card cus-card-sec status-highlight">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-4">
+						Criteria name EN
+					</div>
+					<div class="grid-content small-4 medium-4 large-4">
+						Criteria name DE
+					</div>
+					<div class="grid-content small-4 medium-4 large-4 right-align pointer" ng-click="fifo = !fifo">
+						<i class="fa fa-caret-{{fifo && 'up' || 'down'}}" aria-hidden="true"></i>
+						Last Updated
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, criteria) in comparisonCriterias | orderBy:'-company.updated_at':fifo">
+		<div ui-sref="comparisoncriteria({comparisoncriteria_id : criteria.key})" class="card card-hover card-square industry-margin">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-4">
+						{{criteria.criteria.name_en || 'Unnamed'}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-4">
+						{{criteria.criteria.name_de || 'Unnamed'}}
+					</div>
+					<div class="grid-content small-4 medium-4 large-4 right-align">
+						{{criteria.criteria.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

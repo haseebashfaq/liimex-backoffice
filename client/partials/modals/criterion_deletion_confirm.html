@@ -1,0 +1,25 @@
+<!-- Re-Authenticate Modal -->
+<div zf-modal="" id="criterion-deletion-modal" style="z-index:99999">
+    <div class="title-bar modal-title">
+        <span class="title center">Removing Criteria</span>
+        <a zf-close="criterion-deletion-modal" class="close-button" id="close_confirm">×</a>
+    </div>
+
+    <!-- Fill Account Information -->
+    <div class="modal-contents">
+        <p>This criteria is not applicable to "{{delete_criterion.insurance_type.name_de}}" and company industries, but you still have some related data in the offer.</p>
+        <p>Usually it means you can safely delete <b>"{{getSectionName(delete_criterion.key)}}"</b>. Please contact the support if you are not sure.</p>
+        <div class="grid-block force-wrap">
+            <form class="wide-form flex-form" name="reauth_form">
+                <div class="liimefix"></div>
+                <div class="grid-content small-6 medium-6 large-6 left-align">
+                    <button zf-close="criterion-deletion-modal" class="button expand">Cancel</button>
+                </div>
+                <div class="grid-content small-6 medium-6 large-6 right-align">
+                    <button class="button expand warning" ng-click="purgeCriterion(delete_criterion.insurance_type_key, delete_criterion.key)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

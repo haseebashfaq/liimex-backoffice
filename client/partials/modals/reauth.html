@@ -1,0 +1,25 @@
+<!-- Re-Authenticate Modal -->
+<div zf-modal="" id="reauth_modal">
+	<div class="title-bar modal-title">
+		<span class="title center">Please Confirm</span>
+		<a zf-close="" class="close-button white" id="close_reauth">×</a>
+	</div>
+
+	<!-- Fill Account Information -->
+	<div class="modal-contents">
+		<p>To change important information (such as your email) please confirm by typing your password</p>
+		<div class="grid-block force-wrap">
+			<form class="wide-form flex-form" name="reauth_form">
+				<div class="grid-content small-12 medium-12 large-12">
+			      	<label class="card-row-label">Password</label>
+      				<input class="card-row-input" type="password" placeholder="Type password here" required ng-model="passwd"/>
+			    </div>
+		    	<div class="liimefix"></div>
+		    	<div class="grid-content small-12 medium-12 large-12 right-align">
+					<input ng-disabled="reauth_form.$invalid" type="submit" class="button" ng-click="Reauthenticate(passwd); passwd=null" value="Confirm"></input>
+		    	</div>
+		    </form>
+		</div>
+	</div>
+
+</div>

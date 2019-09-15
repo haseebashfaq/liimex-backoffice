@@ -1,0 +1,73 @@
+---
+name: productquestionpicker
+url: /productquestionpicker/:product_uid/:pre_trigger?:order
+title: Product Question Picker
+parent: meta
+controller: ProductQuestionPickerController
+loginRequired: true
+securityLevel: 4
+---
+<div class="grid-block" ng-show="isProduct">
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Select Question that you want to link to the product: {{nameOfProduct}}</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Question (DE)</label>
+						<select ng-model="selected_question_key">
+							<option ng-repeat="(key, question) in questions" ng-disabled="isLinked[key]==key" value="{{key}}">{{question.question_text_de}}</option>
+						</select>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12 small-buttom-margin">
+						<label class="card-row-label">Question (EN)</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{questions[selected_question_key].question_text_en}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Question Details Preview</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Explanation (DE)</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{questions[selected_question_key].explanation_text_de}}"/>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Explanation (EN)</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{questions[selected_question_key].explanation_text_en}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Placeholder (DE)</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{questions[selected_question_key].placeholder_text_de}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Placeholder (EN)</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{questions[selected_question_key].placeholder_text_en}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6 small-buttom-margin">
+						<label class="card-row-label">Input Type</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{meta.input_types[questions[selected_question_key].input_type]}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="grid-block">
+			<div class="grid-content small-3 medium-3 large-3">
+				<label class="card-row-label"></label>
+				<input type="button" class="button expand" ng-click="Save()" value="Link Question" ng-disabled="!selected_question_key"></input>
+			</div>
+			<div class="grid-content small-3 medium-3 large-3">
+				<label class="card-row-label"></label>
+				<input type="button" class="button expand" ng-click="addNewQuestions()" value="Question does not exist"></input>
+			</div>
+			<div class="grid-content small-2 medium-2 large-2">
+				<label class="card-row-label"></label>
+				<input type="button" class="button expand" ng-click="back()" value="Back"></input>
+			</div>
+		</div>
+	</div>
+</div>

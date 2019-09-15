@@ -1,0 +1,897 @@
+{
+  "current_page" : 0,
+  "pages" :
+  [
+    {
+      "page_type" : "questions",
+      "page_title_en" : "Please Answer These Questions",
+      "page_title_de" : "Please Answer These Questions",
+      "on_save" : "updatePrice",
+      "login_required" : false,
+      "questions" : {
+        "vehicle_type" : {
+            "text_en": "Vehicle Type",
+            "text_de": "Fahrzeugart",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": ["LKW", "Anhänger"],
+            "answers_en": ["LKW", "Trailer"],
+            "answer_values": ["lkw", "trailer"],
+            "ui_type" : "radio",
+            "type": "bool",
+            "parent": null,
+            "parent_condition": null,
+            "parent_value": null,
+            "order": 1,
+            "required" : true
+        },
+        "new_value" : {
+            "text_en": "Foodtruck value as new",
+            "text_de": "Neupreis des Foodtrucks",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": ["€0 - €10.000", "€10.001 - €20.000", "€20.001 - €30.000", "€30.001 - €40.000"],
+            "answers_en": ["€0 - €10.000", "€10.001 - €20.000", "€20.001 - €30.000", "€30.001 - €40.000"],
+            "answer_values": [10000, 20000, 30000, 40000],
+            "ui_type" : "select",
+            "type": "number",
+            "parent": null,
+            "parent_condition": null,
+            "parent_value": null,
+            "order": 2,
+            "required" : true
+        },
+        "monthly_revenue": {
+            "text_en":"Monthly revenue",
+            "text_de": "Ungefährer Monatsumsatz",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": ["€0 - €5.000", "€5.001 - €10.000", "€10.001 - €15.000"],
+            "answers_en": ["€0 - €5.000", "€5.001 - €10.000", "€10.001 - €15.000"],
+            "answer_values": [5000, 10000, 15000],
+            "ui_type": "select",
+            "type": "number",
+            "parent": null,
+            "parent_condition": null,
+            "parent_value": null,
+            "order":3,
+            "required" : true
+        },
+        "previous_damage" : {
+            "text_en": "Do you have more damages than 3 in the last 3 years?",
+            "text_de": "Hatte ihr mehr als 3 schaden in den vergengen 3 jahren?",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": ["Ja", "Nein"],
+            "answers_en": ["Yes", "No"],
+            "answer_values": [true, false],
+            "ui_type": "radio",
+            "type": "bool",
+            "parent": null,
+            "parent_condition": null,
+            "parent_value": null,
+            "order": 4,
+            "required" : true
+        },
+        "previous_insurance_status":{
+            "text_en": "Was the previous insurance terminated?",
+            "text_de": "Wurde die vorherige Versicherung vom Versicherer gekündigt?",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": ["Ja", "Nein"],
+            "answers_en": ["Yes", "No"],
+            "answer_values": [true, false],
+            "ui_type" : "radio",
+            "type": "bool",
+            "parent": null,
+            "parent_condition": null,
+            "parent_value": null,
+            "order":5,
+            "required" : true
+        }
+      }
+    },
+
+    {
+      "page_type" : "comparisons",
+      "page_title_en" : "Comparisons",
+      "page_title_de" : "Comparisons",
+      "chosen_deductible" : null,
+      "chosen_comparison" : null,
+      "comparisons" : {
+        "500" : {
+            "0" : {
+                "title" : "Basic",
+                "premium_monthly" : 130,
+                "criteria" : [
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 2,
+                        "amount" : 15000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 1,
+                        "amount" : 10000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 3,
+                        "amount" : 1000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 4,
+                        "amount" : 250000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    }
+                ],
+                "notes_html" : "<p>These are some awesome notes in HTML</p>",
+                "documents" : [
+                    {
+                        "name" : "Download me!",
+                        "url" : "some_url",
+                        "path" : "firebase_path"
+                    }
+                ]
+            },
+            "1" : {
+                "title" : "Medium",
+                "premium_monthly" : 140,
+                "criteria" : [
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 1,
+                        "amount" : 15000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 2,
+                        "amount" : 10000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 3,
+                        "amount" : 1000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 4,
+                        "amount" : 250000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    }
+                ],
+                "notes_html" : "<p>These are some awesome notes in HTML</p>",
+                "documents" : [
+                    {
+                        "name" : "Download me!",
+                        "url" : "some_url",
+                        "path" : "firebase_path"
+                    }
+                ]
+            },
+            "2" : {
+                "title" : "Premium",
+                "premium_monthly" : 150,
+                "criteria" : [
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 1,
+                        "amount" : 15000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 2,
+                        "amount" : 10000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 3,
+                        "amount" : 1000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 4,
+                        "amount" : 250000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    }
+                ],
+                "notes_html" : "<p>These are some awesome notes in HTML</p>",
+                "documents" : [
+                    {
+                        "name" : "Download me!",
+                        "url" : "some_url",
+                        "path" : "firebase_path"
+                    }
+                ]
+            }
+        },
+        "2500" : {
+            "0" : {
+                "title" : "Basic",
+                "premium_monthly" : 230,
+                "criteria" : [
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 1,
+                        "amount" : 15000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 2,
+                        "amount" : 10000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 3,
+                        "amount" : 1000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 4,
+                        "amount" : 250000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    }
+                ],
+                "notes_html" : "<p>These are some awesome notes in HTML</p>",
+                "documents" : [
+                    {
+                        "name" : "Download me!",
+                        "url" : "some_url",
+                        "path" : "firebase_path"
+                    }
+                ]
+            },
+            "1" : {
+                "title" : "Medium",
+                "premium_monthly" : 240,
+                "criteria" : [
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 1,
+                        "amount" : 15000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 2,
+                        "amount" : 10000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 3,
+                        "amount" : 1000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 4,
+                        "amount" : 250000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    }
+                ],
+                "notes_html" : "<p>These are some awesome notes in HTML</p>",
+                "documents" : [
+                    {
+                        "name" : "Download me!",
+                        "url" : "some_url",
+                        "path" : "firebase_path"
+                    }
+                ]
+            },
+            "2" : {
+                "title" : "Premium",
+                "premium_monthly" : 250,
+                "criteria" : [
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 1,
+                        "amount" : 15000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 2,
+                        "amount" : 10000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 3,
+                        "amount" : 1000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 4,
+                        "amount" : 250000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+
+                    }
+                ],
+                "notes_html" : "<p>These are some awesome notes in HTML</p>",
+                "documents" : [
+                    {
+                        "name" : "Download me!",
+                        "url" : "some_url",
+                        "path" : "firebase_path"
+                    }
+                ]
+            }
+        }
+      }
+    },
+
+    {
+      "page_type" : "additionals",
+      "page_title_en" : "Additionals",
+      "page_title_de" : "Additionals",
+      "chosen_additional" : null,
+      "chosen_premium" : null,
+      "additionals" : {
+        "0" : {
+                "title" : "Basic",
+                "premium_monthly" : 130,
+                "coverage_days" : 90,
+                "criteria" : [
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 2,
+                        "amount" : 15000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                        
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 1,
+                        "amount" : 10000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 3,
+                        "amount" : 1000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 4,
+                        "amount" : 250000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    }
+                ],
+                "notes_html" : "<p>These are some awesome notes in HTML</p>",
+                "documents" : [
+                    {
+                        "name" : "Download me!",
+                        "url" : "some_url",
+                        "path" : "firebase_path"
+                    }
+                ]
+            },
+            "1" : {
+                "title" : "Medium",
+                "premium_monthly" : 140,
+                "coverage_days" : 60,
+                "criteria" : [
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 1,
+                        "amount" : 15000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 2,
+                        "amount" : 10000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 3,
+                        "amount" : 1000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 4,
+                        "amount" : 250000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    }
+                ],
+                "notes_html" : "<p>These are some awesome notes in HTML</p>",
+                "documents" : [
+                    {
+                        "name" : "Download me!",
+                        "url" : "some_url",
+                        "path" : "firebase_path"
+                    }
+                ]
+            },
+            "2" : {
+                "title" : "Premium",
+                "premium_monthly" : 150,
+                "coverage_days" : 90,
+                "criteria" : [
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 1,
+                        "amount" : 15000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 2,
+                        "amount" : 10000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 3,
+                        "amount" : 1000000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    },
+                    {
+                        "text_de" : "Kfz-Haftphlict",
+                        "text_en" : "Kfz-Haftphlict",
+                        "description_de": "A description of Kfz-Haftphlict",
+                        "description_en": "A description of Kfz-Haftphlict",
+                        "order" : 4,
+                        "amount" : 250000,
+                        "checkmark" : null,
+                        "cross" : null,
+                        "maximisation" : 2
+                    }
+                ],
+                "notes_html" : "<p>These are some awesome notes in HTML</p>",
+                "documents" : [
+                    {
+                        "name" : "Download me!",
+                        "url" : "some_url",
+                        "path" : "firebase_path"
+                    }
+                ]
+            }
+      }
+    },
+
+    {
+      "page_type" : "questions",
+      "login_required":true,
+      "questions" : {
+        "previous_insurance":{
+            "text_en":" Do you already have running insurance for your food truck?",
+            "text_de": "Hast Du bereits laufende Versicherunggen für Deinen Foodtruck?",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": ["Ja", "Nein"],
+            "answers_en": ["Yes", "No"],
+            "answer_values": [true, false],
+            "ui_type": "radio",
+            "type": "bool",
+            "parent": null,
+            "parent_condition": null,
+            "parent_value": null,
+            "order":1,
+            "required" : true
+        },
+        "cancel_previous_insurance":{
+            "text_en": "Should we cancel your existing insurance policies to the next date?",
+            "text_de": "Sollen wir Deine bestehenden Versicherungen zum nächsten Termin kündigen?",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": ["Ja", "Nein"],
+            "answers_en": ["Yes", "No"],
+            "answer_values": [true, false],
+            "ui_type": "radio",
+            "type": "bool",
+            "parent":"previous_insurance",
+            "parent_condition": "==",
+            "parent_value": true,
+            "order":2,
+            "required" : true
+        },
+        "desired_start_insurance":{
+            "text_de":"Gewünschter Versicherungsbeginn",
+            "text_en":"Desired start of insurance",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": null,
+            "answers_en": null,
+            "answer_values": null,
+            "ui_type": "date",
+            "type": "date",
+            "parent": null,
+            "parent_condition": null,
+            "parent_value": null,
+            "order":3,
+            "required" : true
+        },
+        "vehicle_registration":{
+            "text_en": "Do you have registration document?",
+            "text_de": "Kannst Du eine Kopie des Fahrzeugscheins hochladen",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": ["Ja", "Nein"],
+            "answers_en": ["Yes", "No"],
+            "answer_values": [true, false],
+            "ui_type": "radio",
+            "type": "bool",
+            "parent": null,
+            "parent_condition": null,
+            "parent_value": null,
+            "order":4,
+            "required" : true
+        },
+        "vehicle_document":{
+            "text_en": "Please Upload Vehicle Document",
+            "text_de": "Kannst Du eine Kopie des Fahrzeugscheins hochladen",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": null,
+            "answers_en": null,
+            "answer_values": null,
+            "ui_type": "upload",
+            "type": "text",
+            "parent": "vehicle_registration",
+            "parent_condition": "==",
+            "parent_value": true,
+            "order":5,
+            "required" : true
+        },
+        "vehicle_document_2":{
+            "text_en": "Please Upload Another Document",
+            "text_de": "Kannst Du eine Kopie des Fahrzeugscheins hochladen",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": null,
+            "answers_en": null,
+            "answer_values": null,
+            "ui_type": "upload",
+            "type": "text",
+            "parent": "vehicle_registration",
+            "parent_condition": "==",
+            "parent_value": true,
+            "order":5,
+            "required" : true
+        },
+        "vehicle_registration_form_owner":{
+            "text_en": "Vehicle Owner",
+            "text_de": "Vehicle Owner DE",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": null,
+            "answers_en": null,
+            "answer_values": null,
+            "ui_type": "form",
+            "type": "text",
+            "parent": "vehicle_registration",
+            "parent_condition": "==",
+            "parent_value": false,
+            "order":6,
+            "required" : true,
+            "large" : 6
+        },
+        "vehicle_registration_form_chassis":{
+            "text_en": "Chassis Number",
+            "text_de": "Chassis Number DE",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": null,
+            "answers_en": null,
+            "answer_values": null,
+            "ui_type": "form",
+            "type": "text",
+            "parent": "vehicle_registration",
+            "parent_condition": "==",
+            "parent_value": false,
+            "order":7,
+            "required" : true,
+            "large" : 6
+        },
+        "vehicle_registration_form_weight":{
+            "text_en": "Total Weight",
+            "text_de": "Total Weight DE",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": null,
+            "answers_en": null,
+            "answer_values": null,
+            "ui_type": "form",
+            "type": "text",
+            "parent": "vehicle_registration",
+            "parent_condition": "==",
+            "parent_value": false,
+            "order":8,
+            "required" : true,
+            "large" : 6
+        },
+        "vehicle_registration_form_year":{
+            "text_en": "Model Year",
+            "text_de": "Model Year DE",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": null,
+            "answers_en": null,
+            "answer_values": null,
+            "ui_type": "form",
+            "type": "text",
+            "parent": "vehicle_registration",
+            "parent_condition": "==",
+            "parent_value": false,
+            "order":8,
+            "required" : true,
+            "large" : 6
+        },
+        "vehicle_registration_form_starke":{
+            "text_en": "KW-Starke",
+            "text_de": "KW-Starke DE",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": null,
+            "answers_en": null,
+            "answer_values": null,
+            "ui_type": "form",
+            "type": "text",
+            "parent": "vehicle_registration",
+            "parent_condition": "==",
+            "parent_value": false,
+            "order":9,
+            "required" : true,
+            "large" : 6
+        },
+        "vehicle_registration_form_mark":{
+            "text_en": "Mark",
+            "text_de": "Mark DE",
+            "description_en": "Descriptions",
+            "description_de": "Beschreibung",
+            "answers_de": null,
+            "answers_en": null,
+            "answer_values": null,
+            "ui_type": "form",
+            "type": "text",
+            "parent": "vehicle_registration",
+            "parent_condition": "==",
+            "parent_value": false,
+            "order":9,
+            "required" : true,
+            "large" : 6
+        }
+      }
+    },
+
+    {
+      "page_type" : "checkout",
+      "page_title_en" : "Checkout",
+      "page_title_de" : "Checkout",
+      "checkout" : {
+        "yearly_discount" : 5,
+        "tax_percent" : 19,
+        "validity_years" : 1
+      }   
+    },
+
+    {
+      "page_type" : "thankyou",
+      "page_title_en" : "Thank You for purchasing Food Truck instant product",
+      "page_title_de" : "Thank You for purchasing Food Truck instant product",
+      "thankyou" : {
+        "message_en" : "One of our representative will be in touch with you shortly",
+        "message_de" : "One of our representative will be in touch with you shortly"
+      }   
+    }
+
+
+  ]
+}

@@ -1,0 +1,119 @@
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12" ng-show="question">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Meta Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-3 medium-3 large-3">
+						<label class="card-row-label">Shown on platform?</label>
+						<input class="card-row-input status-highlight grey-out" type="text" required value="{{question.disabled && 'No' || 'Yes'}}" readonly/>
+					</div>
+					<div class="grid-content small-3 medium-3 large-3 ">
+						<label class="card-row-label">Updated at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{question.updated_at ? (question.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}"/>
+					</div>
+					<div class="grid-content small-3 medium-3 large-3 ">
+						<label class="card-row-label">Created at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{question.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Define / Edit the question</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<form name="question_form" class="wide-form flex-form">
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Question Type</label>
+							<span>
+								<select name="typeselector" ng-model="question.question_type" required>
+									<option ng-repeat="(key, type) in meta.question_types" value="{{key}}">{{type}}</option>
+								</select>
+							</span>
+						</div>
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Answer/Input Type</label>
+							<span>
+								<select name="typeselector" ng-model="question.input_type" required>
+									<option ng-repeat="(key, type) in meta.input_types" value="{{key}}">{{type}}</option>
+								</select>
+							</span>
+						</div>
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Show on Account clients page?</label>
+							<span>
+								<select name="typeselector" ng-model="question.account_page_status" required disabled="disabled">
+									<option ng-repeat="(key, type) in meta.account_page_status" value="{{key}}" >{{type}}</option>
+								</select>
+							</span>
+						</div>
+						<div class="grid-content small-12 medium-12 large-12" ng-if="question.input_type === 'date'">
+							<label class="card-row-label">Allow the answer to be dates in the future?</label>
+							<span>
+								<select name="typeselector" ng-model="question.future_dates" required>
+									<option ng-repeat="(key, bool) in meta.future_dates" value="{{key}}" >{{bool}}</option>
+								</select>
+							</span>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Question Text (EN)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="question.question_text_en" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Question Text (DE)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="question.question_text_de" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6" ng-if="question.input_type !== 'bool' && question.input_type !== 'date'">
+							<label class="card-row-label">Placeholder Text (EN)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="question.placeholder_text_en" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6" ng-if="question.input_type !== 'bool' && question.input_type !== 'date'">
+							<label class="card-row-label">Placeholder Text (DE)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="question.placeholder_text_de" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Explanation Text (EN)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="question.explanation_text_en" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Explanation Text (DE)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="question.explanation_text_de" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6" ng-if="question.account_page_status && question.account_page_status !== 'hide'">
+							<label class="card-row-label">Label on Accout Page (DE)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="question.account_page_label_de" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6" ng-if="question.account_page_status && question.account_page_status !== 'hide'">
+							<label class="card-row-label">Label on Accout Page (EN)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="question.account_page_label_en" required/>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="question">
+		<div class="grid-block">
+			<div class="grid-content small-3 medium-3 large-3">
+				<label class="card-row-label"></label>
+				<input type="button" class="button expand" ng-disabled="!question || !question_form.$valid" ng-click="SaveQuestion()" value="Save"></input>
+			</div>
+			<div class="grid-content small-3 medium-3 large-3">
+				<label class="card-row-label"></label>
+				<input type="button" class="button expand success" ng-disabled="question.disabled === false" zf-open="confirm_modal" ng-click="genService.setConfirmAction(ActivateQuestion)" value="Show on platform"></input>
+			</div>
+			<div class="grid-content small-3 medium-3 large-2">
+				<label class="card-row-label"></label>
+				<input type="button" class="button expand alert" ng-disabled="question.disabled === true" zf-open="confirm_modal" ng-click="genService.setConfirmAction(DisableQuestion)" value="Hide from platform"></input>
+			</div>
+			<div class="grid-content small-3 medium-3 large-2">
+				<label class="card-row-label"></label>
+				<input type="button" class="button expand alert" ng-disabled="displayDeleteBtn(question_mapping)" zf-open="confirm_modal" ng-click="genService.setConfirmAction(ConfirmDeleteQuestion)" value="Delete Question"></input>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Includes -->
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

@@ -1,0 +1,75 @@
+---
+name: pickactivity
+url: /usermanagement/pickactivity/:company_id
+title: Pick Activity
+parent: dashboard
+controller: PickActivityController
+loginRequired: true
+securityLevel: 1
+---
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block" >
+	<div class="grid-content large-12 medium-12 small-12" ng-show="!company.recommendations">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec unsaved-div">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="unsaved-label card-row-label center">Press the SAVE button! Otherwise this company gets no recommendations</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Company Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Company Name</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.name}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Liimex-id</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.liimex_id}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Pick Activities (Optional)</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left" ng-repeat="(index,group) in groups">
+					<div class="grid-content small-6 medium-6 large-6 pickactivity-mainblock" >
+						<label class="card-row-label pickactivity-question">{{group.name_en}}</label>
+						<div ng-repeat="activityQuestion in questions_to_display">
+							<div ng-if="activityQuestion.activity.group == index">
+							<input class="card-row-input status-highlight grey-out activity-checkbox" type="checkbox" required value="" ng-model="activityQuestion.isPicked"/>
+							<span class="activity-checkbox-span">{{activityQuestion.activity.name_en}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" onclick="window.history.back();" value="Back">
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" value="Save Activities" ng-click="saveActivities()">
+	</div>
+	<div class="grid-content small-3 medium-3 large-3" >
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" value="View Recommendations" ui-sref="getoffer({companyid:company_id})" ng-disabled="!company.recommendations">
+	</div>
+</div>

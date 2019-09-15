@@ -1,0 +1,44 @@
+<!-- Signup Modal -->
+<div zf-modal="" id="signup_modal">
+	<div class="title-bar modal-title">
+		<span class="title center">Signup</span>
+		<a zf-close="" id="signup_close" class="close-button white">×</a>
+	</div>
+
+	<!-- Fill Account Information -->
+	<div class="modal-contents">
+		<p>Please fill in your account information</p>
+		<div class="grid-block force-wrap">
+			<form class="wide-form flex-form" name="account_form">
+
+				<div class="grid-content small-12 medium-12 large-12">
+		      <label class="card-row-label">Email</label>
+		      <input class="card-row-input" type="text" placeholder="example@gmail.com" required ng-model="signup.user.email"/>
+		    </div>
+
+				<div class="grid-content small-12 medium-12 small-12">
+		      <label class="card-row-label">First Name</label>
+		      <input class="card-row-input" type="text" placeholder="First Name" required ng-model="signup.user.first_name"/>
+		    </div>
+
+		    <div class="grid-content small-12 medium-12 small-12">
+		      <label class="card-row-label">Last Name</label>
+		      <input class="card-row-input" type="text" placeholder="Last Name" required ng-model="signup.user.last_name"/>
+		    </div>
+
+		    <div class="grid-content small-12 medium-12 small-12">
+		      <label class="card-row-label">Password</label>
+		      <input class="card-row-input" type="password" placeholder="Password" required ng-model="signup.user.password"/>
+		    </div>
+
+	    	<div class="liimefix-small grid-content small-12 medium-12 large-12"></div>
+
+	    	<div class="grid-content small-6 medium-12 small-12 right-align">
+					<input type="submit" ng-disabled="!account_form.$valid"class="button remove-right-margin" ng-click="Signup(signup_form)" value="Request Access"></input>
+	    	</div>
+
+		  </form>
+		</div>
+	</div>
+
+</div>

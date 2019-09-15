@@ -1,0 +1,125 @@
+---
+name: code
+url: /:code
+title: Industry
+parent: codes
+controller: CodeController
+loginRequired: true
+securityLevel: 4
+---
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12"  ng-show="code">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Meta Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-3 medium-6 large-6">
+						<label class="card-row-label">Disabled</label>
+						<input class="card-row-input status-highlight grey-out" type="text" value="{{code.disabled || 'false'}}" readonly=""/>
+					</div>
+					<div class="grid-content small-3 medium-6 large-6 ">
+						<label class="card-row-label">Updated at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{(code.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') || 'NOT YET UPDATED'}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="code">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Industry Code Details</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<form name="extraction_form" class="wide-form flex-form">
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Level</label>
+							<span>
+								<select name="typeselector" ng-model="code.level" required>
+									<option selected disabled>Choose Level</option>
+									<option ng-repeat="level in [1,2,3,4,5]" value="{{level}}">{{level}}</option>
+								</select>
+							</span>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Code (with dots)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="code.code" placeholder="A.01.23"/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Name (EN)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="code.name_en" placeholder="Underwater farming"/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Name (DE)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="code.name_de" placeholder="Whatever underwater farming is called in german"/>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Default Fields -->
+	<div class="grid-content large-6 medium-6 small-6" ng-show="code">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Synonyms (EN) (Optional)</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<form name="extraction_form" class="wide-form flex-form">
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Synonym 1</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="code.synonyms_en[0]" placeholder="Stuff"/>
+						</div>
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Synonym 2</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="code.synonyms_en[1]" placeholder="More stuff"/>
+						</div>
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Synonym 3</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="code.synonyms_en[2]" placeholder="Even more stuff"/>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Default Fields -->
+	<div class="grid-content large-6 medium-6 small-6" ng-show="code">
+
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Synonyms (DE) (Optional)</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<form name="extraction_form" class="wide-form flex-form">
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Synonym 1</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="code.synonyms_de[0]" placeholder="Stuff"/>
+						</div>
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Synonym 2</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="code.synonyms_de[1]" placeholder="More stuff"/>
+						</div>
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Synonym 3</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="code.synonyms_de[2]" placeholder="Even more stuff"/>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="SaveCode()" value="Save"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2" ng-show="!code.disabled">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand alert" ng-click="genService.setConfirmAction(DisableCode)" zf-open="confirm_modal" value="Disable"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2" ng-show="code.disabled === true">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand success" ng-click="genService.setConfirmAction(EnableCode)" zf-open="confirm_modal" value="Enable"></input>
+	</div>
+</div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

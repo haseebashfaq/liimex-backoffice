@@ -1,0 +1,57 @@
+<!-- Add Existing Policy Modal -->
+<div zf-modal="" id="existing_policy_modal">
+	<div class="title-bar modal-title">
+		<span class="title center">Upload File</span>
+		<a zf-close="" id="close_upload" class="close-button white-text">×</a>
+	</div>
+	<div class="modal-contents">
+
+
+		<!-- After Upload Modal -->
+		<div ng-show="just_added">
+			<h3>Policy Added!</h3>
+			<p></p>
+			<div class="grid-block">
+				<div class="grid-block large-12 medium-12 small-12 vertical">
+					<div class="grid-content centered-text success-icon">
+						<i class="fa fa-check-circle" aria-hidden="true"></i>
+					</div>
+					<div class="grid-content vertical-btn-pad">
+						<label zf-close="" class="button expand success">Close</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Before Upload Modal -->
+		<div ng-hide="just_added">
+			<a zf-close="" class="close-button">×</a>
+			<p></p>
+			<div class="grid-block">
+				<div class="grid-block large-12 medium-12 small-12 vertical">
+					<div class="grid-content">
+						<div class="upload-drop-area" nv-file-over="" uploader="uploader">
+							<p ng-hide="current_file">Drag a .PDF or a word document of your insurance policy here, or choose a file using the button</p>
+							<i class="fa fa-file" aria-hidden="true" ng-show="current_file" style="font-size:xx-large"></i>
+							<p ng-show="current_file">{{current_file.file.name}}</p>
+						<!-- <i class="fa fa-plus-square-o" aria-hidden="true"></i> -->
+						</div>
+					</div>
+					<div nv-file-drop="" uploader="uploader">
+					<div class="grid-content vertical-btn-pad">
+						<label class="button expand" for="upload-photo">Choose File</label>
+						<input type="file" id="upload-photo" ng-hide="true" nv-file-select="" uploader="uploader"></input>
+						<div ng-hide="current_file">
+							<input class="button expand disabled" type="submit" value="Upload"></input>
+						</div>
+						<div ng-show="current_file">
+							<input class="button expand success" type="submit" value="Upload" ng-click="PerformUpload(upload_modal)"></input>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>

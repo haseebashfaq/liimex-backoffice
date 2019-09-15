@@ -1,0 +1,48 @@
+{
+  "name": "platform-backoffice",
+  "description": "This is the file used by Heroku to enable Review Apps",
+  "scripts": {
+  },
+  "env": {
+    "ACTIVATE_JOBS": {
+      "required": true
+    },
+    "apiKey": {
+      "required": true
+    },
+    "authDomain": {
+      "required": true
+    },
+    "backofficeUrl": {
+      "required": true
+    },
+    "databaseURL": {
+      "required": true
+    },
+    "ENVIRONMENT": {
+      "required": true
+    },
+    "messagingSenderId": {
+      "required": true
+    },
+    "SEND_EMAILS": {
+      "required": true
+    },
+    "storageBucket": {
+      "required": true
+    },
+    "TEST_MAIL": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

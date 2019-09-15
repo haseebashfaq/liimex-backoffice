@@ -1,0 +1,14 @@
+
+<div class="grid-block">
+	<div class="grid-content large-2 medium-2 hide-for-small-only">
+		<div ng-include="" src="'partials/sidebar.html'"></div>
+	</div>
+
+	<div class="grid-content in-dashboard large-10 medium-10 small-12">
+		<div ui-view> <!-- Child Page --> </div>
+		<div ng-include="" src="'partials/waitload.html'"></div>
+    <div class="grid-content">
+<!--       		<a> -- end of dashboard -- </a> -->
+ 		</div>
+	</div>
+</div>

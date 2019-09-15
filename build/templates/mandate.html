@@ -1,0 +1,52 @@
+
+<div class="grid-block">
+
+	<!-- Mandate -->
+	<div class="grid-content large-12 medium-12 small-12">
+
+		<div class="card card-square">
+			<div class="card-divider cus-card-divider white-text">Selected Mandate</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+
+					<div class="grid-content small-3 medium-3 large-2">
+						<label class="card-row-label">Status</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{mandate.status}}"/>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-5">
+						<label class="card-row-label">Created at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{mandate.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-5">
+						<label class="card-row-label">Updated at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{mandate.updated_at ? (mandate.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}"/>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-2">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand" ng-click="DownloadMandate(mandate)" value="Download Mandate"></input>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-2" ng-show="mandate.status ==='inactive'">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand success" zf-open="confirm_modal" ng-click="genService.setConfirmAction(MakeActive)" value="Activate"></input>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-2" ng-show="mandate.status ==='active'">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand alert" zf-open="confirm_modal" ng-click="genService.setConfirmAction(MakeInactive)" value="Deactivate"></input>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<!-- Modal Includes -->
+<div ng-include="" src="'partials/modals/uploadfile.html'"></div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

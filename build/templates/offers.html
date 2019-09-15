@@ -1,0 +1,73 @@
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block" ng-show="currentState === 'offers'">
+
+	<div class="grid-content large-12 medium-12">
+		<label class="task-search">
+			<span class="inline-label no-top-margin">
+				<span class="form-label">Search</span>
+				<input type="text" ng-model="offerSearch" class="search-bar">
+				<span class="form-label"><b>{{filteredOffers.length}}</b>&nbsp;Matches of&nbsp; <b>{{offers.length}}</b>&nbsp;Total Requested Offers</span>
+			</span>
+		</label>
+	</div>
+
+	<!-- Sort Order Button -->
+	<div class="grid-block large-12 medium-12 small-12 align-right">
+		<div class="grid-content small-3 medium-3 large-3 pointer">
+			<label class="card-row-label"></label>
+			<input type="submit" class="button expand" ng-click="mine = !mine" value="{{mine && 'Show all' || 'Show my advisories only'}}"></input>
+		</div>
+	</div>
+
+  <!-- Requested Offer Iterator -->
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-3 medium-3 large-3">
+						 Status
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3">
+						 Company
+					 </div>
+                     <div class="grid-content small-3 medium-3 large-3">
+                         General Insurance Type
+                     </div>
+					 <div class="grid-content small-3 medium-3 large-3 right-align pointer" ng-click="fifo = !fifo">
+						 <i class="fa fa-caret-{{fifo && 'up' || 'down'}}" aria-hidden="true"></i>
+						 Created
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 comparisonpreview  pointer" ng-repeat="(key, offer) in offers | orderBy:'-offer.created_at':fifo | filter:offerSearch as filteredOffers" ng-hide="mine && offer.offer.advisor !== user.email">
+		<div ng-click="openOffer(offer)" class="card card-hover card-square industry-margin">
+			<div class="card-section left-card cus-card-sec">
+		 	 <div class="grid-block align-left">
+				 <div class="grid-content small-3 medium-3 large-3" ng-hide="offer.offer.advisor">
+					 Available for advisory
+				 </div>
+				 <div class="grid-content small-3 medium-3 large-3" ng-show="offer.offer.advisor">
+					 <i class="fa fa-lock" aria-hidden="true"> </i> {{offer.offer.advisor}}
+				 </div>
+		 		 <div class="grid-content small-3 medium-3 large-3">
+		 			 {{genService.capitalize(offer.company)}}
+		 		 </div>
+                 <div class="grid-content small-3 medium-3 large-3">
+                     {{insurance_types[offer.offer.subject].name_de}}
+                 </div>
+		 		 <div class="grid-content small-3 medium-3 large-3 right-align">
+					 {{offer.offer.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}
+		 		 </div>
+		 	 </div>
+		  </div>
+		 </div>
+	</div>
+
+</div>

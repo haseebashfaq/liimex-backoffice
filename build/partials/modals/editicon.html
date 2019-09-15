@@ -1,0 +1,41 @@
+<!-- Add New Claim Modal -->
+<div zf-modal="" id="edit_icon_modal">
+
+    <div class="title-bar modal-title">
+        <span class="title center">Select Insurance Type Icon for {{insurance_type.name_en}}</span>
+        <a zf-close="" class="close-button" id="close_admin">×</a>
+    </div>
+
+    <!-- Contents -->
+    <div class="modal-contents">
+        <div class="grid-block force-wrap">
+
+            <div class="insurance-type-icon" ng-class="isIconSelected()">
+                    <img class="thumbnail" src="assets/img/shield.svg" ng-click="selectIcon()" alt="Insurance type icon"/>
+            </div>
+
+            <div class="insurance-type-icon" ng-class="isIconSelected(icon)" ng-repeat="(key, icon) in icons">
+                <img class="thumbnail" src= "{{icon.download_url}}" ng-click="selectIcon(icon)" alt="Insurance type icon"/>
+            </div>
+
+                <div ng-show="!uploading_icon" class="grid-content large-12 medium-12 small-12 drop-box" ngf-drop ngf-select ng-change="FileChanged(files[0])" ng-model="files" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-max-files="1" ngf-allow-dir="true" accept="image/svg+xml" ngf-pattern="'image/svg+xml'">
+                    <p class="color-blue-dark in-drop-box">
+                        To add a new icon <b><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Click</b> here or <b><i class="fa fa-files-o" aria-hidden="true"></i> Drag</b> an .SVG onto this field
+                    </p>
+                </div>
+
+                <div ng-show="uploading_icon" class="grid-content large-12 medium-12 small-12 drop-progress">
+                    <p class="color-blue-dark">Uploading icon...</p>
+                </div>
+
+
+        </div>
+        <div class="grid-block force-wrap small-top-pad">
+            <div class="grid-content small-12 medium-12 large-12" >
+                <button class="button expand" ng-disabled="updating_icon" ng-click="UpdateIcon()">{{updating_icon ? 'Updating...' : 'Update Icon'}}</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

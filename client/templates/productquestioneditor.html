@@ -1,0 +1,223 @@
+---
+name: productquestion
+url: /productquestion/:product_uid/:question_uid/:child_question_uid
+title: Instant Product Question
+parent: meta
+controller: ProductQuestionController
+loginRequired: true
+securityLevel: 4
+---
+<div class="grid-block" ng-show="isProduct">
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card-divider white-card-divider white-text">Instant Question for "{{nameOfProduct}}"</div>
+		<div ng-hide="child_question_uid">
+			<div class="card card-square">
+				<div class="card-divider white-card-divider white-text">Question</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Question EN</label>
+							<div class="instant-question-fixed">
+								{{question.question_text_en}}
+							</div>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Question DE</label>
+							<div class="instant-question-fixed">
+								{{question.question_text_de}}
+							</div>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Question Type</label>
+							<div class="instant-question-fixed">
+								{{question.input_type}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card card-square">
+				<div class="card-divider white-card-divider white-text">Instant Thresholds</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content small-12 medium-12 large-12">
+							<div class="grid-block instant-question-fixed" ng-if="question.input_type==='currency'">
+								<div class="grid-content large-6 medium-6 small-6">
+									<label class="card-row-label">Instant if answer is</label>
+									<select name="typeselector" class="instant-question-dropdown" ng-model="trigger.condition" ng-change="NoThresholdTrigger(trigger.condition)" required>
+										<option selected disabled>Choose Condition - Currency</option>
+										<option ng-repeat="(value, condition) in meta.product_trigger_conditions" value="{{value}}">{{condition}}</option>
+									</select>
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value"  ng-if="trigger.on !== 'no_threshold' && trigger.condition !== '<>'">
+									<label class="card-row-label">Value</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="trigger.on" required>
+								</div>
+								<div class="grid-block small-12 medium-12 large-12" ng-if="trigger.condition === '<>'">
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" required ng-if="trigger.condition === '<>'">
+									<label class="card-row-label">Min</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="trigger.min" ng-change="UnsavedChanges()">
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" required ng-if="trigger.condition === '<>'">
+									<label class="card-row-label">Max</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="trigger.max" ng-change="UnsavedChanges()">
+								</div>
+							</div>
+							<div class="grid-block instant-question-fixed" ng-if="question.input_type==='bool'">
+								<div class="grid-content large-6 medium-6 small-6">
+									<label class="card-row-label">Instant if answer is</label>
+									<select name="typeselector" class="instant-question-dropdown" ng-model="trigger.on" required>
+										<option selected disabled>Choose Condition - Yes/No</option>
+										<option ng-repeat="(value, condition) in meta.product_boolean_answers" value="{{value}}">{{condition}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="grid-block instant-question-fixed" ng-if="question.input_type==='number'">
+								<div class="grid-content large-6 medium-6 small-6">
+									<label class="card-row-label">Instant if answer is</label>
+									<select name="typeselector" class="instant-question-dropdown" ng-model="trigger.condition" ng-change="NoThresholdTrigger(trigger.condition)" required>
+										<option selected disabled>Choose Condition - Number</option>
+										<option ng-repeat="(value, condition) in meta.product_trigger_conditions" value="{{value}}">{{condition}}</option>
+									</select>
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" ng-if="trigger.on !== 'no_threshold' && trigger.condition !== '<>'">
+									<label class="card-row-label">Value</label>
+									<input class="card-row-input status-highlight" type="number" min="" max="" ng-model="trigger.on" required >
+								</div>
+								<div class="grid-block small-12 medium-12 large-12" ng-if="trigger.condition === '<>'">
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" required ng-if="trigger.condition === '<>'">
+									<label class="card-row-label">Min</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="trigger.min" ng-change="UnsavedChanges()">
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" required ng-if="trigger.condition === '<>'">
+									<label class="card-row-label">Max</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="trigger.max" ng-change="UnsavedChanges()">
+								</div>
+							</div>
+							<div class="grid-block instant-question-fixed" ng-if="question.input_type==='text' || question.input_type==='date'">
+								<div class="grid-content large-6 medium-6 small-6">
+									<select name="typeselector" class="" required>
+										<option selected disabled>Cannot use this input field for threshold</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Will be called for subquestions -->
+		<div ng-show="child_question_uid">
+			<div class="card card-square">
+				<div class="card-divider white-card-divider white-text">Sub Question</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Sub Question EN</label>
+							<div class="instant-question-fixed">
+								{{subquestion.question_text_en}}
+							</div>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Sub Question DE</label>
+							<div class="instant-question-fixed">
+								{{subquestion.question_text_de}}
+							</div>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Sub Question Type</label>
+							<div class="instant-question-fixed">
+								{{subquestion.input_type}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card card-square">
+				<div class="card-divider white-card-divider white-text">Instant Thresholds</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content small-12 medium-12 large-12">
+							<div class="grid-block instant-question-fixed" ng-if="question.input_type==='currency'">
+								<div class="grid-content large-6 medium-6 small-6">
+									<label class="card-row-label">Instant if answer is</label>
+									<select name="typeselector" class="instant-question-dropdown" ng-model="subqs_trigger.condition" ng-change="NoThresholdTrigger(subqs_trigger.condition)" required>
+										<option selected disabled>Choose Condition - Currency</option>
+										<option ng-repeat="(value, condition) in meta.product_trigger_conditions" value="{{value}}">{{condition}}</option>
+									</select>
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" ng-if="subqs_trigger.on !== 'no_threshold' && subqs_trigger.condition !== '<>'">
+									<label class="card-row-label">Value</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="subqs_trigger.on" required >
+								</div>
+								<div class="grid-block small-12 medium-12 large-12" ng-if="subqs_trigger.condition === '<>'">
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" required ng-if="subqs_trigger.condition === '<>'">
+									<label class="card-row-label">Min</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="subqs_trigger.min" ng-change="UnsavedChanges()">
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" required ng-if="subqs_trigger.condition === '<>'">
+									<label class="card-row-label">Max</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="subqs_trigger.max" ng-change="UnsavedChanges()">
+								</div>
+							</div>
+							<div class="grid-block instant-question-fixed" ng-if="question.input_type==='bool'">
+								<div class="grid-content large-6 medium-6 small-6">
+									<label class="card-row-label">Instant if answer is</label>
+									<select name="typeselector" class="instant-question-dropdown" ng-model="subqs_trigger.on" required>
+										<option selected disabled>Choose Condition - Yes/No</option>
+										<option ng-repeat="(value, condition) in meta.product_boolean_answers" value="{{value}}">{{condition}}</option>
+									</select>
+								</div>
+							</div>
+							<div class="grid-block instant-question-fixed" ng-if="question.input_type==='number'">
+								<div class="grid-content large-6 medium-6 small-6">
+									<label class="card-row-label">Instant if answer is</label>
+									<select name="typeselector" class="instant-question-dropdown" ng-model="subqs_trigger.condition" ng-change="NoThresholdTrigger(subqs_trigger.condition)" required>
+										<option selected disabled>Choose Condition - Number</option>
+										<option ng-repeat="(value, condition) in meta.product_trigger_conditions" value="{{value}}">{{condition}}</option>
+									</select>
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" ng-if="subqs_trigger.on !== 'no_threshold' && subqs_trigger.condition !== '<>'">
+									<label class="card-row-label">Value</label>
+									<input class="card-row-input status-highlight" type="number" min="" max="" ng-model="subqs_trigger.on" required >
+								</div>
+								<div class="grid-block small-12 medium-12 large-12" ng-if="subqs_trigger.condition === '<>'">
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" required ng-if="subqs_trigger.condition === '<>'">
+									<label class="card-row-label">Min</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="subqs_trigger.min" ng-change="UnsavedChanges()">
+								</div>
+								<div class="grid-content large-6 medium-6 small-6" ng-hide="hide_value" required ng-if="subqs_trigger.condition === '<>'">
+									<label class="card-row-label">Max</label>
+									<input class="card-row-input status-highlight" type="number" ng-model="subqs_trigger.max" ng-change="UnsavedChanges()">
+								</div>
+							</div>
+							<div class="grid-block instant-question-fixed" ng-if="question.input_type==='text' || question.input_type==='date'">
+								<div class="grid-content large-6 medium-6 small-6">
+									<select name="typeselector" class="" required>
+										<option selected disabled>Cannot use this input field for threshold</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="question">
+		<div class="grid-block">
+			<div class="grid-content small-3 medium-3 large-3">
+				<label class="card-row-label"></label>
+				<input type="button" class="button expand" ng-click="!child_question_uid && SaveProductQuestionThreshold() || SaveProductSubQuestionThreshold()" value="Save" ng-disabled="question.input_type === 'date' || question.input_type === 'text' || trigger.min >= trigger.max || subqs_trigger.min >= subqs_trigger.max"></input>
+			</div>
+			<div class="grid-content small-3 medium-3 large-3">
+				<label class="card-row-label"></label>
+				<input type="button" class="button expand" ng-click="back()" value="Back"></input>
+			</div>
+		</div>
+	</div>
+</div>

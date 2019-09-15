@@ -1,0 +1,29 @@
+<!-- Add New Claim Modal -->
+<div zf-modal="" id="new_claim_modal">
+
+	<div class="title-bar modal-title">
+		<span class="title center">Make a new Claim</span>
+		<a zf-close="" class="close-button white">×</a>
+	</div>
+
+	<!-- Contents -->
+	<div class="modal-contents">
+		<p>Use the fields below to tell us what happened. Afterwards, we'll handle everything for you. Yup, it's really that easy!</p>
+		<div class="grid-block force-wrap">
+			<form class="wide-form" name="form">
+				<div class="grid-content small-12 medium-12 large-12">
+					<label class="card-row-label">Date of incident</label>
+			    	<input class="card-row-input" type="date" placeholder="12/12/2016" required ng-model="new_claim.date_of_incident"/>
+			    </div>
+			    <div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Describe what happened (min 100, max 500 characters)</label>
+						<textarea class="cus-text-area" maxlength="500" minlength="100" placeholder="My stuff was stolen" required ng-model="new_claim.description"></textarea>
+			    </div>
+		    	<div class="grid-content small-12 medium-12 large-12" >
+					<input ng-disabled="form.$invalid" type="submit" class="button" ng-click="MakeAClaim(form)" value="Submit Claim"></input>
+		    	</div>
+		    </form>
+		</div>
+	</div>
+
+</div>

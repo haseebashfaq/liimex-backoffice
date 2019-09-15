@@ -1,0 +1,68 @@
+---
+name: updateaddress
+url: /updateaddress/:company_id
+title: Update Address 
+parent: dashboard
+controller: UpdateaddressController
+loginRequired: true
+---
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Company Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Company Name</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.name}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Liimex-id</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.liimex_id}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 ">
+		<form class="flex-form force-wrap large-12 medium-12 small-12" name="address_form">
+			<div class="card card-square large-12 medium-12 small-12">
+				<div class="card-divider white-card-divider white-text">Company Address</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left" style="margin-top:1rem;">
+						<div class="grid-content large-6 medium-6 small-6">
+                            <label class="card-row-label">Street Address</label>
+                            <input class="card-row-input status-highlight" type="text" placeholder="Street Address" ng-model="main_address.street" required/>
+						</div>
+						<div class="grid-content large-6 medium-6 small-6">
+								<label class="card-row-label">Zip</label>
+								<input class="card-row-input status-highlight" type="text" placeholder="Zip Code" ng-model="main_address.zip" required/>
+						</div>
+						<div class="grid-content large-6 medium-6 small-6 small-top-margin">
+								<label class="card-row-label">City</label>
+								<input class="card-row-input status-highlight" type="text" placeholder="City" ng-model="main_address.city" required/>
+						</div>
+						<div class="grid-content large-6 medium-6 small-6 small-top-margin">
+								<label class="card-row-label">Country</label>
+								<input class="card-row-input status-highlight" type="text" placeholder="Country" ng-model="main_address.country" required/>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="red small-margin-above-below" ng-show="unsaved"><b>You have unsaved changes. Please save</b></div>
+    </div>
+    <div class="grid-content small-3 medium-3 large-3">
+        <label class="card-row-label"></label>
+        <input type="button" class="button expand" value="Save" ng-click="saveAddress()" ng-disabled="!address_form.$valid">
+    </div>
+    <div class="grid-content small-3 medium-3 large-2">
+        <label class="card-row-label"></label>
+        <input type="button" class="button expand" value="Cancel" ui-sref="company({company:company_id})">
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<!-- Company Info Modal -->
+<div zf-modal="" id="company_info_modal">
+
+	<div class="title-bar modal-title">
+		<span class="title center">Edit Company Information</span>
+		<a zf-close="" class="close-button white" id="close_button">×</a>
+	</div>
+	<div class="modal-contents" >
+		<div class="grid-block force-wrap">
+			<form class="wide-form flex-form" name="info_form">
+				<div class="grid-content small-6 medium-4 large-4">
+					<label class="card-row-label">Company Name</label>
+			    	<input class="card-row-input status-highlight" type="text" placeholder="Name" ng-model="update.company.name" required/>
+			    </div>
+			    <div class="grid-content small-6 medium-4 large-4">
+					<label class="card-row-label">Phone</label>
+			    	<input class="card-row-input" type="tel" ng-model="update.company.phone" required/>
+			    </div>
+			    <div class="grid-content small-6 medium-4 large-4">
+					<label class="card-row-label">Type</label>
+			    	<select class="bottom-only-border" name="typeselector" ng-model="update.company.type" required>
+				    	<option value="AG">AG</option>
+				        <option value="GmbH">GmbH</option>
+				     </select>
+			    </div>
+			    <div class="grid-content small-6 medium-4 large-4">
+					<label class="card-row-label">Street Address</label>
+			    	<input class="card-row-input" type="text" ng-model="update.address.street" required/>
+			    </div>
+
+			    <div class="grid-content small-6 medium-4 large-4">
+					<label class="card-row-label">City</label>
+			    	<input class="card-row-input" type="text" ng-model="update.address.city" required/>
+			    </div>
+
+			    <div class="grid-content small-6 medium-4 large-4">
+					<label class="card-row-label">Zip Code</label>
+			    	<input class="card-row-input" type="text" ng-model="update.address.zip" required/>
+			    </div>
+
+			    <div class="grid-content small-6 medium-12 large-12">
+					<label class="card-row-label">Country</label>
+			    	<input class="card-row-input" type="text" ng-model="update.address.country" required/>
+			    </div>
+
+			    <div class="grid-content small-6 medium-4 large-4">
+					<label class="card-row-label">First Name</label>
+			    	<input class="card-row-input" type="text" ng-model="update.user.first_name" required/>
+			    </div>
+
+			    <div class="grid-content small-6 medium-4 large-4">
+					<label class="card-row-label">Last Name</label>
+			    	<input class="card-row-input" type="text" ng-model="update.user.last_name" required/>
+			    </div>
+
+			    <div class="grid-content small-6 medium-4 large-4">
+					<label class="card-row-label">Email</label>
+			    	<input class="card-row-input" type="email" ng-model="update.user.email" required/>
+			    </div>
+
+			    <div class="liimefix"></div>
+
+		    	<div class="grid-content small-12 medium-12 large-12" >
+					<input ng-disabled="info_form.$invalid" type="submit" class="button" value="Save Information" ng-click="UpdateInformation()"/>
+		    	</div>
+	    	</form>
+		</div>
+	</div>
+</div>

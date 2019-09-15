@@ -1,0 +1,25 @@
+<!-- User Info Modal -->
+<div zf-modal="" id="user_info_modal">
+
+	<div class="title-bar modal-title">
+		<span class="title center">Edit User Information</span>
+		<a zf-close="" class="close-button white">×</a>
+	</div>
+	<div class="modal-contents" >
+		<div class="grid-block force-wrap">
+		    <div class="grid-content small-12 medium-12 large-3">
+					<label class="card-row-label">Phone Number</label>
+		    	<input class="card-row-input status-highlight" type="text" placeholder="Carrier" value="{{company.phone}}"/>
+		    </div>
+		    <div class="grid-content small-12 medium-12 large-3">
+					<label class="card-row-label">Type</label>
+		    	<input class="card-row-input status-highlight" type="text" placeholder="Carrier" value="{{company.type}}"/>
+		    </div>
+		    <div class="liimefix"></div>
+	    	<div class="grid-content small-12 medium-12 large-12" >
+				<a class="button" zf-open="company_info_modal">Save</a>
+	    	</div>
+		</div>
+	</div>
+
+</div>

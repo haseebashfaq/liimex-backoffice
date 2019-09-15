@@ -1,0 +1,130 @@
+
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider" ng-hide="insurance_type === 'general' || insurance_type === 'confirmatory'">
+				You're currently editing questions for this insurance type
+			</div>
+			<div class="card-divider white-card-divider" ng-show="insurance_type === 'general'">
+				You're currently editing the General questions
+			</div>
+			<div class="card-divider white-card-divider" ng-show="insurance_type === 'confirmatory'">
+				You're currently editing the Confirmatory questions
+			</div>
+			<div class="card-section left-card cus-card-sec" ng-hide="insurance_type === 'general' || insurance_type === 'confirmatory'">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Insurance Type</label>
+						<span>
+							<select name="typeselector" ng-model="insurance_type" ng-change="ChangeInsuranceType()" required>
+								<option selected disabled>Choose insurance type</option>
+								<option ng-repeat="type in insurance_types" value="{{type.key}}" ng-show="!type.type.disabled == true">{{type.type.name_de}} ({{type.type.name_en}})</option>
+							</select>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow">
+		<h6>Questions ({{questions.length}})</h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-4 medium-4 large-1">
+						 Controls
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-2">
+						 Order
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-1">
+					 	 Type
+				 	 </div>
+					 <div class="grid-content small-4 medium-4 large-4">
+						 Trigger
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-4 right-align ">
+						 Question Text (EN)
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="question in questions_from_map | orderBy:'question.order'" ng-hide="question.question.disabled === true">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-4 medium-4 large-1">
+						 <i ng-click="DeleteQuestionFromMapping(question.key)" class="pointer fa fa-times" aria-hidden="true"></i>
+						 <i ng-click="MoveUp(question.key)" class="pointer fa fa-arrow-up" aria-hidden="true" ng-disabled="question.question.order == 1"></i>
+						 <i ng-click="MoveDown(question.key)" class="pointer fa fa-arrow-down" aria-hidden="true" ng-disabled="question.question.order == questions_from_map.length"></i>
+						 <i ng-click="MakeSubQuestionOfAbove(question.key)" class="pointer fa fa-arrow-right" aria-hidden="true" ng-disabled="question.question.order == 1 || question.question.children !== false"></i>
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-2">
+						 {{question.question.order || 'No Order'}}
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-1">
+						 {{meta.input_types[questions_dict[question.key].input_type]}}
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-4">
+
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-4 right-align">
+						 {{questions_dict[question.key].question_text_en}}
+					 </div>
+				 </div>
+			 </div>
+		</div>
+
+		<div class="card card-square industry-margin large-12" ng-repeat="(key, subquestion) in question.question.children">
+			 <div class="card-section left-card cus-card-sec">
+				 <div class="grid-block align-left">
+					  <div class="grid-content small-3 medium-3 large-3">
+						 <i ng-click="DeleteSubQuestion(question.key, key)" class="pointer fa fa-times" aria-hidden="true"></i>
+						 	<b>(Subquestion of {{question.question.order}})</b>
+					  </div>
+						<div class="grid-content small-1 medium-1 large-1" ng-if="questions_dict[question.key].input_type === 'number' || questions_dict[question.key].input_type === 'currency'">
+					 		<input class="button inline-input-no" type="submit" value="Save" ng-click="SaveSubquestion(question.key, key, subquestion)"/>
+					 	</div>
+					  <div class="grid-content small-1 medium-1 large-1" ng-show="questions_dict[question.key].input_type === 'number' || questions_dict[question.key].input_type === 'currency'">
+						 	<select name="typeselector" ng-model="subquestion.trigger.condition" class="inline-input-no" ng-change="SaveSubquestion(question.key, key, subquestion)" required>
+					 			<option selected disabled>Choose Condition</option>
+					 			<option ng-repeat="(value, condition) in meta.trigger_conditions" value="{{value}}">{{condition}}</option>
+					 		</select>
+					 	</div>
+					 	<div class="grid-content small-2 medium-2 large-1" ng-if="questions_dict[question.key].input_type === 'number' || questions_dict[question.key].input_type === 'currency'">
+					 		<input class="inline-input" type="number" placeholder="1000" ng-model="subquestion.trigger.on" required/>
+					 	</div>
+					 	<div class="grid-content small-4 medium-4 large-1">
+
+						</div>
+
+						<div class="grid-content small-4 medium-4 large-3" ng-if="questions_dict[question.key].input_type === 'bool' && subquestion.trigger.on === true">
+							<input class="button inline-input-no" type="button" ng-click="SetSubquestionTriggerBool(question.key, key, subquestion, false)" value="Triggered when Yes"/>
+						</div>
+						<div class="grid-content small-4 medium-4 large-3" ng-if="questions_dict[question.key].input_type === 'bool' && subquestion.trigger.on === false">
+							<input class="button inline-input-no" type="button" ng-click="SetSubquestionTriggerBool(question.key, key, subquestion, true)" value="Triggered when No"/>
+						</div>
+						<div class="grid-content small-4 medium-4 large-3" ng-if="questions_dict[question.key].input_type === 'bool' && subquestion.trigger === false">
+							<input class="button alert inline-input-no" type="button" ng-click="SetSubquestionTriggerBool(question.key, key, subquestion, true)" value="Define"/>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4" ng-if="questions_dict[question.key].input_type === 'text'">
+							{{}}
+						</div>
+					 	<div class="grid-content small-6 medium-6 large-5 right-align">
+						 	{{questions_dict[key].question_text_en}}
+					 	</div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-disabled="!question_mapping" ng-click="addQuestionToInsurence()" value="+ Add new questions"></input>
+	</div>
+
+</div>

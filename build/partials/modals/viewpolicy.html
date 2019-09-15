@@ -1,0 +1,27 @@
+<!-- Add Existing Policy Modal -->
+<div zf-modal="" id="view_policy_modal">
+
+	<!-- Active -->
+		<div class="title-bar modal-title">
+			<span class="title center">Policy Details</span>
+			<a zf-close="" class="close-button white-text">×</a>
+		</div>
+
+		<div class="modal-contents" >
+			<div class="grid-block force-wrap">
+
+				<div class="grid-content small-6 medium-6 large-6" ng-repeat="(key, value) in selected_policy">
+					<label class="card-row-label">{{genService.prettify(key)}}</label>
+					<input class="card-row-input status-highlight" type="text" readonly value="{{value}}"/>
+				</div>
+
+				<div class="liimefix"></div>
+
+				<!-- <div class="grid-content small-12 medium-12 large-12">
+					<input class="button" type="submit" ng-click="DownloadPolicy(selected_policy)"  value="Download"/>
+				</div> -->
+
+			</div>
+		</div>
+
+</div>

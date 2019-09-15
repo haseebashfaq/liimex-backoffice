@@ -1,0 +1,83 @@
+
+<div class="grid-block offer-page">
+	<div class="grid-content large-12 medium-12 small-12" ng-show="unsaved_changes">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec unsaved-div">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="unsaved-label card-row-label center">You have unsaved changes</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Company Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-4 ">
+						<label class="card-row-label">Company Name</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.name}}"/>
+					</div>
+					<div class="grid-content small-4 medium-4 large-4 ">
+						<label class="card-row-label">Type</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.type}}"/>
+					</div>
+					<div class="grid-content small-4 medium-4 large-4 ">
+						<label class="card-row-label">Liimex ID</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.liimex_id}}"/>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button button-slim" ui-sref="company({company:offer.company})" value="Go to Company Page"></input>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<form class="flex-form force-wrap large-12 medium-12 small-12" name="general_form">
+			<div class="card card-square large-12 medium-12 small-12">
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="force-wrap flex-form large-12 medium-12 small-12">
+							<div class="grid-content large-12 medium-12 small-12">
+								<label class="card-row-label">* Sum Insured (€)</label>
+								<input class="card-row-input" type="text" required ng-model="comparison.insurance_types[offer.subject].general.sum_insured" num-prepend="€" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+							</div>
+							<div class="grid-content large-12 medium-12 small-12">
+								<label class="card-row-label">* Maximisation</label>
+								<input class="card-row-input" type="number" required ng-model="comparison.insurance_types[offer.subject].general.maximisation" min="1" ng-change="UnsavedChanges()"/>
+							</div>
+							<div class="grid-content large-12 medium-12 small-12" ng-if="!comparison.insurance_types[offer.subject].general.deductible_is_percent === true">
+								<label class="card-row-label">* Deductible - Max (€)</label>
+								<input class="card-row-input" type="text" required ng-model="comparison.insurance_types[offer.subject].general.deductible_absolute_max" num-prepend="€" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+							</div>
+							<div class="grid-content large-12 medium-12 small-12" ng-if="comparison.insurance_types[offer.subject].general.deductible_is_percent === true">
+								<label class="card-row-label">* Deductible - Max (%)</label>
+								<input class="card-row-input" type="text" required ng-model="comparison.insurance_types[offer.subject].general.deductible_percent_max" num-append="%" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+							</div>
+							<div class="grid-content large-12 medium-12 small-12" ng-if="comparison.insurance_types[offer.subject].general.deductible_is_percent === true">
+								<label class="card-row-label">* Deductible - Min (€)</label>
+								<input class="card-row-input" type="text" required ng-model="comparison.insurance_types[offer.subject].general.deductible_absolute_min" num-prepend="€" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+							</div>
+							<div class="grid-content small-12 medium-12 large-12">
+								<label class="card-row-label"></label>
+								<input type="button" class="button button-slim" ng-click="MakedeductiblePercentGeneralCriteria()" value="{{!comparison.insurance_types[offer.subject].general.deductible_is_percent && 'Make deductible Percent' || 'Make deductible an Absolute Value'}}"></input>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" ui-sref="comparisonpreview({offer:offer_uid})" class="button expand" value="Back"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="SaveComparison()" value="Save" ng-disabled="!general_form.$valid || !comparison || local_load"></input>
+	</div>
+</div>

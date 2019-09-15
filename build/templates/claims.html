@@ -1,0 +1,97 @@
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12">
+		<h2>Claims</h2>
+	</div>
+	<div class="grid-content large-6 medium-12">
+		<label class="float-left task-search">
+			<span class="inline-label no-top-margin">
+				<span class="form-label">Search</span>
+				<input type="text" ng-model="claimSearch">
+			</span>
+		</label>
+	</div>
+
+	<!-- Top Buttons -->
+	<div class="grid-content small-12 medium-6 large-3">
+      	<input class="button expand" type="submit" ng-click="ResetModal()" value="+ Upload Claim History" zf-open="existing_policy_modal"></input>
+    </div>
+    <div class="grid-content small-12 medium-6 large-3">
+      	<input class="button expand" type="submit" ng-click="" value="+ Make a new Claim" zf-open="new_claim_modal"></input>
+    </div>
+
+    <!-- Active Claim Iterator -->
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="claim in claims.active | filter:claimSearch">
+		<div class="card card-hover card-square" ng-click="SelectClaim(claim)" zf-open="view_claim_modal">
+			<div class="card-divider cus-card-divider">
+				<!-- <p class="white card-title">Active</p> -->
+			</div>
+ 			<div class="card-section left-card cus-card-sec">
+ 				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-3 large-1">
+  						<label class="card-row-label">Status</label>
+				    	<input class="card-row-input" type="text" placeholder="Carrier" readonly value="{{claim.status}}"/>
+				    </div>
+				    <div class="grid-content small-6 medium-3 large-1">
+  						<label class="card-row-label">Class</label>
+				    	<input class="card-row-input" type="text" placeholder="Carrier" readonly value="{{genService.capitalize(policy.subject)}}"/>
+				    </div>
+				    <div class="grid-content small-3 medium-3 large-2 hide-for-small-only">
+  						<label class="card-row-label">Start Date</label>
+				    	<input class="card-row-input" type="text" placeholder="Date" readonly value="{{policy.start_date}}" />
+				    </div>
+				    <div class="grid-content small-3 medium-3 large-2 hide-for-small-only">
+  						<label class="card-row-label">Renewal Date</label>
+				    	<input class="card-row-input" type="text" placeholder="Date" readonly value="{{policy.end_date}}" />
+				    </div>
+				    <div class="grid-content small-6 medium-3 large-2">
+  						<label class="card-row-label">Sum Insured</label>
+				    	<input class="card-row-input" type="text" placeholder="Number" readonly value="EUR {{genService.getSepThousands(policy.sum_insured)}}" />
+				    </div>
+				    <div class="grid-content small-6 medium-3 large-2">
+  						<label class="card-row-label">deductible</label>
+				    	<input class="card-row-input" type="text" placeholder="Number" readonly value="EUR {{genService.getSepThousands(policy.deductible)}}" />
+				    </div>
+				    <div class="grid-content small-6 medium-3 large-1">
+  						<label class="card-row-label">Status</label>
+				    	<input class="card-row-input" type="text" placeholder="Status" readonly value="{{genService.capitalize(policy.status)}}" />
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Pending Claim Iterator -->
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="claim in claims.pending | filter:claimSearch">
+		<div class="card card-hover card-square" ng-click="SelectClaim(claim)" zf-open="view_claim_modal">
+			<div class="card-divider pending-card-divider">
+				<!-- <p class="white card-title">Pending Review</p> -->
+			</div>
+ 			<div class="card-section left-card cus-card-sec">
+ 				<div class="grid-block align-left">
+				    <div class="grid-content small-6 medium-4 large-2">
+  						<label class="card-row-label">Status</label>
+				    	<input class="card-row-input" type="text" placeholder="Status" readonly value="Waiting for review" />
+				    </div>
+				    <div class="grid-content small-6 medium-8 large-6">
+  						<label class="card-row-label">Description</label>
+				    	<input class="card-row-input" type="text" placeholder="Status" readonly value="{{claim.description.substring(0,80)}}..."/>
+				    </div>
+				    <div class="grid-content small-6 medium-8 large-4">
+  						<label class="card-row-label">Submitted on</label>
+				    	<input class="card-row-input" type="text" placeholder="Status" readonly value="{{claim.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content small-12 medium-12 large-12 align-center" ng-hide="notempty">
+		<h5 class="no-policies-text">You haven't yet made any claims on Liimex. You can upload your claim history to Liimex or make a new claim using the buttons above.</h5>
+    </div>
+
+</div>
+
+
+<!-- Including Modals -->
+<div ng-include="" src="'partials/modals/newclaim.html'"></div>
+<div ng-include="" src="'partials/modals/viewclaim.html'"></div>

@@ -1,0 +1,36 @@
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block" >
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Add Financials</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-3 medium-3 large-6">
+						<label class="card-row-label">Add Financials</label>
+						<input class="card-row-input status-highlight" type="text" required awnum num-thousand="true" num-sep="," num-int="16" num-prepend="&#x20AC" ng-model="policy.custom_fields[field.key]" placeholder="Yearly turnover" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" value="Save">
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" ui-sref="pickactivity" value="Pick Activities">
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" onclick="window.history.back();" value="Back">
+	</div>
+
+</div>

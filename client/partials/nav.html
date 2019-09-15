@@ -1,0 +1,20 @@
+<!-- Navigation Elements -->
+
+<!-- Full Size Nav Bar -->
+<nav>
+	<div class="primary condense menu-bar custom-nav">
+		<li class="nav-logo-container"><img src="assets/img/x-logo-white.png" class="nav-logo-left" alt=""></li>
+		<li class="title-left">{{currentStateTitle}}</li>
+		<li class="dev-env-warning-text">The current website is not the production environment</li>
+		<li class="nav-right-email">{{user.email}}</li>
+	</div>
+</nav>
+
+<script type="text/javascript">
+	$(".navmenu-hamburger").click(function(){
+		$(".mobile-sidebar-nav").toggle();
+	});
+	$(".mobile-sidebar-nav div.grid-content").click(function(){
+		$(".mobile-sidebar-nav").hide();
+	});
+</script>

@@ -1,0 +1,350 @@
+---
+name: extractionpreview
+url: /extractionpreview/:policy
+title: Extraction
+parent: extractions
+controller: ExtractionViewController
+loginRequired: true
+securityLevel: 1
+---
+
+<div class="grid-block">
+  <div class="grid-content large-12 medium-12 small-12" ng-show="policy">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Company Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-4 ">
+						<label class="card-row-label">Company Name</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.name}}"/>
+					</div>
+          <div class="grid-content small-4 medium-4 large-4 ">
+						<label class="card-row-label">Company Type</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.type}}"/>
+					</div>
+          <div class="grid-content small-4 medium-4 large-4 ">
+						<label class="card-row-label">Liimex ID</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.liimex_id}}"/>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button button-slim" ui-sref="company({company:policy.company})" value="Go to Company Page"></input>
+					</div>
+				</div>
+			</div>
+		</div>
+    <div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Selected Policy</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-3 medium-3 large-3">
+						<label class="card-row-label">Status</label>
+						<input class="card-row-input status-highlight grey-out bold-input" type="text" readonly value="{{policy.status | capitalize}}"/>
+					</div>
+					<div class="grid-content small-3 medium-3 large-3">
+						<label class="card-row-label">Uploaded at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{policy.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+					</div>
+					<div class="grid-content small-3 medium-3 large-3">
+						<label class="card-row-label">Last Updated</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{policy.updated_at ? (policy.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}"/>
+					</div>
+          <div class="grid-content small-3 medium-3 large-3">
+						<label class="card-row-label">Extractor</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{policy.extractor || 'None'}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+  <div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow">
+      <h6>{{getInsuranceName(policy.subject)}}</h6>
+  </div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+          <div class="grid-block small-12 medium-12 large-12">
+            <div class="grid-content small-6 medium-6 large-6">
+              <input type="submit" class="button button-slim" ng-click="editBasicInfo()" value="Edit Basic Information" ng-disabled="policy.extractor !== user.email"></input>
+            </div>
+					</div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Carrier</label>
+              <label class="preview-input input-type-text">{{getCarrierName(policy.basic.carrier)}}</label>
+          </div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Insurance Type</label>
+              <label class="preview-input input-type-text">{{getInsuranceName(policy.subject)}}</label>
+          </div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Policy Number</label>
+              <label class="preview-input input-type-text">{{policy.basic.policy_number}}</label>
+          </div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Start Date (dd/mm/yyyy)</label>
+              <label class="preview-input input-type-text">{{policy.basic.start_date |date:'dd-MM-yyyy'}}</label>
+          </div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Length of Notice Period in Months</label>
+              <label class="preview-input input-type-text">{{policy.basic.notice_period}}</label>
+          </div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Main renewal Date (dd/mm/yyyy)</label>
+              <label class="preview-input input-type-text">{{policy.basic.main_renewal_date | date:'dd-MM-yyyy'}}</label>
+          </div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Months of contract prolongation upon next renewal</label>
+              <label class="preview-input input-type-text">{{policy.basic.prolongation}}</label>
+          </div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Annual Net premium (€)</label>
+              <label class="preview-input input-type-text">{{policy.basic.premium | euro}}</label>
+          </div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Insurance Tax in %</label>
+              <label class="preview-input input-type-text">{{policy.basic.insurance_tax}}%</label>
+          </div>
+          <div class="grid-content small-6 medium-6 large-6">
+              <label class="card-row-label">Annual Gross Premium (€)</label>
+              <label class="preview-input input-type-text">{{annual_gross_premium | euro}}</label>
+          </div>
+				</div>
+			</div>
+		</div>
+  </div>
+  <div class="grid-content large-12 medium-12 small-12" >
+    <div class="card card-square industry-margin">
+      <div class="card-section left-card cus-card-sec status-highlight">
+        <div class="grid-block align-left">
+          <div class="grid-content">Note</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-content large-12 medium-12 small-12" >
+    <div class="card card-square industry-margin" style="margin-bottom:1rem !important; ">
+      <div class="card-section left-card cus-card-sec status-highlight">
+        <div class="extraction-note" ng-bind-html="transformToHtml(policy.basic.note)" ng-if="policy.basic.note"></div>
+        <div ng-if="!policy.basic.note">-</div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-content large-12 medium-12 small-12" >
+    <div class="card card-square industry-margin">
+      <div class="card-section left-card cus-card-sec status-highlight">
+        <div class="grid-block small-12 medium-12 large-12">
+          <input type="submit" class="button button-slim" ng-click="gotoSpecificComparisonCriteria(policy.subject)" value="Edit Specific Criteria" ng-disabled="policy.extractor !== user.email  || !policy.subject"></input>          
+        </div>
+        <div class="grid-block large-12 medium-12 small-12 align-left">
+          <div class="grid-content small-2 medium-2 large-2 align-left">
+            Sum Insured
+          </div>
+          <div class="grid-content small-2 medium-2 large-2 center">
+            Deductible
+          </div>
+          <div class="grid-content small-2 medium-2 large-2 center">
+            Deductible Max (Optional)
+          </div>
+          <div class="grid-content small-2 medium-2 large-2 center">
+            Maximisation
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-content large-12 medium-12 small-12">
+    <div class="card card-square industry-margin" style="margin-bottom:1rem !important">
+      <div class="card-section left-card cus-card-sec">
+        <div class="grid-block large-12 medium-12 small-12 align-left">
+          <div class="grid-content small-2 medium-2 large-2 align-left">
+            {{policy.insurance_types[policy.subject].general.unlimited_sum_insured && 'Unbegrenzt' || policy.insurance_types[policy.subject].general.sum_insured | euro}}
+          </div>
+          <div class="grid-content small-2 medium-2 large-2 center ">
+            {{policy.insurance_types[policy.subject].general.deductible_is_percent && policy.insurance_types[policy.subject].general.deductible_percent+'%' || (policy.insurance_types[policy.subject].general.deductible_absolute | euro) }}
+          </div>
+          <div class="grid-content small-2 medium-2 large-2 center ">
+            {{policy.insurance_types[policy.subject].general.deductible_max_is_percent && policy.insurance_types[policy.subject].general.deductible_percent_max+'%' || (policy.insurance_types[policy.subject].general.deductible_absolute_max | euro) }}
+          </div>
+          <div class="grid-content small-2 medium-2 large-2 center ">
+            {{policy.insurance_types[policy.subject].general.maximisation && policy.insurance_types[policy.subject].general.maximisation+'x' || '-'}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-content large-12 medium-12 small-12">
+    <div class=" card card-square industry-margin">
+      <div class="card-section left-card cus-card-sec status-highlight">
+        <div class="grid-block align-left">
+          <div class="grid-content small-2 medium-2 large-2">
+            Applicability
+          </div>
+          <div class="grid-content small-5 medium-5 large-5">
+            Name (DE)
+          </div>
+          <div class="grid-content small-5 medium-5 large-5 right-align">
+            Sublimit
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-content large-12 medium-12 small-12" ng-repeat="(specific_criteria_key, in_mapping) in specific_preview_criteria">
+    <div class="card card-square industry-margin">
+      <div class="card-section left-card cus-card-sec">
+        <div class="grid-block align-left">
+          <div class="grid-content small-2 medium-2 large-2 included-text" ng-show="policy.insurance_types[policy.subject].specific[specific_criteria_key].included === true">
+            <i class="fa fa-check" aria-hidden="true"></i> Included
+          </div>
+          <div class="grid-content small-2 medium-2 large-2 not-included-text" ng-show="policy.insurance_types[policy.subject].specific[specific_criteria_key].included === false">
+            <i class="fa fa-times" aria-hidden="true"></i> Not Included
+          </div>
+          <div class="grid-content small-2 medium-2 large-2 warning-text" ng-show="policy.insurance_types[policy.subject].specific[specific_criteria_key].included === undefined">
+            <b><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please Specify!</b>
+          </div>
+          <div class="grid-content small-5 medium-5 large-5">
+            {{getCriteriaName(specific_criteria_key)}}
+          </div>
+          <div class="grid-content small-5 medium-5 large-5 right-align {{!policy.insurance_types[policy.subject].specific[specific_criteria_key].included && 'strike-through'}}">
+            {{policy.insurance_types[policy.subject].specific[specific_criteria_key].sublimit && (policy.insurance_types[policy.subject].specific[specific_criteria_key].sublimit | euro) || '-'}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-content liimefix-small large-12 medium-12 small-12 small-top-pad" ng-show="num_specific_preview_criteria === 0">
+    <p>There are <b>no</b> specific Criteria for this Insurance Type and this Company</p>
+  </div>
+  <div class="grid-block large-12 medium-12 small-12" style="margin-left:0" ng-repeat="( additionalModule, extrationsPreview_additionalSpecificCriteria) in extrationsPreview_additionalModules">
+    <div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" style="padding-top:.1rem;padding-bottom:.1rem">
+      <h6>{{getInsuranceName(additionalModule)}}</h6>
+    </div>
+    <div class="grid-content large-12 medium-12 small-12" >
+      <div class="card card-square industry-margin">
+        <div class="card-section left-card cus-card-sec status-highlight">
+          <div class="grid-block small-12 medium-12 large-12">
+            <input type="submit" class="button button-slim" ng-click="gotoSpecificComparisonCriteria(additionalModule)" value="Edit Specific Criteria" ng-disabled="policy.extractor !== user.email  || !additionalModule"></input>          
+          </div>
+          <div class="grid-block large-12 medium-12 small-12 align-left">
+            <div class="grid-content small-2 medium-2 large-2 align-left">
+              Sum Insured
+            </div>
+            <div class="grid-content small-2 medium-2 large-2 center">
+              Deductible
+            </div>
+            <div class="grid-content small-2 medium-2 large-2 center">
+              Deductible Max (Optional)
+            </div>
+            <div class="grid-content small-2 medium-2 large-2 center">
+              Maximisation
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-content large-12 medium-12 small-12">
+      <div class="card card-square industry-margin" style="margin-bottom:1rem !important">
+        <div class="card-section left-card cus-card-sec">
+          <div class="grid-block large-12 medium-12 small-12 align-left">
+            <div class="grid-content small-2 medium-2 large-2 align-left">
+              {{policy.insurance_types[additionalModule].general.unlimited_sum_insured && 'Unbegrenzt' || policy.insurance_types[additionalModule].general.sum_insured | euro}}
+            </div>
+            <div class="grid-content small-2 medium-2 large-2 center ">
+              {{policy.insurance_types[additionalModule].general.deductible_is_percent && policy.insurance_types[additionalModule].general.deductible_percent+'%' || (policy.insurance_types[additionalModule].general.deductible_absolute | euro) }}
+            </div>
+            <div class="grid-content small-2 medium-2 large-2 center ">
+              {{policy.insurance_types[additionalModule].general.deductible_max_is_percent && policy.insurance_types[additionalModule].general.deductible_percent_max+'%' || (policy.insurance_types[additionalModule].general.deductible_absolute_max | euro) }}
+            </div>
+            <div class="grid-content small-2 medium-2 large-2 center ">
+              {{policy.insurance_types[additionalModule].general.maximisation && policy.insurance_types[additionalModule].general.maximisation+'x' || '-'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-content large-12 medium-12 small-12">
+      <div class=" card card-square industry-margin">
+        <div class="card-section left-card cus-card-sec status-highlight">
+          <div class="grid-block align-left">
+            <div class="grid-content small-2 medium-2 large-2">
+              Applicability
+            </div>
+            <div class="grid-content small-5 medium-5 large-5">
+              Name (DE)
+            </div>
+            <div class="grid-content small-5 medium-5 large-5 right-align">
+              Sublimit
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-content large-12 medium-12 small-12" ng-repeat="(specific_criteria_key, in_mapping) in policy.insurance_types[additionalModule].specific">
+      <div class="card card-square industry-margin">
+        <div class="card-section left-card cus-card-sec">
+          <div class="grid-block align-left">
+            <div class="grid-content small-2 medium-2 large-2 included-text" ng-show="policy.insurance_types[additionalModule].specific[specific_criteria_key].included === true">
+              <i class="fa fa-check" aria-hidden="true"></i> Included
+            </div>
+            <div class="grid-content small-2 medium-2 large-2 not-included-text" ng-show="policy.insurance_types[additionalModule].specific[specific_criteria_key].included === false">
+              <i class="fa fa-times" aria-hidden="true"></i> Not Included
+            </div>
+            <div class="grid-content small-2 medium-2 large-2 warning-text" ng-show="policy.insurance_types[additionalModule].specific[specific_criteria_key].included === undefined">
+              <b><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please Specify!</b>
+            </div>
+            <div class="grid-content small-5 medium-5 large-5">
+              {{getCriteriaName(specific_criteria_key)}}
+            </div>
+            <div class="grid-content small-5 medium-5 large-5 right-align {{!policy.insurance_types[additionalModule].specific[specific_criteria_key].included && 'strike-through'}}">
+              {{policy.insurance_types[additionalModule].specific[specific_criteria_key].sublimit && (policy.insurance_types[additionalModule].specific[specific_criteria_key].sublimit | euro) || '-'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-content status-highlight">
+      <input type="submit" class="button button-slim red-text" zf-open="confirm_modal" ng-click="genService.setConfirmAction(deleteAdditionalModule,additionalModule)" value="Delete" ng-disabled="policy.extractor !== user.email  || !policy.subject"/>
+    </div>
+  </div>
+  <div class="grid-content small-12 medium-12 large-12">
+    <input type="submit" class="button button-slim" ng-click="gotoChooseAdditionalModule()" value="Add Additional Module" ng-disabled="policy.extractor !== user.email  || !policy.subject"></input>
+  </div>
+  <!-- Buttons -->
+  <div class="grid-content small-3 medium-3 large-2" ng-show="policy.extractor !== user.email && policy">
+    <label class="card-row-label"></label>
+    <input type="submit" class="button expand" ng-click="LockToEmployee()" value="Lock to you" ng-disabled="policy.extractor"></input>
+  </div>
+  <div class="grid-content small-3 medium-3 large-2" ng-show="policy.extractor === user.email || (access.has('openlocks') && policy.extractor)">
+    <label class="card-row-label"></label>
+    <input type="submit" class="button expand" ng-click="Unlock()" value="Open for Others"></input>
+  </div>
+  <div class="grid-content small-2 medium-2 large-2">
+    <label class="card-row-label"></label>
+    <input type="submit" class="button expand" zf-open="manage_files_modal" ng-disabled="policy.extractor !== user.email" value="Manage Files ({{LengthOfObject(policy.documents)}})"></input>
+  </div>
+  <div class="grid-content small-2 medium-2 large-2" ng-show="policy.status !== 'active'">
+    <label class="card-row-label"></label>
+    <input type="submit" class="button expand success" ng-click="genService.setConfirmAction(MakeActive)" zf-open="confirm_modal" ng-disabled="policy.status === 'deleted' ||policy.extractor !== user.email || !policy.subject || !isExtractionValid() " value="Activate"></input>
+  </div>
+  <div class="grid-content small-2 medium-2 large-2" ng-show="policy.status !== 'active'">
+    <label class="card-row-label"></label>
+    <input type="submit" class="button expand success" ng-click="genService.setConfirmAction(MakeActiveNoEmail)" zf-open="confirm_modal" ng-disabled="policy.status === 'deleted' ||policy.extractor !== user.email || !policy.subject || !isExtractionValid() " value="Activate without Email"></input>
+  </div>
+  <div class="grid-content small-2 medium-2 large-2" ng-hide="policy.status !== 'active'">
+    <label class="card-row-label"></label>
+    <input type="submit" class="button expand" ng-click="genService.setConfirmAction(MakePending)" zf-open="confirm_modal" ng-disabled="policy.extractor !== user.email  || !policy.subject" value="Make Pending"></input>
+  </div>
+  <div class="grid-content small-3 medium-3 large-2" ng-show="policy.status !=='deleted'">
+    <label class="card-row-label"></label>
+    <input type="submit" class="button expand alert" zf-open="confirm_modal" ng-click="genService.setConfirmAction(DeletePolicy)" ng-disabled="policy.extractor !== user.email" value="Delete Policy"></input>
+  </div>
+  <div class="grid-content small-3 medium-3 large-2" ng-show="policy.status =='deleted'">
+    <label class="card-row-label"></label>
+    <input type="submit" class="button expand success" zf-open="confirm_modal" ng-click="genService.setConfirmAction(MakePending)" ng-disabled="policy.extractor !== user.email" value="Undo Delete"></input>
+  </div>
+</div>
+<!-- Includes -->
+<div ng-include="" src="'partials/modals/confirm.html'"></div>
+<div ng-include="" src="'partials/modals/editalias.html'"></div>
+<div ng-include="" src="'partials/modals/managefiles.html'"></div>

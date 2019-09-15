@@ -1,0 +1,71 @@
+---
+name: products
+url: /products
+title: Products
+parent: meta
+controller: ProductsController
+loginRequired: true
+---
+
+<div ui-view> <!-- Child Page --> </div>
+<div class="grid-block">
+  <div class="grid-content small-3 medium-3 large-3">
+    <label class="card-row-label"></label>
+    <input type="button" class="button button-slim" zf-open="confirm_modal" value="+ Add New Product" ng-click="genService.setConfirmAction(AddNewProduct)"></input>
+  </div>
+  <div class="grid-content small-3 medium-3 large-3">
+		<label class="card-row-label"></label>
+		<input type="button" class="button button-slim" ng-click="disabled = !disabled" value="{{disabled && 'Hide disabled' || 'Show disabled'}}"></input>
+	</div>
+  <div class="grid-content large-12 medium-12">
+		<label class="task-search">
+			<span class="inline-label no-top-margin">
+				<span class="form-label">Search</span>
+				<input type="text" ng-model="productSearch" class="search-bar">
+				<span class="form-label"><b>{{filteredProducts.length}}</b>&nbsp;Matches of&nbsp; <b>{{products.length}}</b>&nbsp;Total Products</span>
+			</span>
+		</label>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-3 medium-3 large-3">
+						 Name
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3">
+						 Carrier
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3">
+						 Insurance Types
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3 right-align" ng-click="fifo = !fifo">
+						 <i class="fa fa-caret-{{fifo && 'up' || 'down'}}" aria-hidden="true"></i>
+						 Last Updated
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, product) in products | orderBy:'-product.updated_at':fifo | filter:productSearch as filteredProducts" ui-sref="product({product_uid:product.key})" ng-show="!product.product.disabled === true || disabled === true">
+		<div class="card card-hover card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-3 medium-3 large-3">
+						 {{product.product.name}}
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3">
+						 {{carriers[product.product.carrier].name}}
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3">
+						{{insurance_types[product.product.insurance_type].name_en}}
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3 right-align">
+             {{genService.convertStampToDate(product.product.updated_at)}}
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+</div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

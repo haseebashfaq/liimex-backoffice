@@ -1,0 +1,27 @@
+<!-- Add Existing Policy Modal -->
+<div zf-modal="" id="view_claim_modal">
+
+	<div class="title-bar modal-title">
+		<span class="title center">Claim Details</span>
+		<a zf-close="" class="close-button white-text">×</a>
+	</div>
+	<div class="modal-contents" >
+		<div class="grid-block force-wrap">
+
+			<div class="grid-content small-12 medium-12 large-12">
+				<label class="card-row-label">Description</label>
+				<textarea class="cus-text-area view-only-area" maxlength="500" minlength="100" ng-model="selected_claim.description" readonly></textarea>
+			</div>
+
+			<div class="grid-content small-6 medium-6 large-6" ng-repeat="(key, value) in selected_claim"  ng-hide="key === 'description'">
+				<label class="card-row-label">{{genService.prettify(key)}}</label>
+				<input class="card-row-input status-highlight" type="text" readonly value="{{value}}"/>
+			</div>
+
+			<div class="liimefix"></div>
+
+		</div>
+	</div>
+
+
+</div>

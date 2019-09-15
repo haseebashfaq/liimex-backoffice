@@ -1,0 +1,60 @@
+<!-- Add New Claim Modal -->
+<div zf-modal="" id="edit_admin_modal">
+
+	<div class="title-bar modal-title">
+		<span class="title center">Edit Backoffice User</span>
+		<a zf-close="" class="close-button" id="close_admin">×</a>
+	</div>
+
+	<!-- Contents -->
+	<div class="modal-contents">
+		<div class="grid-block force-wrap">
+			<form class="wide-form flex-form" name="admin_form">
+
+				<div class="grid-content small-12 medium-6 large-6">
+					<label class="card-row-label">Liimex Email</label>
+					<input class="card-row-input status-highlight grey-out" type="text" readonly required value="{{selected_user.email}}"/>
+				</div>
+				<div class="grid-content small-12 medium-6 large-6">
+					<label class="card-row-label">Access Level (0 - 5) </label>
+					<input class="card-row-input status-highlight" type="number" required
+					 ng-model="new.rights" step="1" max="5" min="0"/>
+				</div>
+				<div class="grid-content small-12 medium-6 large-6">
+					<label class="card-row-label">First Name</label>
+					<input class="card-row-input grey-out" type="text" readonly required value="{{selected_user.first_name}}"/>
+				</div>
+				<div class="grid-content small-12 medium-6 large-6">
+					<label class="card-row-label">Last Name</label>
+					<input class="card-row-input grey-out" type="text" readonly required value="{{selected_user.last_name}}"/>
+				</div>
+
+				<div class="grid-content small-12 medium-6 large-6">
+					<label class="card-row-label">Created At</label>
+					<input class="card-row-input status-highlight grey-out" type="text" readonly required value="{{selected_user.created_at}}"/>
+				</div>
+
+				<div class="grid-content small-12 medium-6 large-6">
+					<label class="card-row-label">Updated At</label>
+					<input class="card-row-input status-highlight grey-out" type="text" readonly required value="{{selected_user.updated_at}}"/>
+				</div>
+
+				<div class="liimefix"></div>
+
+				<div class="grid-content small-12 medium-12 large-12" >
+					<input ng-disabled="admin_form.$invalid" type="submit" class="button expand" ng-click="UpdateUser(selected_key)" value="Update User"></input>
+	    	</div>
+
+	    </form>
+
+			<div class="grid-content small-6 medium-6 large-6" >
+				<input ng-disabled="delete_email !== selected_user.email" type="submit" class="alert button expand" ng-click="DeleteUser(selected_key)" value="Delete User"></input>
+			</div>
+			<div class="grid-content small-6 medium-6 large-6">
+				<input class="card-row-input" type="text" placeholder="write the users email to confirm" ng-model="delete_email"/>
+			</div>
+
+		</div>
+	</div>
+
+</div>

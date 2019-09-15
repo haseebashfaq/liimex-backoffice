@@ -1,0 +1,60 @@
+<div class="grid-block" ng-show="comparison_criteria && (comparison_criteria_mapping || no_mapping)">
+	<div class="grid-content large-12 medium-12">
+		<label class="task-search">
+			<span class="inline-label no-top-margin">
+				<span class="form-label">Search</span>
+				<input type="text" ng-model="criteriaSearch" class="search-bar">
+				<span class="form-label"><b>{{filteredCriteria.length}}</b>&nbsp;Matches of&nbsp; <b>{{comparison_criteria_list.length}}</b>&nbsp;Total Criteria</span>
+			</span>
+		</label>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-1 medium-1 large-1">
+						 Select
+					 </div>
+					 <div class="grid-content small-2 medium-2 large-2">
+						 Name (DE)
+					 </div>
+					 <div class="grid-content small-6 medium-6 large-6">
+						 Explaination (DE)
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3 right-align pointer" ng-click="fifo = !fifo">
+						 <i class="fa fa-caret-{{fifo && 'up' || 'down'}}" aria-hidden="true"></i>
+						 Last Updated
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, criteria) in comparison_criteria_list | orderBy:'-company.updated_at':fifo | filter:criteriaSearch as filteredCriteria">
+		<div class="card card-hover card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-1 medium-1 large-1">
+						 <input class="no-margin-padding activity-checkbox" type="checkbox" required ng-click="AddOrRemoveSelectedCriteria(criteria.key)" ng-checked="!!selected_criteria[criteria.key] || comparison_criteria_mapping.insurance_types[insurance_type].comparison_criteria[criteria.key]" ng-disabled="comparison_criteria_mapping.insurance_types[insurance_type].comparison_criteria[criteria.key]"/>
+					 </div>
+					 <div class="grid-content small-2 medium-2 large-2">
+						 {{genService.capitalize(criteria.criteria.name_de)}}
+					 </div>
+					 <div class="grid-content small-6 medium-6 large-6">
+						{{genService.capitalize(criteria.criteria.explanation_de)}}
+					</div>
+					 <div class="grid-content small-3 medium-3 large-3 right-align">
+						 {{::criteria.criteria.updated_at ? (criteria.criteria.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ui-sref="insurancetype({insurancetype:insurance_type})" value="Back"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-3">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="AddComparisonCriteria()" value="Add these {{num_selected}} Criteria" ng-disabled="num_selected < 1"></input>
+	</div>
+</div>

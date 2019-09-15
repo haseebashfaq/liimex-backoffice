@@ -1,0 +1,25 @@
+<!-- Re-Authenticate Modal -->
+<div zf-modal="" id="edit_alias_modal" style="z-index:99999">
+	<div class="title-bar modal-title">
+		<span class="title center">Edit Alias</span>
+		<a zf-close="edit_alias_modal" class="close-button" id="close_alias">×</a>
+	</div>
+	<div class="modal-contents">
+		<p>The <b>alias</b> is what is displayed to the customer instead of the randomly generated file name. When the file is downloaded however it will still have the randomly generated name.</p>
+		<div class="grid-block force-wrap">
+			<form class="wide-form flex-form" name="reauth_form">
+				<div class="grid-content small-12 medium-12 large-12">
+	      	<label class="card-row-label">Type the alias here</label>
+  				<input class="card-row-input" placeholder="Combined Policies" ng-model="selected_document.alias"/>
+		    </div>
+	    	<div class="liimefix"></div>
+				<div class="grid-content small-6 medium-6 large-6 center">
+					<input class="button expand" type="button" zf-close="edit_alias_modal" value="Close"></input>
+	    	</div>
+	    	<div class="grid-content small-6 medium-6 large-6 center">
+					<input class="button expand" type="submit" ng-click="selected_document.alias = selected_document.alias || null; SaveDocument(selected_document)" value="Save"></input>
+	    	</div>
+	    </form>
+		</div>
+	</div>
+</div>

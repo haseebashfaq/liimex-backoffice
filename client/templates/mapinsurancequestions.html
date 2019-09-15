@@ -1,0 +1,65 @@
+---
+name: mapinsurancequestions
+url: /insurancequestions/mapinsurancequestions/:insuraneType
+title: MapInsuranceQuestions
+parent: dashboard
+controller: MapInsuranceQuestionsController
+loginRequired: true
+securityLevel: 4
+---
+
+<div class="grid-content large-12 medium-12 small-12">
+	<div class="card card-square">
+		<div class="card-section left-card cus-card-sec">
+			<div class="grid-block align-left">
+				<div class="grid-content small-6 medium-4 large-3">
+					<label class="card-row-label">Map Questions</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="grid-content large-12 medium-12 small-12" ng-repeat="mainquestion in mainQuestionList">
+	<div  class="card card-hover card-square industry-margin">
+		<div class="card-section left-card cus-card-sec open-card-divider white-text">
+			<div class="grid-block align-left">
+				<div class="grid-content small-4 medium-4 large-4">
+					{{mainquestion.key + ' ' + mainquestion.insuranceQuestionObj.question_text_en + ' ' + mainquestion.insuranceQuestionObj.question_type}}
+				</div>
+				<div>
+					<input type="button" class="button expand" ng-disabled="isDisabled" ng-click="isDisabled=true; addSubQsInMainQ(mainquestion)" value="Add sub question under me."></input>
+				</div>
+				<div>
+					<input class="checkbox" ng-disabled="isDisabled" type="checkbox" name="addAsSubQuestion{{mainquestion.key}}" ng-model="mainquestion.addAsSubQuestion"/>
+				</div>
+				<div class="grid-content large-12 medium-12 small-12" ng-repeat="subQuestion in getSubQuestions(mainquestion)">
+					<div class="card card-hover card-square industry-margin">
+						<div class="card-section left-card cus-card-sec open-card-divider white-text">
+							<div class="grid-block align-left">
+								<div class="grid-content small-4 medium-4 large-4">
+									{{subQuestion.key}}
+									<input type="text" ng-model="subQuestion.insuranceQuestionObj.trigger.on"/>
+									<span>
+									<select name="typeselector" ng-model="subQuestion.insuranceQuestionObj.trigger.condition" class="">
+											<option selected disabled>Choose condition type</option>
+											<option ng-repeat="triggerCondition in subQstriggerConditions" value="{{triggerCondition}}">{{triggerCondition}}</option>
+										</select>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div>
+	<input type="button" class="button expand"  ng-click="addSelectedQsAsSubQs()" value="add selected questions as sub questions" />
+</div>
+<div>
+	<input type="button" class="button expand"  ng-click="saveInsuranceQuestion()" value="Save" />
+</div>

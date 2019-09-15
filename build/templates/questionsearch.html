@@ -1,0 +1,64 @@
+<div ui-view> <!-- Child Page --> </div>
+<div class="grid-block" ng-show="currentState === 'questionsearch'">
+
+
+	<div class="grid-content large-12 medium-12">
+		<label class="task-search">
+			<span class="inline-label no-top-margin">
+				<span class="form-label">Search</span>
+				<input type="text" ng-model="questionSearch" class="search-bar">
+				<span class="form-label"><b>{{filteredQuestions.length}}</b>&nbsp;Matches of&nbsp; <b>{{questions.length}}</b>&nbsp;Total Questions</span>
+			</span>
+		</label>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-3 medium-3 large-3">
+						 Question Text (DE)
+					 </div>
+					 <div class="grid-content small-1 medium-1 large-2">
+						 Input Type
+					 </div>
+					 <div class="grid-content small-2 medium-2 large-2">
+						 Question Type
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-1">
+						 Showing on Platform
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-4 right-align">
+						 Used in Questionnaire for
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, question) in questions | filter:questionSearch as filteredQuestions" ui-sref="questioneditor({question_uid:question.key})">
+		<div class="card card-hover card-square industry-margin {{question.question.question_text_de || 'yellow-card'}}">
+			 <div class="card-section left-card cus-card-sec">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-3 medium-3 large-3">
+						 {{question.question.question_text_de || 'EDIT OR DELETE'}}
+					 </div>
+					 <div class="grid-content small-1 medium-1 large-2">
+						 {{genService.capitalize(question.question.input_type)}}
+					 </div>
+					 <div class="grid-content small-2 medium-2 large-2">
+						{{genService.capitalize(question.question.question_type)}}
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-1">
+						 {{question.question.disabled === true && 'No' || 'Yes'}}
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-4 right-align">
+						 <div ng-repeat="(type_key, element) in question_mapping" ng-show="element.has(question.key)">{{insurance_types[type_key].name_de}}</div>
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+	<div class="grid-content small-3 medium-3 large-3">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" ng-click="AddNewQuestion()" value="+ Add New Question"></input>
+	</div>
+</div>

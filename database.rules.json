@@ -1,0 +1,97 @@
+{
+  "rules": {
+    ".read"  : "root.child('admins').hasChild(auth.uid) && root.child('admins').child(auth.uid).child('rights').val()>0",
+    "meta" : {
+      ".read" : "auth !== null && root.child('users').child(auth.uid).val() !== null",
+      "industry_codes" : {
+        ".indexOn" : "code", 
+        "$uid" : {
+        	".write" : "$uid !== 'undefined' && $uid !== null && (auth !== null && root.child('admins').hasChild(auth.uid)) && root.child('admins').child(auth.uid).child('rights').val()>4 && newData.exists()",
+        }
+      },
+      "policy_criteria" : {
+        ".indexOn" : "trigger",
+        ".read" : "auth !== null",
+        "$uid" : {
+        	".write" : "$uid !== 'undefined' && $uid !== null && (auth !== null && root.child('admins').hasChild(auth.uid)) && root.child('admins').child(auth.uid).child('rights').val()>4 && newData.exists()"
+        }
+      },
+      "industry_criteria" : {
+        ".indexOn" : "policy_trigger",
+        "$uid" : {
+        	".write" : "$uid !== 'undefined' && $uid !== null && (auth !== null && root.child('admins').hasChild(auth.uid)) && root.child('admins').child(auth.uid).child('rights').val()>4 && newData.exists()"
+        }
+      },
+      "$metaNode" : {
+        ".indexOn" : ["disabled"],
+        "$uid" : {
+        	".write" : "$uid !== 'undefined' && $uid !== null && (auth !== null && root.child('admins').hasChild(auth.uid)) && root.child('admins').child(auth.uid).child('rights').val()>4 && newData.exists()"
+        }
+      }
+    },
+    "admins" : {
+      ".write"  : "root.child('admins').hasChild(auth.uid) && root.child('admins').child(auth.uid).child('rights').val()>1",
+      "$adminId" : {
+      	".read" : "$adminId === auth.uid",
+      	".write" : "(auth !== null && (!root.child('admins').hasChild(auth.uid) || $adminId === auth.uid) && auth.token.email.matches(/.*@liimex.com$/))",
+        "rights": {
+        	".validate" : "newData.val() === 0 || root.child('admins').child(auth.uid).child('rights').val()>2"
+        }
+      }
+    },
+    "users": {
+      "$userId": {
+        ".read" : "$userId === auth.uid",
+        ".write" : "auth !== null && ($userId === auth.uid || !data.exists() || root.child('admins').child(auth.uid).child('rights').val()>1)",
+      }
+    },
+    "companies": {
+      "$companyId": {
+        ".read" : "$companyId !== null && data.child('users').child(auth.uid).val() === true",
+        ".write" : "auth !== null && (data.child('users').child(auth.uid).val() === true || !data.exists() || root.child('admins').child(auth.uid).child('rights').val()>1)",
+        ".indexOn" : "liimex_id"  
+      }
+    },
+    "addresses": {
+      "$addressId": {
+        ".write" : "auth !== null && (!data.exists() || root.child('companies').child(data.child('company').val()).child('users').child(auth.uid).val() === true || root.child('admins').child(auth.uid).child('rights').val()>1)",
+      }
+    },
+      
+    "recommendations" : {
+      ".indexOn" : ["processed"],
+      "$uid" : {
+        ".write" : "auth !== null && root.child('companies').child(newData.child('company').val()).child('users').child(auth.uid).val() === true"
+      }
+    },
+      
+    "policies": {
+      ".write"  : "auth !== null && root.child('admins').hasChild(auth.uid) && root.child('admins').child(auth.uid).child('rights').val()>1",
+    	".indexOn" : ["status", "company"],
+		  "$policyId" : {
+      	".read" : "auth !== null && data.child('company').val() === root.child('users').child(auth.uid).child('company').val()",
+        ".write" : "auth !== null && data.child('company').val() === root.child('users').child(auth.uid).child('company').val() && newData.child('company').val() === root.child('users').child(auth.uid).child('company').val()",
+        ".validate" : "newData.hasChildren(['status', 'company']) && (data.child('company').val() === newData.child('company').val() || !data.exists()) && newData.child('status').val() === 'pending' || newData.child('status').val() === 'active' || newData.child('status').val() === 'deleted'"
+      }
+    },
+    "offers": {
+      ".write"  : "auth !== null && root.child('admins').hasChild(auth.uid) && root.child('admins').child(auth.uid).child('rights').val()>1",
+    	".indexOn" : ["status", "company"],
+		  "$offerId" : {
+      	".read" : "auth !== null && data.child('company').val() === root.child('users').child(auth.uid).child('company').val()",
+        ".write" : "auth !== null && data.child('company').val() === root.child('users').child(auth.uid).child('company').val() && newData.child('company').val() === root.child('users').child(auth.uid).child('company').val()",
+        ".validate" : "newData.hasChildren(['status', 'company']) && (data.child('company').val() === newData.child('company').val() || !data.exists())"
+      }
+    },
+    "mails" : {
+      ".indexOn" : ["sent", "attempted"]
+    },
+    "$otherRoots": {
+      ".write"  : "root.child('admins').hasChild(auth.uid) && root.child('admins').child(auth.uid).child('rights').val()>1",
+      "$companyId": {
+        ".read" : "$companyId === root.child('users').child(auth.uid).child('company').val()",
+        ".write" : "$companyId === root.child('users').child(auth.uid).child('company').val()"
+      }
+    }
+  }
+}

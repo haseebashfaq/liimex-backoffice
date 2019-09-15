@@ -1,0 +1,116 @@
+---
+name: activityquestion
+url: /activity/:activityquestion
+title: Activity Question
+parent: activities
+controller: ActivityQuestionController
+loginRequired: true
+---
+
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12" ng-show="activity">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Set Answer Text</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Question Group</label>
+						<input class="card-row-input status-highlight" type="number" min="1" max="5" step="1" ng-model="activity.group"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Question of Group</label>
+						<input class="card-row-input status-highlight grey-out" readonly="" type="text" ng-model="groups[activity.group].name_en"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Activity (EN)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="activity.name_en"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Activity (DE)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="activity.name_de"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="activity">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Choose Insurance to Trigger</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Insurance Type to Trigger</label>
+						<span>
+							<select name="typeselector" ng-model="activity.insurance_type" ng-change="insuraceTypeChange()" required>
+								<option selected disabled>Choose insurance type</option>
+								<option ng-repeat="type in insurance_types" value="{{type.key}}" ng-show="!type.type.disabled == true">{{type.type.name_en}}</option>
+							</select>
+						</span>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Prioritization</label>
+						<span>
+							<select name="typeselector" ng-model="activity_score" convert-to-number required>
+								<option selected disabled>Choose Prioritization</option>
+								<option ng-selected="activity_score === 100" ng-value="100">Required by Law (Always displayed as essential)</option>
+								<option ng-selected="activity_score === 75" ng-value="75">Essential (Always displayed as essential)</option>
+								<option ng-selected="activity_score === 50" ng-value="50">Important (Case dependent: essential or additionally recommended)</option>
+								<option ng-selected="activity_score === 25" ng-value="25">Nice-to-have (always additionally recommended)</option>
+								<option ng-selected="activity_score === 0" ng-value="0">Not Important (don't show)</option>
+							</select>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="activity">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Do not show answer for the following</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-10 medium-10 large-10">
+						<label class="card-row-label">Choose Industry</label>
+						<span>
+							<select name="typeselector" ng-model="code_to_push" required>
+								<option selected disabled>Choose Industry Code</option>
+								<option ng-repeat="(key, code) in codes" value="{{code.code.code}}" ng-show="!code.code.disabled == true" ng-if="!exclude_code_set.has(code.code.code)">{{code.code.code}} - {{code.code.name_en}}</option>
+							</select>
+						</span>
+					</div>
+					<div class="grid-content small-2 medium-2 large-2">
+						<label class="card-row-label">Pick</label>
+						<input type="submit" class="button expand" ng-click="PushExcludeCode(code_to_push)" value="Exclude This Code"></input>
+					</div>
+				</div>
+				<div class="red small-margin-above-below" ng-show="unsaved_changes"><b>You have unsaved changes to the exclusions</b></div>
+				<div class="grid-content large-12 medium-12 small-12 underline" ng-repeat="(key, exclude_code) in activity.exclude_codes track by $index">
+					<div class="grid-block align-left small-margin-above-below ">
+						<div class="grid-content small-1 medium-1 large-1">
+							<i ng-click="RemoveExcludeCode(key)" class="pointer fa fa-times" aria-hidden="true"></i>
+						</div>
+						<div class="grid-content small-1 medium-1 large-1">
+							{{exclude_code}}
+						</div>
+						<div class="grid-content small-10 medium-10 large-10">
+							{{codes_dict[exclude_code].name_en}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="SaveActivity()" value="Save"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand success" zf-open="confirm_modal" ng-click="genService.setConfirmAction(EnableActivity)" value="Enable" ng-disabled="!activity.disabled"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand alert" zf-open="confirm_modal" ng-click="genService.setConfirmAction(DisableActivity)" value="Disable" ng-disabled="activity.disabled"></input>
+	</div>
+</div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

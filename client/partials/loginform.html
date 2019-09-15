@@ -1,0 +1,37 @@
+<!-- Login Form -->
+<form class="login-form" name="loginform" ng-hide="forgot">
+  <div class="row">
+    <div class="columns">
+      <label class="card-row-label">Email Address</label>
+      <input class="card-row-input" type="email" placeholder="example@gmail.com" ng-model="login.email" required/>
+    </div>
+    <div class="columns small-buttom-margin">
+      <label class="card-row-label">Password</label>
+      <input class="card-row-input" type="password" placeholder="********" id="password" ng-model="login.password" required/>
+    </div>
+    <div>
+      <input class="button expand" type="submit" ng-click="Login(loginform)" value="Login"></input>
+    </div>
+  </div>
+  <div class="login-subtext">
+    <a zf-open="signup_modal" class="login-subtext">Don't have an Account? Sign Up here!</a>
+  </div>
+  <div class="login-subtext">
+    <a class="login-subtext" ng-click="forgot=!forgot">I forgot my password!</a>
+  </div>
+</form>
+<form class="login-form" name="resetform" ng-show="forgot">
+  <div class="row">
+    <div class="columns">
+      <label>Email Address</label>
+      <input type="email" placeholder="example@gmail.com" ng-model="login.email" required/>
+    </div>
+    <input class="button expand" type="submit" ng-click="ResetPassword(resetform)" value="Reset Password"></input>
+  </div>
+  <div class="login-subtext">
+    <a class="login-subtext" ng-click="forgot=!forgot">I suddenly remember my password!</a>
+  </div>
+</form>
+
+<!-- Modal Inclusions -->
+<div ng-include="" src="'partials/modals/signup.html'"></div>

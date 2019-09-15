@@ -1,0 +1,57 @@
+---
+name: additionalmodulecomparison
+url: /additionalmodulecomparison/:offer_uid/:comparison_uid
+title: Offer - Pick Additional Modules
+parent: dashboard
+controller: AdditionalModulesOfferController
+loginRequired: true
+securityLevel: 2
+---
+<div class="grid-block" ng-show="offer && insurance_types">
+	<div class="grid-content large-12 medium-12">
+		<label class="task-search">
+			<span class="inline-label no-top-margin">
+				<span class="form-label">Search</span>
+				<input type="text" ng-model="typeSearch" class="search-bar">
+				<span class="form-label"><b>{{filteredInsuranceTypes.length}}</b>&nbsp;Matches of&nbsp; <b>{{insurance_types.length}}</b>&nbsp;Total Insurance Types</span>
+			</span>
+		</label>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-9 medium-9 large-9">
+						 Name (DE)
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3 right-align">
+						 Select Additional Modules
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, insurance_type) in insurance_types | orderBy:'-company.updated_at':fifo | filter:typeSearch as filteredInsuranceTypes">
+		<div class="card card-hover card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec">
+				 <div class="grid-block align-left">
+					<div class="grid-content small-11 medium-11 large-11">
+						 <div ng-hide="comparison_criteria_mapping[insurance_type.key]" ui-sref="insurancetype({insurancetype:insurance_type.key})" class="grey-out" style="margin-bottom:5px"> (No Specific Criteria - Click to Add) </div>
+						 {{genService.capitalize(insurance_type.insurance_type.name_de)}}
+					</div>
+					<div class="grid-content small-1 medium-1 large-1">
+						<input class="no-margin-padding activity-checkbox" type="checkbox" required ng-click="AddOrRemoveInsuranceType(insurance_type.key)" ng-checked="!!comparison.insurance_types[insurance_type.key] || selected_insurance_types[insurance_type.key]" ng-disabled="offer.insurance_type === insurance_type.key || offer.comparisons[comparison_uid].insurance_types[insurance_type.key] || !comparison_criteria_mapping[insurance_type.key]"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ui-sref="comparisonpreview({offer:offer_uid})" value="Back"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-3">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="SaveModules()" value="Add these {{num_selected}} Criteria" ng-disabled="num_selected < 1"></input>
+	</div>
+</div>

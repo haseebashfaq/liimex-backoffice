@@ -1,0 +1,133 @@
+---
+name: extractionspecificcriteria
+url: /extractionspecificcriteria/:policy/:insurance_uid
+title: Specific Criteria
+parent: extractions
+controller: ExtractionViewController
+loginRequired: true
+securityLevel: 1
+---
+<div class="grid-block">
+    <form name="extraction_form" class="wide-form flex-form">
+        <div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-hide="isSpecificCriteriasEmpty">
+            <h6>General Criteria</h6>
+        </div>
+        <div class="grid-content large-12 medium-12 small-12">
+            <div class="card card-square">
+                <div class="card-section left-card cus-card-sec">
+                    <div class="grid-block align-left flex-form force-wrap">
+                        <div class="grid-content small-10 medium-10 large-10" ng-if="!policy.insurance_types[selectedInsuranceType].general.unlimited_sum_insured">
+                            <label class="card-row-label">Sum Insured</label>
+                            <input class="card-row-input status-highlight" type="text" ng-model="policy.insurance_types[selectedInsuranceType].general.sum_insured" awnum num-thousand="true" num-sep="," num-int="9" num-prepend="€" required />
+                        </div>
+                        <div class="grid-content small-10 medium-10 large-10" ng-if="policy.insurance_types[selectedInsuranceType].general.unlimited_sum_insured">
+                            <label class="card-row-label">Sum Insured</label>
+                            <input class="card-row-input status-highlight" type="text" value="Unlimited / Unbegrenzt" readonly/>
+                        </div>
+                        <div class="grid-content small-2 medium-2 large-2">
+                            <label class="card-row-label"></label>
+                            <input type="button" class="button button-slim" ng-click="MakeSumInsuredUnlimited(selectedInsuranceType)" value="{{policy.insurance_types[selectedInsuranceType].general.unlimited_sum_insured && 'Make Limited' || 'Make Unlimited'}}"></input>
+                            </div>
+                        <div class="grid-content small-12 medium-12 large-12">
+                            <label class="card-row-label">Maximisation (Max 15x) - (Optional)</label>
+                            <input class="card-row-input status-highlight" type="number" ng-model="policy.insurance_types[selectedInsuranceType].general.maximisation" min="1" max="15" step="1" />
+                        </div>
+                        <div class="grid-content large-10 medium-10 small-10" ng-if="!policy.insurance_types[selectedInsuranceType].general.deductible_is_percent">
+                            <label class="card-row-label">(€) Deductible - (Optional)</label>
+                            <input class="card-row-input" type="text" ng-model="policy.insurance_types[selectedInsuranceType].general.deductible_absolute" num-prepend="€" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+                        </div>
+                        <div class="grid-content large-10 medium-10 small-10" ng-if="policy.insurance_types[selectedInsuranceType].general.deductible_is_percent">
+                            <label class="card-row-label">(%) Deductible - (Optional)</label>
+                            <input class="card-row-input" type="text" ng-model="policy.insurance_types[selectedInsuranceType].general.deductible_percent" num-append="%" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+                        </div>
+                        <div class="grid-content small-2 medium-2 large-2">
+                            <label class="card-row-label"></label>
+                            <input type="button" class="button button-slim" ng-click="MakedeductiblePercent(selectedInsuranceType)" value="{{!policy.insurance_types[selectedInsuranceType].general.deductible_is_percent && 'Make Percent' || 'Make Absolute Value'}}"></input>
+                        </div>
+                        <div class="grid-content large-10 medium-10 small-10" ng-if="!policy.insurance_types[selectedInsuranceType].general.deductible_max_is_percent">
+                            <label class="card-row-label">(€) Deductible - Max (Optional)</label>
+                            <input class="card-row-input" type="text" ng-model="policy.insurance_types[selectedInsuranceType].general.deductible_absolute_max" num-prepend="€" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+                        </div>
+                        <div class="grid-content large-10 medium-10 small-10" ng-if="policy.insurance_types[selectedInsuranceType].general.deductible_max_is_percent">
+                            <label class="card-row-label">(%) Deductible - Max (Optional)</label>
+                            <input class="card-row-input" type="text" ng-model="policy.insurance_types[selectedInsuranceType].general.deductible_percent_max" num-append="%" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+                        </div>
+                        <div class="grid-content small-2 medium-2 large-2">
+                            <label class="card-row-label"></label>
+                            <input type="button" class="button button-slim" ng-click="MakedeductibleMaxPercent(selectedInsuranceType)" value="{{!policy.insurance_types[selectedInsuranceType].general.deductible_max_is_percent && 'Make Percent' || 'Make Absolute Value'}}"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow"  ng-hide="isSpecificCriteriasEmpty">
+                <h6>Product Type Specific Comparison Criteria</h6>
+            </div>
+            <div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow"  ng-show="isSpecificCriteriasEmpty">
+                <h6>Product Type Specific Comparison Criteria is Empty</h6>
+            </div>
+            <div class="grid-content large-12 medium-12 small-12" ng-repeat="(criteriaId,criteriaObj) in specificCriterias">
+                <div class="card card-square" ng-if="!isIndustrySpecifComparisonCriteria(criteriaId)">
+                    <div class="card-divider white-card-divider white-text">{{getCriteriaName(criteriaId)}}</div>
+                    <div class="card-section left-card cus-card-sec">
+                        <div class="grid-block align-left">
+                            <div class="grid-content small-6 medium-4 large-6">
+                                <label class="card-row-label">Applicability</label>
+                                <span>
+                                    <select name="typeselector" ng-model="criteriaObj.included" required>
+                                        <option ng-repeat="applicability in applicabilityOptions" value="{{applicability.value}}">{{applicability.text}}</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="large-12 medium-12 small-12" ng-if="criteriaObj.included === 'true'">
+                                <div class="grid-content small-12 medium-12 large-12">
+                                    <label class="card-row-label">Sublimit (€) (Optional)</label>
+                                    <input class="card-row-input status-highlight" type="text" ng-model="criteriaObj.sublimit" awnum num-thousand="true" num-sep="," num-int="8" num-prepend="€" ng-disabled="criteriaObj.included == 'false'" />
+                                </div>
+                            </div>
+                            <div class="grid-content small-12 medium-12 large-12"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-show="specificCriteriasWithIndustryCodes.length > 0">
+                <h6>Product Type & Industry Specific Comparison Criteria</h6>
+            </div>
+            <div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-hide="specificCriteriasWithIndustryCodes.length > 0">
+                <h6>No Industry Specific Comparison Criteria Available</h6>
+            </div>
+            <div class="grid-content large-12 medium-12 small-12" ng-repeat="(criteriaId,criteriaObj) in specificCriterias">
+                <div class="card card-square" ng-if="isIndustrySpecifComparisonCriteria(criteriaId)">
+                    <div class="card-divider white-card-divider white-text">{{getCriteriaName(criteriaId)}}</div>
+                    <div class="card-section left-card cus-card-sec">
+                        <div class="grid-block align-left">
+                            <div class="grid-content small-6 medium-4 large-6">
+                                <label class="card-row-label">Applicability</label>
+                                <span>
+                                    <select name="typeselector" ng-model="criteriaObj.included" required>
+                                        <option ng-repeat="applicability in applicabilityOptions" value="{{applicability.value}}">{{applicability.text}}</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="large-12 medium-12 small-12" ng-if="criteriaObj.included === 'true'">
+                                <div class="grid-content small-12 medium-12 large-12">
+                                    <label class="card-row-label">Sublimit (€) (Optional)</label>
+                                    <input class="card-row-input status-highlight" type="text" ng-model="criteriaObj.sublimit" awnum num-thousand="true" num-sep="," num-int="8" num-prepend="€" ng-disabled="criteriaObj.included == 'false'" />
+                                </div>
+                            </div>
+                            <div class="grid-content small-12 medium-12 large-12"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-content small-2 medium-2 large-2">
+                <label class="card-row-label"></label>
+                <input type="button" class="button expand" ng-click="gotoExtractionPreview()"  value="Preview"></input>
+            </div>
+            <div class="grid-content small-2 medium-2 large-2">
+                <label class="card-row-label"></label>
+                <input type="submit" class="button expand" ng-click="saveSpecifCriteriaForInsuranceType(selectedInsuranceType)"  value="Save" ng-disabled="!extraction_form.$valid"></input>
+            </div>
+        </div>
+    </form>
+</div>

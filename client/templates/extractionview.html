@@ -1,0 +1,228 @@
+---
+name: extraction
+url: /:policy/:company
+title: Extraction
+parent: extractions
+controller: ExtractionViewController
+loginRequired: true
+securityLevel: 1
+---
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec info-div">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="info-label card-row-label center">INFO: This Policy is of Display-Version 1 (Outdated). <u class="link pointer" zf-open="confirm_modal" ng-click="genService.setConfirmAction(ChangeDisplayVersion, 2)">Click here</u> to convert it to Display Version 2 </label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="policy">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Company Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12 ">
+						<label class="card-row-label">Company Name</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.name}}"/>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Industry</label>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<input class="card-row-input status-highlight grey-out" ng-repeat="(index, code) in codes_to_show" type="text" readonly value="{{code.code}} - {{code.name_de}}"/>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button button-slim" ui-sref="company({company:company_uid})" value="Go to Company Page"></input>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Selected Policy</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-4 medium-4 large-4">
+						<label class="card-row-label">Status</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{policy.status}}"/>
+					</div>
+					<div class="grid-content small-4 medium-4 large-4">
+						<label class="card-row-label">Uploaded at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{policy.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+					</div>
+					<div class="grid-content small-4 medium-4 large-4">
+						<label class="card-row-label">Last Updated</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{policy.updated_at ? (policy.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}"/>
+					</div>
+					<div class="grid-content small-3 medium-3 large-2" ng-show="policy.extractor !== user.email">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand" ng-click="LockToEmployee()" value="Lock to you" ng-disabled="policy.extractor"></input>
+					</div>
+					<div class="grid-content small-3 medium-3 large-2" ng-show="policy.extractor === user.email">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand" ng-click="Unlock()" value="Unlock"></input>
+					</div>
+					<div class="grid-content small-3 medium-3 large-2" ng-show="policy.status !=='deleted'">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand alert" zf-open="confirm_modal" ng-click="genService.setConfirmAction(DeletePolicy)" ng-disabled="policy.extractor !== user.email" value="Cancel"></input>
+					</div>
+					<div class="grid-content small-3 medium-3 large-2" ng-show="policy.status =='deleted'">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand success" zf-open="confirm_modal" ng-click="genService.setConfirmAction(MakePending)" ng-disabled="policy.extractor !== user.email" value="Enable"></input>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Default Fields -->
+	<div class="grid-content large-12 medium-12 small-12" ng-show="policy">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Input Policy Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<form name="extraction_form" class="wide-form flex-form">
+						<div class="grid-content small-6 medium-4 large-6">
+							<label class="card-row-label">Carrier</label>
+							<span>
+								<select name="typeselector" ng-model="policy.carrier" required>
+									<option ng-repeat="(key, carrier) in carriers" value="{{carrier.key}}" ng-show="!carrier.carrier.disabled">{{carrier.carrier.name}}</option>
+								</select>
+							</span>
+						</div>
+						<div class="grid-content small-6 medium-4 large-6">
+							<label class="card-row-label">Subject</label>
+							<span>
+								<select name="typeselector" ng-model="policy.subject" required ng-change="GetPolicySpecificCriteria()">
+									<option ng-repeat="(key, insurance_type) in insurance_types" value="{{insurance_type.key}}" ng-show="!insurance_type.insurance_type.disabled">{{insurance_type.insurance_type.name_en}}</option>
+								</select>
+							</span>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Policy Number</label>
+							<input class="card-row-input status-highlight" type="text" placeholder="HI3423" ng-model="policy.policy_number" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Start Date</label>
+							<input class="status-highlight" type="date" format-date ng-model="policy.start_date" placeholder="12/12/2010" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Renewal Date</label>
+							<input class="status-highlight" type="date" format-date ng-model="policy.end_date" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Premium (€)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="policy.premium" awnum num-thousand="true" num-sep="," num-int="8" required/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Sum Insured (€)</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="policy.sum_insured" awnum num-thousand="true" num-sep="," num-int="8" required/>
+						</div>
+						<div class="grid-content small-5 medium-5 large-5">
+							<label class="card-row-label">deductible
+								<span ng-show="deductibleType == 'number'">(<b> € - EUROS</b>)</span>
+								<span ng-hide="deductibleType == 'number'">(<b>% - PERCENT</b>)</span>
+							</label>
+							<input class="card-row-input status-highlight" type="text" ng-model="policy.deductible" awnum num-thousand="true" num-sep="," num-int="8" required/>
+						</div>
+						<div class="grid-content small-1 medium-1 large-1" ng-hide="deductibleType === 'number'">
+							<label class="card-row-label"></label>
+							<input type="button" class="button expand" value="€" ng-click="deductibleType='number'" ng-disabled="policy.extractor !== user.email"></input>
+						</div>
+						<div class="grid-content small-1 medium-1 large-1" ng-show="deductibleType === 'number'" >
+							<label class="card-row-label"></label>
+							<input type="button" class="button expand" value="%" ng-click="deductibleType='percent'" ng-disabled="policy.extractor !== user.email"></input>
+						</div>
+						<div class="grid-content small-12 medium-12 large-12"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Policy Specific Criteria -->
+	<div class="grid-content large-12 medium-12 small-12" ng-show="policy">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Policy Specific Criteria</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div ng-show="custom_fields.length === 0" class="small-margin-left">
+						No Custom Fields for this Insurance Type
+					</div>
+					<form name="extraction_form" class="wide-form flex-form">
+						<div class="grid-content small-6 medium-6 large-6" ng-repeat="(key, field) in custom_fields" ng-hide="field.field.disabled">
+							<label class="card-row-label">{{field.field.type === 'currency' && field.field.title_en + ' (€)' || field.field.title_en}}</label>
+							<input class="card-row-input status-highlight" type="text" placeholder="{{field.field.placeholder}}" ng-model="policy.custom_fields[field.key]" required ng-show="field.field.type === 'text'"/>
+							<input class="card-row-input status-highlight" type="date" placeholder="{{field.field.placeholder}}" format-date ng-model="policy.custom_fields[field.key]" required ng-show="field.field.type === 'date'"/>
+							<input class="card-row-input status-highlight" ng-show="field.field.type === 'currency'" type="text" placeholder="{{field.field.placeholder}}" ng-model="policy.custom_fields[field.key]" required awnum num-thousand="true" num-sep="," num-int="8"/>
+							<div ng-if="field.field.type === 'choice'">
+								<input name="{{key}}" type="radio" id="{{key}}1" ng-value="true" ng-model="policy.custom_fields[field.key]"/>
+								<label for="{{key}}1">True</label>
+								<input name="{{key}}" type="radio" id="{{key}}2" ng-value="false" ng-model="policy.custom_fields[field.key]"/>
+								<label for="{{key}}2">False</label>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Industry Specific Criteria -->
+	<div class="grid-content large-12 medium-12 small-12" ng-show="policy">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Industry Specific Criteria</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div ng-show="industry_fields.length === 0" class="small-margin-left">
+						No Custom Fields for this/these industries
+					</div>
+					<form name="extraction_form" class="wide-form flex-form">
+						<div class="grid-content small-6 medium-6 large-6" ng-repeat="(key, field) in industry_fields" ng-hide="field.field.disabled">
+							<label class="card-row-label">{{field.field.type === 'currency' && field.field.title_en + ' (€)' || field.field.title_en}}</label>
+							<input class="card-row-input status-highlight" type="text" placeholder="{{field.field.placeholder}}" ng-model="policy.custom_fields[field.key]" required ng-show="field.field.type === 'text'"/>
+							<input class="card-row-input status-highlight" type="date" placeholder="{{field.field.placeholder}}" format-date ng-model="policy.custom_fields[field.key]" required ng-show="field.field.type === 'date'"/>
+							<input class="card-row-input status-highlight" ng-show="field.field.type === 'currency'" type="text" placeholder="{{field.field.placeholder}}" ng-model="policy.custom_fields[field.key]" required awnum num-thousand="true" num-sep="," num-int="8"/>
+							<div ng-if="field.field.type === 'choice'">
+								<input name="{{key}}" type="radio" id="{{key}}3" ng-value="true" ng-model="policy.custom_fields[field.key]"/>
+								<label for="{{key}}3">True</label>
+								<input name="{{key}}" type="radio" id="{{key}}4" ng-value="false" ng-model="policy.custom_fields[field.key]"/>
+								<label for="{{key}}4">False</label>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content small-2 medium-2 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="SaveUnfinishedExtraction()" ng-disabled="policy.extractor !== user.email" value="Save"></input>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" zf-open="manage_files_modal" ng-disabled="policy.extractor !== user.email" value="Manage Files ({{number_of_documents}})"></input>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2" ng-show="policy.status !== 'active'">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand success" ng-click="genService.setConfirmAction(MakeActive)" zf-open="confirm_modal" ng-disabled="!extraction_form.$valid || policy.status === 'deleted' ||policy.extractor !== user.email" value="Activate"></input>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2" ng-show="policy.status !== 'active'">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand success" ng-click="genService.setConfirmAction(MakeActiveNoEmail)" zf-open="confirm_modal" ng-disabled="!extraction_form.$valid || policy.status === 'deleted' ||policy.extractor !== user.email" value="Activate without Email"></input>
+	</div>
+	<div class="grid-content small-2 medium-2 large-2" ng-hide="policy.status !== 'active'">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="genService.setConfirmAction(MakePending)" zf-open="confirm_modal" ng-disabled="policy.extractor !== user.email" value="Make Pending"></input>
+	</div>
+
+</div>
+
+<!-- Includes -->
+<div ng-include="" src="'partials/modals/confirm.html'"></div>
+<div ng-include="" src="'partials/modals/editalias.html'"></div>
+<div ng-include="" src="'partials/modals/managefiles.html'"></div>

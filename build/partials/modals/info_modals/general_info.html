@@ -1,0 +1,52 @@
+<!-- Add Existing Policy Modal -->
+<div zf-modal="" id="enter_info_modal">
+
+	<div class="title-bar modal-title">
+		<span class="title center">General Information</span>
+		<a zf-close="" class="close-button white" id="close_info">×</a>
+	</div>
+
+	<!-- Unfilled -->
+	<div class="modal-contents" ng-show="selected_info_block.status == 'not_filled'">
+		<p>{{selected_info_block.block.description}}</p>
+		<form name="form">
+		<div class="grid-block force-wrap">
+			<div class="grid-content small-12 medium-12 large-12">
+				<label class="card-row-label">Status</label>
+		    	<input class="card-row-input status-highlight" type="text" value="Please update" readonly/>
+		    </div>
+				<div class="grid-content small-12 medium-6 large-6" ng-repeat="(key, data) in selected_info_block.block.data">
+					<label class="card-row-label">{{data.title}}</label>
+		    	<input class="card-row-input" type="text" placeholder="{{data.placeholder}}" ng-model="data.value" required />
+		    </div>
+		    <div class="liimefix"></div>
+	    	<div class="grid-content small-12 medium-12 large-12">
+				<input ng-disabled="form.$invalid" type="submit" class="button" ng-click="SaveInformation(selected_info_block, form)" value="Save Information"></input>
+	    	</div>
+		</div>
+		</form>
+	</div>
+
+
+	<!-- Filled -->
+	<div class="modal-contents" ng-show="selected_info_block.status == 'filled'">
+		<p>{{selected_info_block.block.description}}</p>
+		<form name="form">
+		<div class="grid-block force-wrap">
+			<div class="grid-content small-12 medium-12 large-12">
+				<label class="card-row-label">Status</label>
+		    	<input class="card-row-input" type="text" value="Up to date" readonly/>
+		    </div>
+				<div class="grid-content small-12 medium-6 large-6" ng-repeat="(key, data) in selected_info_block.block.data">
+					<label class="card-row-label">{{data.title}}</label>
+		    	<input class="card-row-input" type="text" placeholder="{{data.placeholder}}" ng-model="data.value"required />
+		    </div>
+		    <div class="liimefix"></div>
+	    	<div class="grid-content small-12 medium-12 large-12">
+				<input ng-disabled="form.$invalid" type="submit" class="button" ng-click="SaveInformation(selected_info_block, form)" value="Save Information"></input>
+	    	</div>
+		</div>
+		</form>
+	</div>
+
+</div>

@@ -1,0 +1,315 @@
+
+<div class="grid-block" ng-show="insurance_type">
+	<div class="grid-content large-12 medium-12 small-12" ng-show="unsaved_changes">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec unsaved-div">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="unsaved-label card-row-label center">You have unsaved changes</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Selected Insurance Type</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-3 medium-5 large-5">
+						<label class="card-row-label">Name (EN)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="insurance_type.name_en" ng-change="UnsavedChanges()"/>
+					</div>
+					<div class="grid-content small-3 medium-5 large-5">
+						<label class="card-row-label">Name (DE)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="insurance_type.name_de" ng-change="UnsavedChanges()"/>
+					</div>
+					<div class="grid-content small-3 medium-5 large-2">
+						<label class="card-row-label">Disabled</label>
+						<input class="card-row-input status-highlight grey-out" type="text" value="{{insurance_type.disabled || 'false'}}" readonly=""/>
+					</div>
+					<div class="grid-content small-3 medium-6 large-6">
+						<label class="card-row-label">Created at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{insurance_type.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+					</div>
+					<div class="grid-content small-3 medium-6 large-6">
+						<label class="card-row-label">Updated at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{insurance_type.updated_at ? (insurance_type.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+        <div class="card card-square">
+            <div class="card-divider white-card-divider white-text">Insurance Type Icon</div>
+            <div class="card-section left-card cus-card-sec grid-block align-left">
+                <div class="grid-content small-2 medium-1 large-1">
+                    <img class="thumbnail" src= "{{(insurance_type && insurance_type.icon_url) ? insurance_type.icon_url : 'assets/img/shield.svg'}}" alt="Insurance type icon"/>
+                </div>
+                <div class="grid-content small-10 medium-11 large-11">
+                    <button class="button default" zf-open="edit_icon_modal">Change</button>
+                </div>
+            </div>
+        </div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow bg-hover" ng-click="show_description = !show_description">
+		<h6>Description <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_description"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_description"></i></h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="show_description">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Description - English</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<div class="text-editor" text-angular ng-model="insurance_type.description_en" ng-change="UnsavedChanges()"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="show_description">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Description - German</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<div class="text-editor" text-angular ng-model="insurance_type.description_de" ng-change="UnsavedChanges()"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow bg-hover" ng-click="show_recommendation = !show_recommendation">
+		<h6>Recommendation Inputs <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_recommendation"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_recommendation"></i></h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="show_recommendation">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Prioritization</div>
+			 <div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left small-padding buttom-underline">
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Default</b>
+						<select name="typeselector" ng-model="industry_weights['default'].score" class="" ng-change="UnsavedChanges()">
+							<option selected disabled>Choose Default </option>
+							<option value="100" ng-selected="industry_weights['default'].score === 100">Required by Law (always displayed as essential)</option>
+							<option value="75" ng-selected="industry_weights['default'].score === 75">Essential (always displayed as essential)</option>
+							<option value="50" ng-selected="industry_weights['default'].score === 50">Important (case dependent: essential or additionally recommended)</option>
+							<option value="25" ng-selected="industry_weights['default'].score === 25">Nice-to-have (always additionally recommended)</option>
+							<option value="0" ng-selected="industry_weights['default'].score === 0">Not Important (don't show)</option>
+						</select>
+					</div>
+				</div>
+				<div class="grid-block align-left small-padding buttom-underline">
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Required by Law (100 points)</b>
+						<select ng-model="industry_to_add_1" class="" ng-options="key as code.code+' - '+code.name_en disable when industry_weights[key] for (key, code) in codes_dict">
+						</select>
+						<div class="large-4 medium-4 small-4">
+							<label class="card-row-label"></label>
+							<input type="submit" class="button" ng-click="AddIndustryToInsuranceType(100, industry_to_add_1); UnsavedChanges()" value="Add Industry" ng-disabled="!industry_to_add_1"></input>
+						</div>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Industries, for which this insurance is Required by law</b>
+						<div class="large-12 medium-12 small-12 underline" ng-repeat="(key, weight) in industry_weights" ng-if="weight.score === 100">
+							<div class="grid-block align-left small-margin-above-below ">
+								<div class="grid-content small-1 medium-1 large-1">
+									<i ng-click="RemoveIndustryFromInsuranceType(key); UnsavedChanges()" class="pointer fa fa-times" aria-hidden="true"></i>
+								</div>
+								<div class="grid-content small-2 medium-2 large-2">
+									{{codes_dict[key].code}}
+								</div>
+								<div class="grid-content small-9 medium-9 large-9">
+									{{codes_dict[key].name_en}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="grid-block align-left small-padding buttom-underline">
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Essential (75 points)</b>
+						<select ng-model="industry_to_add_2" class="" ng-options="key as code.code+' - '+code.name_en disable when industry_weights[key] for (key, code) in codes_dict">
+						</select>
+						<div class="large-4 medium-4 small-4">
+							<label class="card-row-label"></label>
+							<input type="submit" class="button" ng-click="AddIndustryToInsuranceType(75, industry_to_add_2); UnsavedChanges()" value="Add Industry" ng-disabled="!industry_to_add_2"></input>
+						</div>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Industries, for which this insurance is Essential</b>
+						<div class="large-12 medium-12 small-12 underline" ng-repeat="(key, weight) in industry_weights" ng-if="weight.score === 75">
+							<div class="grid-block align-left small-margin-above-below ">
+								<div class="grid-content small-1 medium-1 large-1">
+									<i ng-click="RemoveIndustryFromInsuranceType(key); UnsavedChanges()" class="pointer fa fa-times" aria-hidden="true"></i>
+								</div>
+								<div class="grid-content small-2 medium-2 large-2">
+									{{codes_dict[key].code}}
+								</div>
+								<div class="grid-content small-9 medium-9 large-9">
+									{{codes_dict[key].name_en}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="grid-block align-left small-padding buttom-underline">
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Important (50 points)</b>
+						<select ng-model="industry_to_add_3" class="" ng-options="key as code.code+' - '+code.name_en disable when industry_weights[key] for (key, code) in codes_dict">
+						</select>
+						<div class="large-4 medium-4 small-4">
+							<label class="card-row-label"></label>
+							<input type="submit" class="button" ng-click="AddIndustryToInsuranceType(50, industry_to_add_3); UnsavedChanges()" value="Add Industry" ng-disabled="!industry_to_add_3"></input>
+						</div>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Industries, for which this insurance is Important</b>
+						<div class="large-12 medium-12 small-12 underline" ng-repeat="(key, weight) in industry_weights" ng-if="weight.score === 50">
+							<div class="grid-block align-left small-margin-above-below ">
+								<div class="grid-content small-1 medium-1 large-1">
+									<i ng-click="RemoveIndustryFromInsuranceType(key); UnsavedChanges()" class="pointer fa fa-times" aria-hidden="true"></i>
+								</div>
+								<div class="grid-content small-2 medium-2 large-2">
+									{{codes_dict[key].code}}
+								</div>
+								<div class="grid-content small-9 medium-9 large-9">
+									{{codes_dict[key].name_en}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="grid-block align-left small-padding buttom-underline">
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Nice-to-have (25 points)</b>
+						<select ng-model="industry_to_add_4" class="" ng-options="key as code.code+' - '+code.name_en disable when industry_weights[key] for (key, code) in codes_dict">
+						</select>
+						<div class="large-4 medium-4 small-4">
+							<label class="card-row-label"></label>
+							<input type="submit" class="button" ng-click="AddIndustryToInsuranceType(25, industry_to_add_4); UnsavedChanges()" value="Add Industry" ng-disabled="!industry_to_add_4"></input>
+						</div>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Industries, for which this insurance is Nice to have</b>
+						<div class="large-12 medium-12 small-12 underline" ng-repeat="(key, weight) in industry_weights" ng-if="weight.score === 25">
+							<div class="grid-block align-left small-margin-above-below ">
+								<div class="grid-content small-1 medium-1 large-1">
+									<i ng-click="RemoveIndustryFromInsuranceType(key); UnsavedChanges()" class="pointer fa fa-times" aria-hidden="true"></i>
+								</div>
+								<div class="grid-content small-2 medium-2 large-2">
+									{{codes_dict[key].code}}
+								</div>
+								<div class="grid-content small-9 medium-9 large-9">
+									{{codes_dict[key].name_en}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="grid-block align-left small-padding buttom-underline">
+					<div class="grid-content small-6 medium-6 large-6">
+						<b>Not Important (0 points)</b>
+						<select ng-model="industry_to_add_5" class="" ng-options="key as code.code+' - '+code.name_en disable when industry_weights[key] for (key, code) in codes_dict">
+						</select>
+						<div class="large-4 medium-4 small-4">
+							<label class="card-row-label"></label>
+							<input type="submit" class="button" ng-click="AddIndustryToInsuranceType(0, industry_to_add_5); UnsavedChanges()" value="Add Industry" ng-disabled="!industry_to_add_5"></input>
+						</div>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+            <b>Industries, for which this insurance is Not Important)</b>
+						<div class="large-12 medium-12 small-12 underline offset-list" ng-repeat="(key, weight) in industry_weights" ng-if="weight.score === 0">
+							<div class="grid-block align-left small-margin-above-below ">
+								<div class="grid-content small-1 medium-1 large-1">
+									<i ng-click="RemoveIndustryFromInsuranceType(key); UnsavedChanges()" class="pointer fa fa-times" aria-hidden="true"></i>
+								</div>
+								<div class="grid-content small-2 medium-2 large-2">
+									{{codes_dict[key].code}}
+								</div>
+								<div class="grid-content small-9 medium-9 large-9">
+									{{codes_dict[key].name_en}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow bg-hover" ng-click="show_comparison = !show_comparison">
+		<h6>Comparison Criteria ({{num_criteria}}) <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_comparison"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_comparison"></i></h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="show_comparison" >
+		<div class="card card-square" ng-repeat="(key, criteria_map) in comparison_criteria_mapping.comparison_criteria">
+			<div class="card-divider white-card-divider white-text">{{genService.capitalize(comparison_criteria[key].name_en)}}</div>
+			<div class="card-section left-card cus-card-sec force-wrap flex-form">
+				<div class="grid-block align-left small-12 medium-12 large-12 small-margin-below">
+					<div class="grid-content small-12 medium-12 large-12">
+						{{genService.capitalize(comparison_criteria[key].explanation_de)}}
+					</div>
+				</div>
+				<div class="grid-content small-6 medium-6 large-6 small-margin-below">
+					<div class="above-select-title">
+						Choose to whom this criteria should apply
+					</div>
+					<select ng-model="criteria_map.industry.exclude_all" required ng-change="UnsavedChanges()">
+						<option value="{{true}}">Include every Industry below</option>
+						<option value="{{false}}">Exclude every Industry below</option>
+					</select>
+				</div>
+				<div class="grid-content small-6 medium-6 large-6">
+					<b ng-show="criteria_map.industry.exclude_all === 'true'">Applies ONLY to the following industries</b>
+					<b ng-hide="criteria_map.industry.exclude_all === 'true'">Applies to all industries, EXCEPT for the following</b>
+					<div class="large-12 medium-12 small-12 underline" ng-repeat="(code_key, value) in criteria_map.industry.industry_codes">
+						<div class="grid-block align-left small-margin-above-below ">
+							<div class="grid-content small-1 medium-1 large-1">
+								<i ng-click="RemoveIndustryFromCriteriaMapping(key, code_key); UnsavedChanges()" class="pointer fa fa-times" aria-hidden="true"></i>
+							</div>
+							<div class="grid-content small-2 medium-2 large-2">
+								{{codes_dict[code_key].code}}
+							</div>
+							<div class="grid-content small-9 medium-9 large-9">
+								{{codes_dict[code_key].name_en}}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="grid-content small-6 medium-6 large-6">
+					<div class="above-select-title">
+						Select the industry and then press <b>Add Industry</b>
+					</div>
+					<select ng-model="industry_to_add[key]" ng-options="code_key as code.code+' - '+code.name_en disable when (criteria_map.industry.industry_codes[code_key] || !!code.disabled) for (code_key, code) in codes_dict">
+					</select>
+					<div class="large-4 medium-4 small-4">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button" ng-click="AddIndustryCodeToCriteriaMapping(key); UnsavedChanges()" value="Add Industry" ng-disabled="!industry_to_add[key]"></input>
+					</div>
+				</div>
+			<div class="grid-content small-12 medium-12 large-12 right-align">
+					<label class="card-row-label"></label>
+					<input type="submit" class="button button-slim" ng-click="RemoveCriteriaFromMapping(key); UnsavedChanges()" value="Remove Criteria"></input>
+				</div>
+			</div>
+		</div>
+		<div class="grid-content small-3 medium-3 large-3">
+			<label class="card-row-label"></label>
+			<input type="button" class="button button-slim" ui-sref="comparisoncriteriapicker({insurance_type:insurance_uid})" value="Add Criteria"></input>
+		</div>
+	</div>
+	<div class="grid-content small-3 medium-3 large-3">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="SaveInsuranceType()" value="Save"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2" ng-show="!insurance_type.disabled">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand alert" ng-click="genService.setConfirmAction(DisableInsuranceType)" zf-open="confirm_modal" value="Disable"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2" ng-show="insurance_type.disabled === true">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand success" ng-click="genService.setConfirmAction(EnableInsuranceType)" zf-open="confirm_modal" value="Enable"></input>
+	</div>
+</div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>
+<div ng-include="" src="'partials/modals/editicon.html'"></div>

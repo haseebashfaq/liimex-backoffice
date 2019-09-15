@@ -1,0 +1,61 @@
+---
+name: extractiongereralcriteria
+url: /extractiongereralcriteria/:policy/:insurance_uid
+title: Gereral Criteria
+parent: extractions
+controller: ExtractionViewController
+loginRequired: true
+securityLevel: 1
+---
+<div class="grid-block">
+  <form name="extraction_form" class="wide-form flex-form force-wrap">
+    <div class="grid-content large-12 medium-12 small-12">
+        <div class="card card-square">
+            <div class="card-section left-card cus-card-sec">
+                <div class="grid-block align-left flex-form force-wrap">
+                    <div class="grid-content small-12 medium-12 large-12">
+                      <label class="card-row-label">Sum Insured</label>
+                      <input class="card-row-input status-highlight" type="text" ng-model="policy.insurance_types[policy.subject].general.sum_insured" awnum num-thousand="true" num-sep="," num-int="9" num-prepend="€" required />
+                    </div>
+                    <div class="grid-content small-12 medium-12 large-12">
+                      <label class="card-row-label">Maximisation (Max {{maximasation_limit}}x)</label>
+                      <input class="card-row-input status-highlight" type="number" ng-model="policy.insurance_types[policy.subject].general.maximisation" min="1" max="15" step="1" required />
+                    </div>
+                    <div class="grid-content large-10 medium-10 small-10" ng-if="!policy.insurance_types[policy.subject].general.deductible_is_percent">
+                      <label class="card-row-label">(€) Deductible</label>
+                      <input class="card-row-input" type="text" required ng-model="policy.insurance_types[policy.subject].general.deductible_percent" num-prepend="€" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+                    </div>
+                    <div class="grid-content large-10 medium-10 small-10" ng-if="policy.insurance_types[policy.subject].general.deductible_is_percent">
+                      <label class="card-row-label">(%) Deductible</label>
+                      <input class="card-row-input" type="text" required ng-model="policy.insurance_types[policy.subject].general.deductible_absolute" num-append="%" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+                    </div>
+                    <div class="grid-content small-2 medium-2 large-2">
+                      <label class="card-row-label"></label>
+                      <input type="button" class="button button-slim" ng-click="MakedeductiblePercent(policy.subject)" value="{{!policy.insurance_types[policy.subject].general.deductible_is_percent && 'Make Percent' || 'Make Absolute Value'}}"></input>
+                    </div>
+                    <div class="grid-content large-10 medium-10 small-10" ng-if="!policy.insurance_types[policy.subject].general.deductible_max_is_percent">
+                      <label class="card-row-label">(€) Deductible - Max (Optional)</label>
+                      <input class="card-row-input" type="text" ng-model="policy.insurance_types[policy.subject].general.deductible_absolute_max" num-prepend="€" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+                    </div>
+                    <div class="grid-content large-10 medium-10 small-10" ng-if="policy.insurance_types[policy.subject].general.deductible_max_is_percent">
+                      <label class="card-row-label">(%) Deductible - Max (Optional)</label>
+                      <input class="card-row-input" type="text" ng-model="policy.insurance_types[policy.subject].general.deductible_percent_max" num-append="%" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UnsavedChanges()"/>
+                    </div>
+                    <div class="grid-content small-2 medium-2 large-2">
+                      <label class="card-row-label"></label>
+                      <input type="button" class="button button-slim" ng-click="MakedeductibleMaxPercent(policy.subject)" value="{{!policy.insurance_types[policy.subject].general.deductible_max_is_percent && 'Make Percent' || 'Make Absolute Value'}}"></input>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid-content small-2 medium-2 large-2">
+        <label class="card-row-label"></label>
+        <input type="button" class="button expand" ng-click="gotoExtractionPreview()"  value="Back"></input>
+    </div>
+    <div class="grid-content small-2 medium-2 large-2">
+        <label class="card-row-label"></label>
+        <input type="button" class="button expand" ng-click="SaveGeneralCriteria()" ng-disabled="!extraction_form.$valid" value="Save"></input>
+    </div>
+  </form>
+</div>

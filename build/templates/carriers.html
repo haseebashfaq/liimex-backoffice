@@ -1,0 +1,89 @@
+
+
+<div ui-view> <!-- Child Page --> </div>
+
+<div class="grid-block" ng-show="currentState === 'carriers'">
+
+	<div class="grid-content small-6 medium-4 large-3">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" zf-open="confirm_modal" ng-click="genService.setConfirmAction(AddBlankCarrier)" value="+ Add Carrier"></input>
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="disabled = !disabled" value="{{disabled && 'Hide disabled' || 'Show disabled'}}"></input>
+	</div>
+
+	<!-- Default Policy Type -->
+	<!-- <div class="grid-content large-12 medium-12 small-12" ui-sref="policytype({policytype:'default'})">
+		<div class="card card-hover card-square">
+			<div class="card-divider activity-card-divider">
+				<p class="white-text card-title activity-card-title">Default</p>
+			</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Created at</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{policy_types['default'].created_at}}"/>
+					</div>
+
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Updated at</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{}}"/>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+	<!-- Carrier Iterator -->
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-6 medium-6 large-6">
+						 Carrier
+					 </div>
+					 <div class="grid-content small-6 medium-6 large-6 right-align pointer" ng-click="fifo = !fifo">
+						 Last Updated
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+
+
+	<!-- Carrier Iterator -->
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, carrier) in carriers" ui-sref="carrier({carrier:carrier.key})" ng-hide="!disabled && carrier.carrier.disabled === true">
+		<div class="card card-hover card-square industry-margin">
+
+			<div class="card-section left-card cus-card-sec" ng-hide="carrier.carrier.disabled">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						{{carrier.carrier.name || 'Unnamed'}}
+					</div>
+					<div class="grid-content small-6 medium-6 large-6 right-align">
+                        {{carrier.carrier.updated_at ? (carrier.carrier.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}
+					</div>
+				</div>
+			</div>
+
+			<div class="card-section left-card cus-card-sec pending-card-divider white-text" ng-show="carrier.carrier.disabled">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						{{carrier.carrier.name || 'Unnamed'}}
+					</div>
+					<div class="grid-content small-6 medium-6 large-6 right-align">
+                        {{carrier.carrier.updated_at ? (carrier.carrier.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

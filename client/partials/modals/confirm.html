@@ -1,0 +1,26 @@
+<!-- Re-Authenticate Modal -->
+<div zf-modal="" id="confirm_modal" style="z-index:99999">
+	<div class="title-bar modal-title">
+		<span class="title center">Please Confirm</span>
+		<a zf-close="confirm_modal" class="close-button" id="close_confirm">×</a>
+	</div>
+
+	<!-- Fill Account Information -->
+	<div class="modal-contents">
+		<p><b>Are you sure?</b></p>
+		<p>Please be aware that this action might be irreversible. If you're in doubt about the implications of this action, double check with someone who isn't</p>
+		<div class="grid-block force-wrap">
+			<form class="wide-form flex-form" name="reauth_form">
+				<div class="grid-content small-12 medium-12 large-12">
+	      	<label class="card-row-label">Type 'yes' here to confirm</label>
+  				<input class="card-row-input" placeholder="No" required ng-model="isSure"/>
+		    </div>
+	    	<div class="liimefix"></div>
+	    	<div class="grid-content small-12 medium-12 large-12 right-align">
+				<input ng-disabled="isSure !== 'yes'" type="submit" class="button expand" ng-click="genService.executeConfirmAction(); isSure = null;" zf-close="confirm_modal" value="Confirm"></input>
+	    	</div>
+	    </form>
+		</div>
+	</div>
+
+</div>

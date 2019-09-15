@@ -1,0 +1,13 @@
+<div ng-hide="processing">
+    <a href="" class="focus-catcher"></a>
+    <span class="caption" ng-show="mode != 'edit'">{{getCaption() | meta:applyFilter}}</span>
+    <a class="right-icon" ng-show="mode != 'edit'" ng-if="rightKey && !disabled" ng-click="rightIconClick()" tabindex="-1">
+        <i ng-class="'fa ' + rightFa" aria-hidden="true"></i><b>{{rightCaption}}</b>
+    </a>
+    <span ng-show="mode == 'edit'">
+        <input type="text" awnum="{{applyValidation}}" placeholder="{{placeholder}}" tabindex="-1" ng-model="value">
+    </span>
+</div>
+<div ng-show="processing">
+    <i class="fa fa-spinner fa-spin fa-fw"></i>
+</div>

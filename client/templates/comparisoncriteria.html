@@ -1,0 +1,63 @@
+---
+name: comparisoncriteria
+url: /comparisoncriteria?comparisoncriteria_id
+title: Comparison Criteria
+parent: comparisoncriterias
+controller: ComparisonCriteriaController
+loginRequired: true
+securityLevel: 2
+---
+
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Name <br> (This will be displayed to the customer)</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-center">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Name (EN)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="criteria.name_en"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Name (DE)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="criteria.name_de"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Explanation text <br> (This will be displayed to the customer)</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-center">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Explanation text  (EN)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="criteria.explanation_text_en"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Explanation text (DE)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="criteria.explanation_text_de"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12"  ng-show="showWarningMessage">
+		<div class="card card-square">
+			<div class="card-divider red-card-divider white-text">
+				Some of the fields are not filled, please fill in all the fields.
+			</div>
+		</div>
+	</div>
+	
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand " ng-click="back()" value="Back"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="saveCriteria()"  value="Save"></input>
+	</div>
+</div>

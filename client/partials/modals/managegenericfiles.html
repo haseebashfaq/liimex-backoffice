@@ -1,0 +1,35 @@
+<!-- Upload File Modal -->
+<zf-modal id="manage_generic_files_modal" class="upload-modal">
+	<div class="title-bar modal-title">
+		<span class="title center">Manage Files</span>
+		<a zf-close="" id="close_upload" class="close-button white-text">×</a>
+	</div>
+	<div class="modal-contents">
+		<div class="grid-block force-wrap">
+			<div class="grid-content large-12 medium-12 small-12">
+				<p class="color-liimex-blue no-btm-padding small-modal-header">Upload your files by dragging them to the box or by clicking on the box and picking manually. Please only upload files one by one. <b>PDFs only</b></p>
+			</div>
+			<div class="grid-content large-12 medium-12 small-12 drop-box" ngf-drop ngf-select ng-change="FileChanged(files[0])" ng-model="files" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-max-files="1" ngf-allow-dir="true" accept="application/pdf" ngf-pattern="'application/pdf'">
+				<p class="color-blue-dark in-drop-box"><b>Click</b> here or <b>Drag</b> a .PDF onto this field <br>Files will appear underneath</p>
+			</div>
+			<div class="grid-content large-12 medium-12 small-12 small-top-pad file-area">
+				<div class="grid-content large-12 medium-12 small-12 file_in_queue no-pad-left" ng-repeat="(key,file) in files_to_upload">
+					<p class="color-blue-dark "><i class="fa fa-file-pdf-o color-liimex-blue" aria-hidden="true"></i> <b>Uploading..</b></p>
+				</div>
+				<div class="grid-content large-12 medium-12 small-12 file_in_queue no-pad-left" ng-repeat="(key,file) in files_uploaded">
+					<p class="color-blue-dark "><i class="fa fa-file-pdf-o color-liimex-blue" aria-hidden="true"></i> <b>{{::(file.alias || file.file)}}</b></p><span class="dark-hover" ng-click="DownloadFile(file)">download</span> <span class="dark-hover" ng-click="EditAlias(key)" zf-open="edit_alias_modal"> alias </span>
+					<span ng-if="!remove_delete_option"
+					class="dark-hover"
+					zf-open="confirm_modal"
+					ng-click="genService.setConfirmAction(RemoveFromOffer, key)">remove
+					</span>
+				</div>
+			</div>
+			<div class="grid-content large-12 medium-12 small-12 small-top-pad">
+			</div>
+			<div class="grid-content center large-12 medium-12 small-12">
+				<button class="button button-inverse" type="submit" zf-close="">Close</button>
+			</div>
+		</div>
+	</div>
+</zf-modal>

@@ -1,0 +1,42 @@
+---
+name: insurancespecifics
+url: /insurancespecifics
+title: Insurance Types
+parent: dashboard
+controller: InsurancetypesController
+loginRequired: true
+securityLevel: 4
+---
+
+<div ui-view> <!-- Child Page --> </div>
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-6 medium-6 large-6">
+						 Insurance Type (EN)
+					 </div>
+					 <div class="grid-content small-6 medium-6 large-6">
+						 Insurance Type (DE)
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, insurance_type) in insurance_types" ui-sref="insurancequestions({insuranceType: insurance_type.key})" ng-hide="insurance_type.insurance_type.disabled === true">
+		<div class="card card-hover card-square industry-margin">
+			<div class="card-section left-card cus-card-sec" ng-hide="insurance_type.insurance_type.disabled">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						{{insurance_type.insurance_type.name_en || 'Unnamed'}}
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						{{insurance_type.insurance_type.name_de || 'Unnamed'}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

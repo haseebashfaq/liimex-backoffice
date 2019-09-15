@@ -1,0 +1,417 @@
+{
+		"test1":
+			{
+				"request":{
+					"activities": {
+						"0": "-KbjybKLFl8sj0Sx5-sz",
+						"1": "-Ke5TjQzVXs5hVW2oL9S",
+						"2": "-Kbjz1OQ7D51UsZtedVG",
+						"3": "-Kbjz1OQ7D51UsZtedVG",
+						"4": "-Kbjz1OQ7D51UsZtedVG",
+						"5": "-Ke5Ttp3QBYWJZ87P7de",
+						"6": "-Kbjz9_tHHQgQ0kn59_u",
+						"7": "-KbjzH0-OGml8Bv4GziN",
+						"8": "-KbjzH0-OGml8Bv4GziN",
+						"9": "-KbjzycPPJ0iZdbwI5jQ",
+						"10": "-Ke5Z1jJx8U6APka2E-a",
+						"11": "-Ke5ZnsQKtJ-JLoiKSYL",
+						"12": "-KbjclPv0LbnqBlC6tlv",
+						"13": "-KbjclPv0LbnqBlC6tlv",
+						"14": "-KbjyAMh5OoJO_WbxhVI",
+						"15": "-Kbk-2hizMxWljDJA_ky",
+						"16": "-Ke5dEzmLR0n0MpMXsb-",
+						"17": "-Ke5dEzmLR0n0MpMXsb-"
+					},
+					"company": "-KgVJe9et0-2XIW8QzBb",
+					"industry_codes": {"0": "A"},
+					"offer_requested": false,
+					"processed": false
+				},
+				"datakey": "-KgVJq6RBzwwwA1lWUEN",
+				"expectKeys" : {
+					"recommended":
+					{
+						"-KbjclPv0LbnqBlC6tlv": {},
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-Kbjy9R4dIDYb0zlwckc": {},
+						"-KbjyAMh5OoJO_WbxhVI": {},
+						"-KbjybKLFl8sj0Sx5-sz": {},
+						"-Kbjz1OQ7D51UsZtedVG": {},
+						"-Kbjz9_tHHQgQ0kn59_u": {},
+						"-KbjzH0-OGml8Bv4GziN": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-KbjzycPPJ0iZdbwI5jQ": {},
+						"-Kbk-2hizMxWljDJA_ky": {},
+						"-Ke5TjQzVXs5hVW2oL9S": {},
+						"-Ke5Ttp3QBYWJZ87P7de": {},
+						"-Ke5Z1jJx8U6APka2E-a": {},
+						"-Ke5ZnsQKtJ-JLoiKSYL": {},
+						"-Ke5dEzmLR0n0MpMXsb-": {}
+					}
+				}
+			},
+			"default_recommendations":{
+				"request":{
+					"activities": {
+					},
+					"company": "-KgVJe9et0-2XIW8QzBb",
+					"industry_codes": {
+					},
+					"offer_requested": false,
+					"processed": false
+				},
+				"datakey": "-KgVJq6RBzwwwA1lWUEN",
+				"expectKeys" : {
+				"recommended":
+				{
+				"-Kbjy8O7cor_ocMejerh": {},
+				"-Kbjy9R4dIDYb0zlwckc": {},
+				"-KbjzTD4YzqsIahUO_uf": {}
+				}
+				}
+			},
+
+			"business_interruption_is_not_present_68":
+				{
+				"request":{
+					"activities": {
+					},
+					"company": "-KgVJe9et0-2XIW8QzBb",
+					"industry_codes": {
+						"0": "L.68",
+						"1": "L.68.1",
+						"2": "L.68.10",
+						"3": "L.68.10.1",
+						"4": "L.68.10.2",
+						"5": "L.68.2"
+					},
+					"offer_requested": false,
+					"processed": false
+				},
+				"datakey": "-KgVJq6RBzwwwA1lWUEN",
+				"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-KbjzTD4YzqsIahUO_uf": {}
+						}
+					}
+				},
+			"business_interruption_is_present_68":
+				{
+					"request":{
+						"activities": {
+						"0": "-Kbjy9R4dIDYb0zlwckc"
+						},
+						"company": "-KgVJe9et0-2XIW8QzBb",
+						"industry_codes": {
+							"0": "L.68",
+							"1": "L.68.1",
+							"2": "L.68.10",
+							"3": "L.68.10.1",
+							"4": "L.68.10.2",
+							"5": "L.68.2"
+						},
+						"offer_requested": false,
+						"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-Kbjy9R4dIDYb0zlwckc": {},
+						"-KbjzTD4YzqsIahUO_uf": {}
+						}
+					}
+				},
+			"business_interruption_is_not_present_69":
+				{
+					"request":{
+					"activities": {
+					},
+					"company": "-KgVJe9et0-2XIW8QzBb",
+					"industry_codes": {
+						"0": "M.69",
+						"1": "M.69.1",
+						"2": "M.69.10",
+						"3": "M.69.10.1",
+						"4": "M.69.10.2",
+						"5": "M.69.2"
+					},
+					"offer_requested": false,
+					"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-KbjclPv0LbnqBlC6tlv": {}
+						}
+					}
+				},
+			"business_interruption_is_present_69":
+				{
+					"request":{
+						"activities": {
+						"0": "-Kbjy9R4dIDYb0zlwckc"
+						},
+						"company": "-KgVJe9et0-2XIW8QzBb",
+						"industry_codes": {
+							"0": "M.69",
+							"1": "M.69.1",
+							"2": "M.69.10",
+							"3": "M.69.10.1",
+							"4": "M.69.10.2",
+							"5": "M.69.2"
+						},
+						"offer_requested": false,
+						"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-Kbjy9R4dIDYb0zlwckc": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-KbjclPv0LbnqBlC6tlv": {}
+						}
+					}
+				},
+			"business_interruption_is_not_present_70":
+				{
+					"request":{
+						"activities": {
+						},
+						"company": "-KgVJe9et0-2XIW8QzBb",
+						"industry_codes": {
+							"0": "M.70",
+							"1": "M.70.1",
+							"2": "M.70.10",
+							"3": "M.70.10.1",
+							"4": "M.70.10.9",
+							"5": "M.70.2"
+						},
+						"offer_requested": false,
+						"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-KbjclPv0LbnqBlC6tlv": {}
+						}
+					}
+				},
+		"business_interruption_is_present_70":
+			{
+				"request":{
+					"activities": {
+					"0": "-Kbjy9R4dIDYb0zlwckc"
+					},
+					"company": "-KgVJe9et0-2XIW8QzBb",
+					"industry_codes": {
+						"0": "M.70",
+						"1": "M.70.1",
+						"2": "M.70.10",
+						"3": "M.70.10.1",
+						"4": "M.70.10.9",
+						"5": "M.70.2"
+					},
+					"offer_requested": false,
+					"processed": false
+				},
+				"datakey": "-KgVJq6RBzwwwA1lWUEN",
+				"expectKeys" : {
+					"recommended":
+					{
+					"-Kbjy8O7cor_ocMejerh": {},
+					"-Kbjy9R4dIDYb0zlwckc": {},
+					"-KbjzTD4YzqsIahUO_uf": {},
+					"-KbjclPv0LbnqBlC6tlv": {}
+					}
+				}
+			},
+			"FLI_PI_is_not_present_65":
+				{
+					"request":{
+						"activities": {
+						},
+						"company": "-KgVJe9et0-2XIW8QzBb",
+							"industry_codes": {
+							"0": "K.65",
+							"1": "K.65.1",
+							"2": "K.65.11",
+							"3": "K.65.11.0",
+							"4": "K.65.12",
+							"5": "K.65.12.1"
+						},
+						"offer_requested": false,
+						"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-Kbjy9R4dIDYb0zlwckc": {},
+						"-KbjclPv0LbnqBlC6tlv": {}
+						}
+					}
+				},
+			"FLI_PI_is_present_65":
+				{
+					"request":{
+						"activities": {
+							"0": "-Kbk-2hizMxWljDJA_ky",
+							"1": "-KbjclPv0LbnqBlC6tlv"
+						},
+						"company": "-KgVJe9et0-2XIW8QzBb",
+						"industry_codes": {
+							"0": "K.65",
+							"1": "K.65.1",
+							"2": "K.65.11",
+							"3": "K.65.11.0",
+							"4": "K.65.12",
+							"5": "K.65.12.1"
+						},
+						"offer_requested": false,
+						"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+					{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-Kbjy9R4dIDYb0zlwckc": {},
+						"-Kbk-2hizMxWljDJA_ky":{},
+						"-KbjclPv0LbnqBlC6tlv":{}
+					}
+					}
+				}
+			,
+			"FLI_PI_is_not_present_66":
+				{
+					"request":{
+						"activities": {
+						},
+						"company": "-KgVJe9et0-2XIW8QzBb",
+						"industry_codes": {
+							"0": "K.66",
+							"1": "K.66.1",
+							"2": "K.66.11",
+							"3": "K.66.11.0",
+							"4": "K.66.12",
+							"5": "K.66.12.0"
+						},
+						"offer_requested": false,
+						"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-Kbjy9R4dIDYb0zlwckc": {},
+						"-KbjclPv0LbnqBlC6tlv": {}
+						}
+					}
+				},
+			"FLI_PI_is_present_66":
+				{
+						"request":{
+						"activities": {
+							"0": "-Kbk-2hizMxWljDJA_ky",
+							"1": "-KbjclPv0LbnqBlC6tlv"
+						},
+						"company": "-KgVJe9et0-2XIW8QzBb",
+						"industry_codes": {
+							"0": "K.66",
+							"1": "K.66.1",
+							"2": "K.66.11",
+							"3": "K.66.11.0",
+							"4": "K.66.12",
+							"5": "K.66.12.0"
+						},
+						"offer_requested": false,
+						"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-Kbjy9R4dIDYb0zlwckc": {},
+						"-Kbk-2hizMxWljDJA_ky": {},
+						"-KbjclPv0LbnqBlC6tlv": {}
+						}
+					}
+				}
+				,
+			"FLI_PI_is_not_present_69":
+				{
+					"request":{
+						"activities": {
+						},
+						"company": "-KgVJe9et0-2XIW8QzBb",
+						"industry_codes": {
+							"0": "M.69",
+							"1": "M.69.1",
+							"2": "M.69.10",
+							"3": "M.69.10.1",
+							"4": "M.69.10.2",
+							"5": "M.69.2"
+						},
+						"offer_requested": false,
+						"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-KbjclPv0LbnqBlC6tlv": {}
+						}
+					}
+				},
+			"FLI_PI_is_present_69":
+				{
+					"request":{
+						"activities": {
+							"0": "-Kbk-2hizMxWljDJA_ky",
+							"1": "-KbjclPv0LbnqBlC6tlv"
+						},
+						"company": "-KgVJe9et0-2XIW8QzBb",
+						"industry_codes": {
+							"0": "M.69",
+							"1": "M.69.1",
+							"2": "M.69.10",
+							"3": "M.69.10.1",
+							"4": "M.69.10.2",
+							"5": "M.69.2"
+						},
+						"offer_requested": false,
+						"processed": false
+					},
+					"datakey": "-KgVJq6RBzwwwA1lWUEN",
+					"expectKeys" : {
+					"recommended":
+						{
+						"-Kbjy8O7cor_ocMejerh": {},
+						"-KbjzTD4YzqsIahUO_uf": {},
+						"-Kbk-2hizMxWljDJA_ky": {},
+						"-KbjclPv0LbnqBlC6tlv": {}
+						}
+					}
+				}
+}

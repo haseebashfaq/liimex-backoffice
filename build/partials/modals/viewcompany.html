@@ -1,0 +1,36 @@
+<!-- Add Existing Policy Modal -->
+<div zf-modal="" id="view_company_modal">
+
+	<div class="title-bar modal-title">
+		<span class="title center">Company Details</span>
+		<a zf-close="" class="close-button white-text">×</a>
+	</div>
+
+	<div class="modal-contents" >
+		<div class="grid-block force-wrap">
+
+			<div class="grid-content small-6 medium-6 large-6" ng-repeat="(key, value) in company">
+				<label class="card-row-label">{{genService.prettify(key)}}</label>
+				<input class="card-row-input status-highlight" type="text" readonly value="{{value || 'N/A'}}"/>
+			</div>
+
+			<div class="grid-content small-12 medium-12 large-12 liimefix-small"></div>
+
+			<!-- Block -->
+			<div class="grid-content small-6 medium-6 large-6" ng-show="!company.disabled">
+				<input ng-disabled="delete_id !== company.liimex_id" type="submit" class="alert button expand" ng-click="BlockCompany()" value="Block Company"></input>
+			</div>
+
+			<!-- Unblock -->
+			<div class="grid-content small-6 medium-6 large-6" ng-show="company.disabled === true">
+				<input ng-disabled="delete_id !== company.liimex_id" type="submit" class="success button expand" ng-click="UnblockCompany()" value="Unblock Company"></input>
+			</div>
+
+			<div class="grid-content small-6 medium-6 large-6">
+				<input class="card-row-input" type="text" placeholder="Write company Liimex id to confirm" ng-model="delete_id"/>
+			</div>
+
+		</div>
+	</div>
+
+</div>

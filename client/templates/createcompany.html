@@ -1,0 +1,105 @@
+---
+name: createcompany
+url: /usermanagement/createcompany/:userid/:userrequestid
+title: Create Company
+parent: dashboard
+controller: CreateCompanyController
+loginRequired: true
+securityLevel: 1
+---
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block" >
+	<div class="grid-content large-12 medium-12 small-12">
+		<p ng-hide="preexisting"><b>Information:</b> You are editing a <b>new</b> user</p>
+		<p ng-show="preexisting"><b>Information:</b> You viewing an <b>existing</b> user</p>
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Create User</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<form name="user_form" class="flex-form force-wrap large-12 medium-12 small-12">
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Email</label>
+							<input class="card-row-input status-highlight" type="text" required ng-readonly="true" ng-model="new_user.email"/>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">First Name</label>
+							<input class="card-row-input status-highlight" ng-readonly="preexisting" type="text" required ng-model="new_user.first_name"/>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Last Name</label>
+							<input class="card-row-input status-highlight" ng-readonly="preexisting" type="text" required ng-model="new_user.last_name"/>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Add Company</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<form name="company_form" class="flex-form force-wrap large-12 medium-12 small-12">
+						<div class="grid-content small-3 medium-3 large-4">
+							<label class="card-row-label">Company Name</label>
+							<input class="card-row-input status-highlight" type="text" required ng-readonly="preexisting" ng-model="company.name"/>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Legal Form</label>
+							<select name="typeselector" ng-model="company.type" required ng-disabled="preexisting" class="" style="">
+								<option value="" disabled selected style="display: none;">Select Legal Form</option>
+								<option value="AG">AG</option>
+								<option value="AG &#38 Co. KG">AG &#38 Co. KG</option>
+								<option value="e.V.">e.V.</option>
+								<option value="e.G.">e.G.</option>
+								<option value="GbR">GbR</option>
+								<option value="GmbH">GmbH</option>
+								<option value="GmbH &#38 Co. KG">GmbH &#38 Co. KG</option>
+								<option value="KG">KG</option>
+								<option value="KGaA">KGaA</option>
+								<option value="OHG">OHG</option>
+								<option value="UG">PartG</option>
+								<option value="UG">PartG mbH</option>
+								<option value="UG">PartG mbB</option>
+								<option value="Sonstige">Sonstige</option>
+								<option value="Stiftung bürgerlichen Rechts">Stiftung bürgerlichen Rechts</option>
+								<option value="Stiftungs GmbH">Stiftungs GmbH</option>
+								<option value="Stiftungs Verein">Stiftungs Verein</option>
+								<option value="Treuhandstiftung">Treuhandstiftung</option>
+								<option value="UG">UG</option>
+							</select>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Street, Number</label>
+							<input class="card-row-input status-highlight" type="text" required ng-readonly="preexisting" ng-model="address.street"/>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">City</label>
+							<input class="card-row-input status-highlight" type="text" required ng-readonly="preexisting" ng-model="address.city"/>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Zip</label>
+							<input class="card-row-input status-highlight" type="text" required ng-readonly="preexisting" ng-model="address.zip"/>
+						</div>
+						<div class="grid-content small-4 medium-4 large-4">
+							<label class="card-row-label">Phone</label>
+							<input class="card-row-input status-highlight" type="text" required ng-readonly="preexisting" ng-model="company.phone"/>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content small-3 medium-3 large-3">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" ng-click="saveCompany(user_form, company_form)" value="Create and Select Industry" ng-disabled="!user_form.$valid || !company_form.$valid || preexisting || local_load">
+	</div>
+	<div class="grid-content small-3 medium-3 large-3">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" ng-click="selectIndustry()" value="Skip to Industry Selector" ng-disabled="!preexisting">
+	</div>
+</div>

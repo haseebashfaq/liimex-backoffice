@@ -1,0 +1,52 @@
+
+<div class="grid-block offer-page">
+	<div class="grid-content large-12 medium-12 small-12" ng-show="unsaved_changes">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec unsaved-div">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="unsaved-label card-row-label center">You have unsaved changes</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<form class="flex-form force-wrap large-12 medium-12 small-12" name="basic_form">
+			<div class="card card-square large-12 medium-12 small-12">
+				<div class="card-divider white-card-divider white-text">Basic Criteria</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content large-12 medium-12 small-12">
+							<select ng-model="comparison.basic.carrier"
+							required
+							ng-change="UnsavedChanges()"
+							ng-options="key as carrier.name for (key, carrier) in carriers">
+							</select>
+						</div>
+						<div class="grid-content large-12 medium-12 small-12">
+							<label class="card-row-label">* Insurance Tax (%)</label>
+							<input class="card-row-input status-highlight" type="text" required ng-model="comparison.basic.insurance_tax" ng-change="UpdateAnnualPremium(); UnsavedChanges()" num-append="%" awnum num-thousand="true" num-sep="," num-int="8" placeholder="19"/>
+						</div>
+						<div class="grid-content large-12 medium-12 small-12">
+							<label class="card-row-label">* Annual Net Premium (€)</label>
+							<input class="card-row-input status-highlight" type="text" required ng-model="comparison.basic.premium" awnum num-thousand="true" num-sep="," num-int="8" ng-change="UpdateAnnualPremium(); UnsavedChanges()" num-prepend="€" min="0" placeholder="5000"/>
+						</div>
+						<div class="grid-content large-12 medium-12 small-12">
+							<label class="card-row-label">* Annual Gross Premium (€) (Calculated)</label>
+							<input class="card-row-input bold-input grey-out" type="text" readonly ng-model="annual_gross_premium" num-prepend="€" awnum num-thousand="true" num-sep="," num-int="8"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+        <input type="button" ui-sref="product({product_uid:product_uid})" class="button expand" value="Back"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="SaveProduct()" value="Save" ng-disabled="!basic_form.$valid || !comparison ||  !comparison.basic.carrier"></input>
+	</div>
+</div>

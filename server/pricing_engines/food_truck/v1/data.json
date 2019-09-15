@@ -1,0 +1,484 @@
+
+{
+    "foodtruck_comparisons":{
+        "truck_values":{
+            "10000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 758.64,
+                            "medium": 867.47,
+                            "premium": 976.29
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 911.41,
+                            "medium": 1120.23,
+                            "premium": 1229.05
+                        }
+                    }
+                }
+            },
+            "20000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 758.64,
+                            "medium": 1067.47,
+                            "premium": 1176.29
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1911.41,
+                            "medium": 2120.23,
+                            "premium": 3229.05
+                        }
+                    }
+                }
+            },
+            "30000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 758.64,
+                            "medium": 1067.47,
+                            "premium": 1176.29
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1911.41,
+                            "medium": 2120.23,
+                            "premium": 3229.05
+                        }
+                    }
+                }
+            },
+            "40000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1258.64,
+                            "medium": 1467.47,
+                            "premium": 1576.29
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 2011.41,
+                            "medium": 2120.23,
+                            "premium": 2229.05
+                        }
+                    }
+                }
+            },
+            "50000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1158.64,
+                            "medium": 1267.47,
+                            "premium": 1376.29
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1011.41,
+                            "medium": 1120.23,
+                            "premium": 1229.05
+                        }
+                    }
+                }
+            },
+            "60000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1266.05,
+                            "medium": 1374.88,
+                            "premium": 1483.70
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1080.18,
+                            "medium": 1189.01,
+                            "premium": 1297.83
+                        }
+                    }
+                }
+            },
+            "70000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1356.81,
+                            "medium": 1465.64,
+                            "premium": 1574.46
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1138.29,
+                            "medium": 1247.12,
+                            "premium": 1355.94
+                        }
+                    }
+                }
+            },
+            "80000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1435.49,
+                            "medium": 1544.31,
+                            "premium": 1653.14
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1188.68,
+                            "medium": 1297.50,
+                            "premium": 1406.33
+                        }
+                    }
+                }
+            },
+            "90000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1504.92,
+                            "medium": 1613.74,
+                            "premium": 1722.57
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1233.08,
+                            "medium": 1341.90,
+                            "premium": 1450.73
+                        }
+                    }
+                }
+            },
+            "100000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+
+                            "basic": 1566.95,
+                            "medium": 1675.77,
+                            "premium": 1784.60
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1272.80,
+                            "medium": 1381.62,
+                            "premium": 1490.45
+                        }
+                    }
+                }
+            },
+            "110000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1623.10,
+                            "medium": 1731.93,
+                            "premium": 1840.75
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1308.71,
+                            "medium": 1417.54,
+                            "premium": 1526.36
+                        }
+                    }
+                }
+            },
+            "120000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1674.36,
+                            "medium": 1783.18,
+                            "premium": 1892.01
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1341.47,
+                            "medium": 1450.29,
+                            "premium": 1559.11
+                        }
+                    }
+                }
+            },
+            "130000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1721.59,
+                            "medium": 1830.41,
+                            "premium": 1939.24
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1371.72,
+                            "medium": 1480.54,
+                            "premium": 1589.37
+                        }
+                    }
+                }
+            },
+            "140000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1765.23,
+                            "medium": 1874.05,
+                            "premium": 1982.87
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1399.58,
+                            "medium": 1508.40,
+                            "premium": 1617.23
+                        }
+                    }
+                }
+            },
+            "150000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1805.82,
+                            "medium": 1914.64,
+                            "premium": 2023.46
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1425.59,
+                            "medium": 1534.41,
+                            "premium": 1643.24
+                        }
+                    }
+                }
+            },
+            "160000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1843.91,
+                            "medium": 1952.73,
+                            "premium": 2061.55
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1449.96,
+                            "medium": 1558.79,
+                            "premium": 1667.61
+                        }
+                    }
+                }
+            },
+            "170000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1879.60,
+                            "medium": 1988.42,
+                            "premium": 2097.25
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1472.82,
+                            "medium": 1581.64,
+                            "premium": 1690.46
+                        }
+                    }
+                }
+            },
+            "180000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1913.23,
+                            "medium": 2022.05,
+                            "premium": 2130.87
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1494.36,
+                            "medium": 1603.19,
+                            "premium": 1712.01
+                        }
+                    }
+                }
+            },
+            "190000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1945.11,
+                            "medium": 2053.94,
+                            "premium": 2162.76
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1514.71,
+                            "medium": 1623.54,
+                            "premium": 1732.36
+                        }
+                    }
+                }
+            },
+            "200000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 1975.36,
+                            "medium": 2084.19,
+                            "premium": 2193.01
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1534.09,
+                            "medium": 1642.91,
+                            "premium": 1751.73
+                        }
+                    }
+                }
+            },
+            "210000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 2004.09,
+                            "medium": 2112.92,
+                            "premium": 2221.74
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1552.48,
+                            "medium": 1661.30,
+                            "premium": 1770.12
+                        }
+                    }
+                }
+            },
+            "220000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 2031.52,
+                            "medium": 2140.34,
+                            "premium": 2249.16
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1570,
+                            "medium": 1678.82,
+                            "premium": 1787.64
+                        }
+                    }
+                }
+            },
+            "230000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 2057.64,
+                            "medium": 2166.46,
+                            "premium": 2275.28
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1586.76,
+                            "medium": 1695.58,
+                            "premium": 1804.40
+                        }
+                    }
+                }
+            },
+            "240000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 2082.77,
+                            "medium": 2191.6,
+                            "premium": 2300.42
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1602.86,
+                            "medium": 1711.69,
+                            "premium": 1820.51
+                        }
+                    }
+                }
+            },
+            "250000":{
+                "deductibles":{
+                    "500":{
+                        "plans":{
+                            "basic": 2106.82,
+                            "medium": 2215.65,
+                            "premium": 2324.47
+                        }
+                    },
+                    "2500":{
+                        "plans":{
+                            "basic": 1618.21,
+                            "medium": 1727.03,
+                            "premium": 1835.85
+                        }
+                    }
+                }
+            }
+        }
+    },
+
+    "foodtruck_topups":{
+        "monthly_revenue":{
+            "5000": {
+                "comparison":{
+                    "basic": 435.29,
+                    "medium":467.94,
+                    "premium":500.59
+                }
+            },
+            "10000":{
+                "comparison":{
+                    "basic":598.53,
+                    "medium":663.82,
+                    "premium":729.12
+                }
+            },
+            "15000":{
+                "comparison":{
+                    "basic":761.76,
+                    "medium":859.71,
+                    "premium":957.65
+                }
+            }
+        }
+    }
+}

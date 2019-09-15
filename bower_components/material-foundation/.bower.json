@@ -1,0 +1,23 @@
+{
+  "name": "material-foundation",
+  "main": [
+    "scss/material-foundation.scss",
+    "js/material-foundation.js"
+  ],
+  "ignore": [],
+  "dependencies": {
+    "foundation-sites": "~6.2.3",
+    "material-design-iconic-font": "~2.2.0"
+  },
+  "homepage": "https://github.com/eucalyptuss/material-foundation",
+  "_release": "982ea9422e",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "982ea9422e42645e7d6b062053e656e28f45f689"
+  },
+  "_source": "https://github.com/eucalyptuss/material-foundation.git",
+  "_target": "*",
+  "_originalSource": "material-foundation",
+  "_direct": true
+}

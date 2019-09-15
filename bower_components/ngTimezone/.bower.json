@@ -1,0 +1,21 @@
+{
+  "name": "ngTimezone",
+  "description": "Timezone detection in Angular",
+  "keywords": [
+    "angular",
+    "timezone"
+  ],
+  "main": "ngTimezone.js",
+  "license": "MIT",
+  "homepage": "https://github.com/cmmartin/ngTimezone",
+  "_release": "a5d21f0f0d",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "a5d21f0f0d9e2bd6ed99b44895587c245bc9b0bb"
+  },
+  "_source": "https://github.com/cmmartin/ngTimezone.git",
+  "_target": "*",
+  "_originalSource": "ngTimezone",
+  "_direct": true
+}

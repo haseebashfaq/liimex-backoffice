@@ -1,0 +1,27 @@
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block">
+	<form class="flex-form force-wrap large-12 medium-12 small-12">
+		<div class="grid-content large-12 medium-12 small-12 small-top-margin">
+			<b>Instructions:</b><br>Create a <b>new</b> user here by typing an email. Once created, you will be asked to fill in the company. If the user <b>already exists</b>, you will see the existing company.
+			<div class="card card-square">
+				<div class="card-divider white-card-divider white-text">Create User</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content small-12 medium-12 large-12">
+							<label class="card-row-label">Email Address</label>
+							<input class="card-row-input status-highlight" type="text" required value="" ng-model="user.email"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid-content small-3 medium-3 large-2">
+			<label class="card-row-label"></label>
+			<input type="submit" class="button expand" value="Create / Get User" ng-click="saveUser()" ng-disabled="!!local_load || !user.email">
+		</div>
+	</form>
+</div>

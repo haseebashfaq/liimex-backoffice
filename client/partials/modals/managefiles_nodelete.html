@@ -1,0 +1,27 @@
+<!-- Upload File Modal -->
+<zf-modal id="manage_files_no_delete_modal" class="upload-modal">
+	<div class="title-bar modal-title">
+		<span class="title center">Manage Files</span>
+		<a zf-close="" id="close_upload" class="close-button white-text">×</a>
+	</div>
+	<div class="modal-contents">
+		<div class="grid-block force-wrap">
+			<div class="grid-content large-12 medium-12 small-12 small-top-pad file-area">
+				<div class="grid-content large-12 medium-12 small-12 file_in_queue no-pad-left" ng-repeat="(key,file) in files_to_upload">
+					<p class="color-blue-dark "><i class="fa fa-file-pdf-o color-liimex-blue" aria-hidden="true"></i> <b>Uploading..</b></p>
+				</div>
+				<div class="grid-content large-12 medium-12 small-12 file_in_queue no-pad-left" ng-repeat="(key,file) in files_uploaded">
+					<p class="color-blue-dark "><i class="fa fa-file-pdf-o color-liimex-blue" aria-hidden="true"></i> <b>{{::(file.alias || file.file)}}</b></p><span class="dark-hover" ng-click="DownloadFile(file)">download</span>
+				</div>
+				<div class="grid-content large-12 medium-12 small-12 file_in_queue no-pad-left" ng-show="!files_uploaded || !documents_viewable">
+					<p class="color-blue-dark "> There are no files here... </p>
+				</div>
+			</div>
+			<div class="grid-content large-12 medium-12 small-12 small-top-pad">
+			</div>
+			<div class="grid-content center large-12 medium-12 small-12">
+				<button class="button button-inverse" type="submit" zf-close="">Close</button>
+			</div>
+		</div>
+	</div>
+</zf-modal>

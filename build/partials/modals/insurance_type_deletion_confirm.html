@@ -1,0 +1,27 @@
+<!-- Re-Authenticate Modal -->
+<div zf-modal="" id="insurance-type-deletion-modal" style="z-index:99999">
+    <div class="title-bar modal-title">
+        <span class="title center">Removing Insurance type</span>
+        <a zf-close="insurance-type-deletion-modal" class="close-button" id="close_confirm">×</a>
+    </div>
+
+    <!-- Fill Account Information -->
+    <div class="modal-contents">
+        <p>You are about to remove <b>"{{delete_insurance_type.insurance_type.name_de}}"</b> insurance type
+            <span ng-hide="delete_insurance_type.comparison_key">from the offer</span>
+            <span ng-show="delete_insurance_type.comparison_key">from the comparison<span ng-show="delete_insurance_type.comparison.basic.carrier"> by <b>{{carriers[delete_insurance_type.comparison.basic.carrier].name}}</b></span></span>.
+        </p>
+        <div class="grid-block force-wrap">
+            <form class="wide-form flex-form" name="reauth_form">
+                <div class="liimefix"></div>
+                <div class="grid-content small-6 medium-6 large-6 left-align">
+                    <button zf-close="insurance-type-deletion-modal" class="button expand">Cancel</button>
+                </div>
+                <div class="grid-content small-6 medium-6 large-6 right-align">
+                    <button class="button expand alert" ng-click="deleteInsuranceType(delete_insurance_type.key, delete_insurance_type.comparison_key)"><i class="fa fa-trash-o" aria-hidden="true"></i> Remove</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

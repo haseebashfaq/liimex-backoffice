@@ -1,0 +1,50 @@
+<!-- Upload File Modal -->
+<div zf-modal="" id="upload_mandate_modal">
+    <div class="title-bar modal-title">
+        <span class="title center">Upload Mandate for "{{company.name}}"</span>
+        <a zf-close="" id="close_upload_file" class="close-button white-text">×</a>
+    </div>
+    <div class="modal-contents">
+
+
+        <!-- After Upload Modal -->
+        <div ng-show="just_added">
+            <div class="grid-block">
+                <div class="grid-block large-12 medium-12 small-12 vertical">
+                    <div class="grid-content centered-text success-icon">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    </div>
+                    <div class="grid-content vertical-btn-pad">
+                        <label zf-close="" class="button expand success">Close</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Before Upload Modal -->
+        <div ng-hide="just_added">
+            <a zf-close="" class="close-button">×</a>
+            <p></p>
+            <div class="grid-block">
+                <div class="grid-block large-12 medium-12 small-12 vertical">
+                    <div class="grid-content">
+                        <div class="grid-content large-12 medium-12 small-12 drop-box" ngf-drop ngf-select ng-change="MandateFileChanged(file)" ng-model="file" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-max-files="1" ngf-allow-dir="true" accept="application/pdf" ngf-pattern="'application/pdf'">
+                            <p class="color-blue-dark in-drop-box">
+                                To upload Mandate <b><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Click</b> here or <b><i class="fa fa-files-o" aria-hidden="true"></i> Drag</b> a .PDF onto this field
+                            </p>
+                        </div>
+                    </div>
+                    <div nv-file-drop="" uploader="uploader">
+                        <div class="grid-content vertical-btn-pad">
+                            <div class="warning-block" ng-show="mandate.signed_document_url">
+                                <p><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> The Mandate you are about to upload for "{{company.name}}" will replace its current Mandate</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>

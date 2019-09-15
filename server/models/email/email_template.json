@@ -1,0 +1,12 @@
+{
+    "personalizations": [{
+        "to": [],
+        "subject": "replaced by template",
+        "substitutions" : null
+    }],
+    "from": null,
+    "template_id": null,
+    "content": []
+}
+
+

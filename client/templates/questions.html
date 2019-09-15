@@ -1,0 +1,424 @@
+---
+name: questions
+url: /usermanagement/questions/:selectedinsurances/:companyid
+title: Questionnaire
+parent: dashboard
+controller: QuestionsController
+loginRequired: true
+securityLevel: 1
+---
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block" >
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Company Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Company Name</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.name}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Liimex-id</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.liimex_id}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<form name="insuranceQsForm" class="flex-form force-wrap large-12 medium-12 small-12">
+		<div class="grid-content large-12 medium-12 small-12">
+			<div class="card card-square">
+				<div class="card-divider white-card-divider white-text">General Questions</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content small-12 medium-12 large-6 pickactivity-mainblock">
+							<div ng-repeat= "genQuesion in generalInsuranceQuestions | orderBy:'order'">
+								<label class="card-row-label pickactivity-question">{{genQuesion.insuranceQuestionObj.question_text_de}}</label>
+								<!-- if the question type is bool -->
+								<div class="large-4 medium-4 small-12 general_answers_parent radioclass" ng-if="genQuesion.insuranceQuestionObj.input_type == 'bool'">
+									<div class="general_answers radioanswer">
+										<input name="yes{{genQuesion.key}}" type="radio" id="yes{{genQuesion.key}}"  class="" ng-value="true" ng-model="genQuesion.answer" ng-click="getSubQuestions(genQuesion)" ng-required = "!(genQuesion.answer === false || genQuesion.answer === true)"><label for="yes{{genQuesion.key}}">Yes</label>
+										<input name="no{{genQuesion.key}}" type="radio"  class="" id="no{{genQuesion.key}}" ng-value="false" ng-model="genQuesion.answer" ng-click="getSubQuestions(genQuesion)" ng-required = "!genQuesion.answer"><label for="no{{genQuesion.key}}">No</label>
+									</div>
+								</div>
+								<!-- if the question type is number -->
+								<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="genQuesion.insuranceQuestionObj.input_type == 'number'">
+									<div class="general_answers">
+										<input class="" type="text" autocomplete="off" placeholder="{{genQuesion.insuranceQuestionObj.placeholder_text_de}}" ng-model="genQuesion.answer" ng-change="getSubQuestions(genQuesion)"  num-thousand="true" num-sep="," awnum num-int="16" style="border-bottom: 1px solid #969696 !important;" required/>
+									</div>
+								</div>
+								<!-- if the question type is free text -->
+								<div class="large-12 medium-12 small-12 general_answers_parent" ng-if="genQuesion.insuranceQuestionObj.input_type == 'text'">
+									<div class="general_answers">
+										<textarea name="textarea1" type="textarea" id="text1" placeholder="{{genQuesion.insuranceQuestionObj.placeholder_text_de}}" rows="3" ng-model= "genQuesion.answer" ng-change="getSubQuestions(genQuesion)" required></textarea>
+									</div>
+								</div>
+								<!-- if the question type is currency input -->
+								<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="genQuesion.insuranceQuestionObj.input_type == 'currency'">
+									<div class="general_answers">
+										<input class="currency_input" type="text" autocomplete="off" placeholder="{{genQuesion.insuranceQuestionObj.placeholder_text_de}}" ng-model="genQuesion.answer" ng-change="getSubQuestions(genQuesion)" awnum num-thousand="true" num-sep="," num-int="16" num-prepend="&#x20AC" style="border-bottom: 1px solid #969696 !important;" required/>
+									</div>
+								</div>
+								<!-- if the question type is date and future_dates = true -->
+								<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="genQuesion.insuranceQuestionObj.input_type == 'date'">
+									<div class="general_answers">
+										<select ng-required = "!genQuesion.answer" ng-model="dates.day[genQuesion.key]" ng-change="dateChange(genQuesion)">
+											<option selected>{{unixSecondsToDate(genQuesion.answer).date ? unixSecondsToDate(genQuesion.answer).date : 'Select Day'}}{{}}</option>
+											<option disabled="">========================</option>
+											<option ng-repeat="i in getDayNumber(days) track by $index" value="{{$index+1}}">{{$index+1}}</option>
+										</select>
+										<select ng-required = "!genQuesion.answer" ng-model="dates.month[genQuesion.key]" ng-change="dateChange(genQuesion)">
+											<option selected>{{unixSecondsToDate(genQuesion.answer).month ? unixSecondsToDate(genQuesion.answer).month : 'Select Month'}}{{}}</option>
+											<option disabled="">========================</option>
+											<option ng-repeat="(month_id,month_value) in months" value="{{month_id}}">{{month_value}}</option>
+										</select>
+										<select ng-required = "!genQuesion.answer" ng-model="dates.year[genQuesion.key]" ng-change="dateChange(genQuesion)">
+											<option selected>{{unixSecondsToDate(genQuesion.answer).year ? unixSecondsToDate(genQuesion.answer).year : 'Select Year'}}{{}}</option>
+											<option disabled="">========================</option>
+											<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="subQuestions-block large-12 medium-12 small-12" ng-repeat= "subQ in getTriggerMarchingSubQs(genQuesion)" >
+									<div class="large-8 medium-8 small-12 general_questions_parent">
+										<div class="general_questions">
+											<label class="card-row-label pickactivity-question">{{subQ.insuranceQuestionObj.question_text_de}}</label>
+										</div>
+									</div>
+									<!-- if the question type is bool -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'bool'">
+										<div class="general_answers" >
+											<input name="yes{{subQ.key}}" type="radio" id="yes{{subQ.key}}"  class="" ng-value="true" ng-model="subQ.answer" ng-required="!(subQ.answer === false || subQ.answer === true)"></input><label for="yes{{subQ.key}}">Yes</label>
+											<input name="no{{subQ.key}}" type="radio"  class="" id="no{{subQ.key}}" ng-value="false" ng-model="subQ.answer" ng-required = "!subQ.answer"></input><label for="no{{subQ.key}}">No</label>
+										</div>
+									</div>
+									<!-- if the question type is number -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'number'">
+										<div class="general_answers">
+											<input class="currency_input" type="text" autocomplete="off" placeholder="{{subQ.insuranceQuestionObj.placeholder_text_de}}" ng-model="subQ.answer" num-thousand="true" num-sep="," awnum  num-int="16" style="border-bottom: 1px solid #969696 !important;" required/>
+										</div>
+									</div>
+									<!-- if the question type is free text -->
+									<div class="large-12 medium-12 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'text'">
+										<div class="general_answers">
+											<textarea name="textarea1" type="textarea" id="text1" placeholder="{{subQ.insuranceQuestionObj.placeholder_text_de}}" ng-model="subQ.answer" rows="3" required></textarea>
+										</div>
+									</div>
+									<!-- if the question type is currency input -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'currency'">
+										<div class="general_answers">
+											<input class="currency_input" type="text" autocomplete="off" placeholder="{{subQ.insuranceQuestionObj.placeholder_text_de}}" ng-model="subQ.answer"  awnum num-thousand="true" num-sep="," num-int="16" num-prepend="&#x20AC" style="border-bottom: 1px solid #969696 !important;" required/>
+										</div>
+									</div>
+									<!-- if the question type is date -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'date'">
+										<div class="general_answers">
+											<!-- <select name="month" class="month" ng-model="dates.month[subQ.key]" ng-change="dateChange(subQ)" >
+												<option ng-required = "!subQ.answer" selected>{{unixSecondsToDate(subQ.answer).month ? unixSecondsToDate(subQ.answer).month : 'Month'}}</option>
+											</select>
+											<select name="day" class="day" ng-model="dates.day[subQ.key]" ng-change="dateChange(subQ)" >
+												<option ng-required = "!subQ.answer" selected>{{unixSecondsToDate(subQ.answer).date ? unixSecondsToDate(subQ.answer).date : 'Day'}}</option>
+											</select>
+											<select name="year" class="year" ng-model="dates.year[subQ.key]" ng-change="dateChange(subQ)" >
+												<option ng-required = "!subQ.answer" selected>{{unixSecondsToDate(subQ.answer).year ? unixSecondsToDate(subQ.answer).year : 'Year'}}</option>
+											</select> -->
+											<select ng-required = "!subQ.answer" ng-model="dates.day[subQ.key]" ng-change="dateChange(subQ)">
+												<option selected>{{unixSecondsToDate(subQ.answer).date ? unixSecondsToDate(subQ.answer).date : 'Select Day'}}{{}}</option>
+												<option disabled="">========================</option>
+												<option ng-repeat="i in getDayNumber(days) track by $index" value="{{$index+1}}">{{$index+1}}</option>
+											</select>
+											<select ng-required = "!subQ.answer" ng-model="dates.month[subQ.key]" ng-change="dateChange(subQ)">
+												<option selected>{{unixSecondsToDate(subQ.answer).month ? unixSecondsToDate(subQ.answer).month : 'Select Month'}}{{}}</option>
+												<option disabled="">========================</option>
+												<option ng-repeat="(month_id,month_value) in months" value="{{month_id}}">{{month_value}}</option>
+											</select>
+											<select ng-required = "!subQ.answer" ng-model="dates.year[subQ.key]" ng-change="dateChange(subQ)">
+												<option selected>{{unixSecondsToDate(subQ.answer).year ? unixSecondsToDate(subQ.answer).year : 'Select Year'}}{{}}</option>
+												<option disabled="">========================</option>
+												<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-repeat="(insuranceType,insuranceQuestionsGroup) in insuranceTypesGroups">
+				<div class="card card-square">
+					<div class="card-divider white-card-divider white-text">{{insurance_types[insuranceType].name_de}}</div>
+					<div class="card-section left-card cus-card-sec">
+						<div class="grid-block align-left">
+							<div class="grid-content small-12 medium-12 large-6 pickactivity-mainblock">
+								<div ng-repeat="specificQuesion in insuranceQuestionsGroup | orderBy:'order'">
+									<label class="card-row-label pickactivity-question">{{specificQuesion.insuranceQuestionObj.question_text_de}}</label>
+									<!-- if the question type is bool -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="specificQuesion.insuranceQuestionObj.input_type == 'bool'">
+										<div class="general_answers">
+											<input name="yes{{specificQuesion.key}}" type="radio" id="yes{{specificQuesion.key}}"  class="" ng-value="true" ng-model="specificQuesion.answer" ng-click="getSubQuestions(specificQuesion)" ng-required="!(specificQuesion.answer === false || specificQuesion.answer === true)"><label for="yes{{specificQuesion.key}}">Yes</label>
+											<input name="no{{specificQuesion.key}}" type="radio"  class="" id="no{{specificQuesion.key}}" ng-value="false" ng-model="specificQuesion.answer" ng-click="getSubQuestions(specificQuesion)" ng-required = "!specificQuesion.answer"><label for="no{{specificQuesion.key}}">No</label>
+										</div>
+									</div>
+									<!-- if the question type is number -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="specificQuesion.insuranceQuestionObj.input_type == 'number'">
+										<div class="general_answers">
+											<input class="" type="text" autocomplete="off" placeholder="{{specificQuesion.insuranceQuestionObj.placeholder_text_de}}" ng-model="specificQuesion.answer" ng-change="getSubQuestions(specificQuesion)"  num-thousand="true" num-sep="," awnum num-int="16" style="border-bottom: 1px solid #969696 !important;" required/>
+										</div>
+									</div>
+									<!-- if the question type is free text -->
+									<div class="large-12 medium-12 small-12 general_answers_parent" ng-if="specificQuesion.insuranceQuestionObj.input_type == 'text'">
+										<div class="general_answers">
+											<textarea name="textarea1" type="textarea" id="text1" placeholder="{{specificQuesion.insuranceQuestionObj.placeholder_text_de}}" rows="3" ng-model="specificQuesion.answer" ng-change="getSubQuestions(specificQuesion)" required></textarea>
+										</div>
+									</div>
+									<!-- if the question type is currency input -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="specificQuesion.insuranceQuestionObj.input_type == 'currency'">
+										<div class="general_answers">
+											<input class="currency_input" type="text" autocomplete="off" placeholder="{{specificQuesion.insuranceQuestionObj.placeholder_text_de}}" ng-model="specificQuesion.answer" ng-change="getSubQuestions(specificQuesion)" awnum num-thousand="true" num-sep="," num-int="16" num-prepend="&#x20AC" style="border-bottom: 1px solid #969696 !important;" required/>
+										</div>
+									</div>
+									<!-- if the question type is date -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="specificQuesion.insuranceQuestionObj.input_type == 'date'">
+										<div class="general_answers">
+											<!-- <select name="month" class="month" ng-model="dates.month[specificQuesion.key]" ng-change="dateChange(specificQuesion)">
+												<option selected ng-required="!specificQuesion.answer">{{unixSecondsToDate(specificQuesion.answer).month ? unixSecondsToDate(specificQuesion.answer).month : 'Month'}}</option>
+											</select>
+											<select name="day" class="day" ng-model="dates.day[specificQuesion.key]" ng-change="dateChange(specificQuesion)">
+												<option selected ng-required="!specificQuesion.answer">{{unixSecondsToDate(specificQuesion.answer).date ? unixSecondsToDate(specificQuesion.answer).date : 'Day'}}</option>
+											</select>
+											<select name="year" class="year" ng-model="dates.year[specificQuesion.key]" ng-change="dateChange(specificQuesion)">
+												<option selected ng-required="!specificQuesion.answer">{{unixSecondsToDate(specificQuesion.answer).year ? unixSecondsToDate(specificQuesion.answer).year : 'Year'}}</option>
+											</select> -->
+											<select ng-required = "!specificQuesion.answer" ng-model="dates.day[specificQuesion.key]" ng-change="dateChange(specificQuesion)">
+												<option selected>{{unixSecondsToDate(specificQuesion.answer).date ? unixSecondsToDate(specificQuesion.answer).date : 'Select Day'}}{{}}</option>
+												<option disabled="">========================</option>
+												<option ng-repeat="i in getDayNumber(days) track by $index" value="{{$index+1}}">{{$index+1}}</option>
+											</select>
+											<select ng-required = "!specificQuesion.answer" ng-model="dates.month[specificQuesion.key]" ng-change="dateChange(specificQuesion)">
+												<option selected>{{unixSecondsToDate(specificQuesion.answer).month ? unixSecondsToDate(specificQuesion.answer).month : 'Select Month'}}{{}}</option>
+												<option disabled="">========================</option>
+												<option ng-repeat="(month_id,month_value) in months" value="{{month_id}}">{{month_value}}</option>
+											</select>
+											<select ng-required = "!specificQuesion.answer" ng-model="dates.year[specificQuesion.key]" ng-change="dateChange(specificQuesion)">
+												<option selected>{{unixSecondsToDate(specificQuesion.answer).year ? unixSecondsToDate(specificQuesion.answer).year : 'Select Year'}}{{}}</option>
+												<option disabled="">========================</option>
+												<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+											</select>
+										</div>
+									</div>
+
+									<!-- get sub subQuestions for the main question based on trigger match-->
+									<div class="subQuestions-block large-12 medium-12 small-12" ng-repeat= "subQ in getTriggerMarchingSubQs(specificQuesion)">
+										<div class="large-8 medium-8 small-12 general_questions_parent">
+											<div class="general_questions">
+												{{subQ.insuranceQuestionObj.question_text_de}}
+											</div>
+										</div>
+										<!-- if the question type is bool -->
+										<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'bool'">
+											<div class="general_answers">
+												<input name="yes{{subQ.key}}" type="radio" id="yes{{subQ.key}}"  class="" ng-value="true" ng-model="subQ.answer" ng-click="getSubQuestions(subQ)" ng-required="!(subQ.answer === false || subQ.answer === true)"></input><label for="yes{{subQ.key}}">Yes</label>
+												<input name="no{{subQ.key}}" type="radio"  class="" id="no{{subQ.key}}" ng-value="false" ng-model="subQ.answer" ng-click="getSubQuestions(subQ)" ng-required = "!subQ.answer"></input><label for="no{{subQ.key}}">No</label>
+											</div>
+										</div>
+										<!-- if the question type is number -->
+										<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'number'">
+											<div class="general_answers">
+												<input class="currency_input" type="text" autocomplete="off" placeholder="{{subQ.insuranceQuestionObj.placeholder_text_de}}" ng-model="subQ.answer" ng-change="getSubQuestions(subQ)" num-thousand="true" num-sep="," awnum  num-int="16" style="border-bottom: 1px solid #969696 !important;" required/>
+											</div>
+										</div>
+										<!-- if the question type is free text -->
+										<div class="large-12 medium-12 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'text'">
+											<div class="general_answers">
+												<textarea name="textarea1" type="textarea" id="text1" placeholder="{{subQ.insuranceQuestionObj.placeholder_text_de}}" ng-model="subQ.answer" rows="3" ng-change="getSubQuestions(subQ)" required></textarea>
+											</div>
+										</div>
+										<!-- if the question type is currency input -->
+										<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'currency'">
+											<div class="general_answers">
+												<input class="currency_input" type="text" autocomplete="off" placeholder="{{subQ.insuranceQuestionObj.placeholder_text_de}}" ng-model="subQ.answer" awnum num-thousand="true" num-sep="," num-int="16" num-prepend="&#x20AC" style="border-bottom: 1px solid #969696 !important;" required/>
+											</div>
+										</div>
+										<!-- if the question type is date -->
+										<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'date'">
+											<div class="general_answers">
+												<!-- <select name="month" class="month" ng-model="dates.month[subQ.key]" ng-change="dateChange(subQ)">
+													<option selected ng-required="!subQ.answer">{{unixSecondsToDate(subQ.answer).month ? unixSecondsToDate(subQ.answer).month : 'Month'}}</option>
+												</select>
+												<select name="day" class="day" ng-model="dates.day[subQ.key]" ng-change="dateChange(subQ)" >
+													<option selected ng-required="!subQ.answer">{{unixSecondsToDate(subQ.answer).date ? unixSecondsToDate(subQ.answer).date : 'Day'}}</option>
+												</select>
+												<select name="year" class="year" ng-model="dates.year[subQ.key]" ng-change="dateChange(subQ)" >
+													<option selected ng-required="!subQ.answer">{{unixSecondsToDate(subQ.answer).year ? unixSecondsToDate(subQ.answer).year : 'Year'}}</option>
+												</select> -->
+												<select ng-required = "!subQ.answer" ng-model="dates.day[subQ.key]" ng-change="dateChange(subQ)">
+													<option selected>{{unixSecondsToDate(subQ.answer).date ? unixSecondsToDate(subQ.answer).date : 'Select Day'}}{{}}</option>
+													<option disabled="">========================</option>
+													<option ng-repeat="i in getDayNumber(days) track by $index" value="{{$index+1}}">{{$index+1}}</option>
+												</select>
+												<select ng-required = "!subQ.answer" ng-model="dates.month[subQ.key]" ng-change="dateChange(subQ)">
+													<option selected>{{unixSecondsToDate(subQ.answer).month ? unixSecondsToDate(subQ.answer).month : 'Select Month'}}{{}}</option>
+													<option disabled="">========================</option>
+													<option ng-repeat="(month_id,month_value) in months" value="{{month_id}}">{{month_value}}</option>
+												</select>
+												<select ng-required = "!subQ.answer" ng-model="dates.year[subQ.key]" ng-change="dateChange(subQ)">
+													<option selected>{{unixSecondsToDate(subQ.answer).year ? unixSecondsToDate(subQ.answer).year : 'Select Year'}}{{}}</option>
+													<option disabled="">========================</option>
+													<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card card-square">
+				<div class="card-divider white-card-divider white-text">Confirmatory Questions</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content small-12 medium-12 large-6 pickactivity-mainblock">
+							<div ng-repeat= "confirmQuesion in confirmatoryInsuranceQuestions | orderBy:'order'">
+								<label class="card-row-label pickactivity-question">{{confirmQuesion.insuranceQuestionObj.question_text_de}}</label>
+								<!-- if the question type is bool -->
+								<div class="large-4 medium-4 small-12 general_answers_parent radioclass" ng-if="confirmQuesion.insuranceQuestionObj.input_type == 'bool'">
+									<div class="general_answers radioanswer">
+										<input name="yes{{confirmQuesion.key}}" type="radio" id="yes{{confirmQuesion.key}}"  class="" ng-value="true" ng-model="confirmQuesion.answer" ng-click="getSubQuestions(confirmQuesion)" ng-required = "!(confirmQuesion.answer === false || confirmQuesion.answer === true)"><label for="yes{{confirmQuesion.key}}">Yes</label>
+										<input name="no{{confirmQuesion.key}}" type="radio"  class="" id="no{{confirmQuesion.key}}" ng-value="false" ng-model="confirmQuesion.answer" ng-click="getSubQuestions(confirmQuesion)" ng-required = "!confirmQuesion.answer"><label for="no{{confirmQuesion.key}}">No</label>
+									</div>
+								</div>
+								<!-- if the question type is number -->
+								<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="confirmQuesion.insuranceQuestionObj.input_type == 'number'">
+									<div class="general_answers">
+										<input class="" type="text" autocomplete="off" placeholder="{{confirmQuesion.insuranceQuestionObj.placeholder_text_de}}" ng-model="confirmQuesion.answer" ng-change="getSubQuestions(confirmQuesion)"  num-thousand="true" num-sep="," awnum num-int="16" style="border-bottom: 1px solid #969696 !important;" required/>
+									</div>
+								</div>
+								<!-- if the question type is free text -->
+								<div class="large-12 medium-12 small-12 general_answers_parent" ng-if="confirmQuesion.insuranceQuestionObj.input_type == 'text'">
+									<div class="general_answers">
+										<textarea name="textarea1" type="textarea" id="text1" placeholder="{{confirmQuesion.insuranceQuestionObj.placeholder_text_de}}" rows="3" ng-model= "confirmQuesion.answer" ng-change="getSubQuestions(confirmQuesion)" required></textarea>
+									</div>
+								</div>
+								<!-- if the question type is currency input -->
+								<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="confirmQuesion.insuranceQuestionObj.input_type == 'currency'">
+									<div class="general_answers">
+										<input class="currency_input" type="text" autocomplete="off" placeholder="{{genQuesion.insuranceQuestionObj.placeholder_text_de}}" ng-model="confirmQuesion.answer" ng-change="getSubQuestions(confirmQuesion)" awnum num-thousand="true" num-sep="," num-int="16" num-prepend="&#x20AC" style="border-bottom: 1px solid #969696 !important;" required/>
+									</div>
+								</div>
+								<!-- if the question type is date and future_dates = true -->
+								<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="confirmQuesion.insuranceQuestionObj.input_type == 'date'">
+									<div class="general_answers">
+										<!-- <select name="month" class="month" isfuture="{{confirmQuesion.insuranceQuestionObj.future_dates}}" ng-model="dates.month[confirmQuesion.key]" ng-change="dateChange(confirmQuesion)">
+											<option selected ng-required = "!confirmQuesion.answer">{{unixSecondsToDate(confirmQuesion.answer).month ? unixSecondsToDate(confirmQuesion.answer).month : 'Month'}}</option>
+										</select>
+
+										<select name="day" class="day" isfuture="{{confirmQuesion.insuranceQuestionObj.future_dates}}" ng-model="dates.day[confirmQuesion.key]" ng-change="dateChange(confirmQuesion)">
+											<option selected ng-required = "!confirmQuesion.answer">{{unixSecondsToDate(confirmQuesion.answer).date ? unixSecondsToDate(confirmQuesion.answer).date : 'Day'}}</option>
+										</select>
+
+										<select name="year" class="year" isfuture="{{confirmQuesion.insuranceQuestionObj.future_dates}}" ng-model="dates.year[confirmQuesion.key]" ng-change="dateChange(confirmQuesion)">
+											<option selected ng-required = "!confirmQuesion.answer">{{unixSecondsToDate(confirmQuesion.answer).year ? unixSecondsToDate(confirmQuesion.answer).year : 'Year'}}</option>
+										</select> -->
+										<select ng-required = "!confirmQuesion.answer" ng-model="dates.day[confirmQuesion.key]" ng-change="dateChange(confirmQuesion)">
+											<option selected>{{unixSecondsToDate(confirmQuesion.answer).date ? unixSecondsToDate(confirmQuesion.answer).date : 'Select Day'}}{{}}</option>
+											<option disabled="">========================</option>
+											<option ng-repeat="i in getDayNumber(days) track by $index" value="{{$index+1}}">{{$index+1}}</option>
+										</select>
+										<select ng-required = "!confirmQuesion.answer" ng-model="dates.month[confirmQuesion.key]" ng-change="dateChange(confirmQuesion)">
+											<option selected>{{unixSecondsToDate(confirmQuesion.answer).month ? unixSecondsToDate(confirmQuesion.answer).month : 'Select Month'}}{{}}</option>
+											<option disabled="">========================</option>
+											<option ng-repeat="(month_id,month_value) in months" value="{{month_id}}">{{month_value}}</option>
+										</select>
+										<select ng-required = "!confirmQuesion.answer" ng-model="dates.year[confirmQuesion.key]" ng-change="dateChange(confirmQuesion)">
+											<option selected>{{unixSecondsToDate(confirmQuesion.answer).year ? unixSecondsToDate(confirmQuesion.answer).year : 'Select Year'}}{{}}</option>
+											<option disabled="">========================</option>
+											<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+										</select>
+									</div>
+								</div>
+								<div class="subQuestions-block large-12 medium-12 small-12" ng-repeat= "subQ in getTriggerMarchingSubQs(confirmQuesion)" >
+									<div class="large-8 medium-8 small-12 general_questions_parent">
+										<div class="general_questions">
+											<label class="card-row-label pickactivity-question">{{subQ.insuranceQuestionObj.question_text_de}}</label>
+										</div>
+									</div>
+									<!-- if the question type is bool -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'bool'">
+										<div class="general_answers" >
+											<input name="yes{{subQ.key}}" type="radio" id="yes{{subQ.key}}"  class="" ng-value="true" ng-model="subQ.answer" ng-required="!(subQ.answer === false || subQ.answer === true)"></input><label for="yes{{subQ.key}}">Yes</label>
+											<input name="no{{subQ.key}}" type="radio"  class="" id="no{{subQ.key}}" ng-value="false" ng-model="subQ.answer" ng-required = "!subQ.answer"></input><label for="no{{subQ.key}}">No</label>
+										</div>
+									</div>
+									<!-- if the question type is number -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'number'">
+										<div class="general_answers">
+											<input class="currency_input" type="text" autocomplete="off" placeholder="{{subQ.insuranceQuestionObj.placeholder_text_de}}" ng-model="subQ.answer" num-thousand="true" num-sep="," awnum  num-int="16" style="border-bottom: 1px solid #969696 !important;" required/>
+										</div>
+									</div>
+									<!-- if the question type is free text -->
+									<div class="large-12 medium-12 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'text'">
+										<div class="general_answers">
+											<textarea name="textarea1" type="textarea" id="text1" placeholder="{{subQ.insuranceQuestionObj.placeholder_text_de}}" ng-model="subQ.answer" rows="3" required></textarea>
+										</div>
+									</div>
+									<!-- if the question type is currency input -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'currency'">
+										<div class="general_answers">
+											<input class="currency_input" type="text" autocomplete="off" placeholder="{{subQ.insuranceQuestionObj.placeholder_text_de}}" ng-model="subQ.answer"  awnum num-thousand="true" num-sep="," num-int="16" num-prepend="&#x20AC" style="border-bottom: 1px solid #969696 !important;" required/>
+										</div>
+									</div>
+									<!-- if the question type is date -->
+									<div class="large-4 medium-4 small-12 general_answers_parent" ng-if="subQ.insuranceQuestionObj.input_type == 'date'">
+										<div class="general_answers">
+											<!-- <select name="month" class="month" ng-model="dates.month[subQ.key]" ng-change="dateChange(subQ)" >
+												<option ng-required = "!subQ.answer" selected>{{unixSecondsToDate(subQ.answer).month ? unixSecondsToDate(subQ.answer).month : 'Month'}}</option>
+											</select>
+											<select name="day" class="day" ng-model="dates.day[subQ.key]" ng-change="dateChange(subQ)" >
+												<option ng-required = "!subQ.answer" selected>{{unixSecondsToDate(subQ.answer).date ? unixSecondsToDate(subQ.answer).date : 'Day'}}</option>
+											</select>
+											<select name="year" class="year" ng-model="dates.year[subQ.key]" ng-change="dateChange(subQ)" >
+												<option ng-required = "!subQ.answer" selected>{{unixSecondsToDate(subQ.answer).year ? unixSecondsToDate(subQ.answer).year : 'Year'}}</option>
+											</select> -->
+											<select ng-required = "!subQ.answer" ng-model="dates.day[subQ.key]" ng-change="dateChange(subQ)">
+												<option selected>{{unixSecondsToDate(subQ.answer).date ? unixSecondsToDate(subQ.answer).date : 'Select Day'}}{{}}</option>
+												<option disabled="">========================</option>
+												<option ng-repeat="i in getDayNumber(days) track by $index" value="{{$index+1}}">{{$index+1}}</option>
+											</select>
+											<select ng-required = "!subQ.answer" ng-model="dates.month[subQ.key]" ng-change="dateChange(subQ)">
+												<option selected>{{unixSecondsToDate(subQ.answer).month ? unixSecondsToDate(subQ.answer).month : 'Select Month'}}{{}}</option>
+												<option disabled="">========================</option>
+												<option ng-repeat="(month_id,month_value) in months" value="{{month_id}}">{{month_value}}</option>
+											</select>
+											<select ng-required = "!subQ.answer" ng-model="dates.year[subQ.key]" ng-change="dateChange(subQ)">
+												<option selected>{{unixSecondsToDate(subQ.answer).year ? unixSecondsToDate(subQ.answer).year : 'Select Year'}}{{}}</option>
+												<option disabled="">========================</option>
+												<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid-content small-3 medium-3 large-2">
+			<label class="card-row-label"></label>
+			<input type="button" class="button expand" onclick="window.history.back();" value="Back">
+		</div>
+		<div class="grid-content small-3 medium-3 large-2">
+			<label class="card-row-label"></label>
+			<input type="submit" class="button expand" value="Get Offers" ng-click="saveAllInsuranceQandAs(insuranceQsForm)">
+		</div>
+	</form>
+</div>

@@ -1,0 +1,445 @@
+---
+name: comparisonpreview
+url: /comparisonpreview/:offer
+title: Comparison Preview
+parent: dashboard
+controller: ComparisonPreviewController
+loginRequired: true
+securityLevel: 2
+---
+<div class="grid-block offer-page">
+    <div class="grid-content large-12 medium-12 small-12" ng-show="offer">
+        <h4 ui-sref="company({company:offer.company})">{{company.name}} {{company.type}}</h4>
+        <h5 ui-sref="company({company:offer.company})"><small>{{company.liimex_id}}</small></h5>
+    </div>
+    <div class="grid-content large-12 medium-12 small-12" ng-show="offer">
+      <div class="card card-square">
+  			<div class="card-divider white-card-divider white-text">Selected Offer</div>
+  			<div class="card-section left-card cus-card-sec">
+  				<div class="grid-block align-left">
+  					<div class="grid-content small-3 medium-3 large-3">
+  						<label class="card-row-label">Status</label>
+  						<input class="card-row-input status-highlight grey-out bold-input" type="text" readonly value="{{offer.status | capitalize}}"/>
+  					</div>
+  					<div class="grid-content small-9 medium-9 large-9">
+  						<label class="card-row-label">Request for</label>
+  						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{insurance_types[offer.subject].name_en}}"/>
+  					</div>
+  					<div class="grid-content small-4 medium-4 large-4">
+  						<label class="card-row-label">Requested</label>
+  						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{offer.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+  					</div>
+  					<div class="grid-content small-4 medium-4 large-4">
+  						<label class="card-row-label">Last Updated</label>
+  						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{offer.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+  					</div>
+            <div class="grid-content small-4 medium-4 large-4">
+  						<label class="card-row-label">Advisor</label>
+  						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{offer.advisor && offer.advisor || 'None'}}"/>
+                      </div>
+  					<div class="grid-content small-12 medium-12 large-12"></div>
+  					<div class="grid-content small-3 medium-3 large-2" ng-show="offer.advisor !== user.email">
+  						<label class="card-row-label"></label>
+  						<input type="button" class="button expand" ng-click="Lock()" value="Lock to you" ng-disabled="offer.advisor || offer.status ==='accepted' || offer.status ==='finalized' || offer.status ==='dismissed' || local_load"></input>
+  					</div>
+  					<div class="grid-content small-3 medium-3 large-2" ng-show="offer.advisor === user.email">
+  						<label class="card-row-label"></label>
+  						<input type="button" class="button expand" ng-click="Unlock()" value="Open for others" ng-disabled="local_load"></input>
+  					</div>
+  					<div class="grid-content small-3 medium-3 large-2">
+  						<label class="card-row-label"></label>
+  						<input type="button" class="button expand success" ng-click="genService.setConfirmAction(MarkAsOffered)" zf-open="confirm_modal" ng-disabled="offer.advisor !== user.email || offer.status !== 'requested' || !offer.comparisons || !isModelValid" value="Push Offer"></input>
+  					</div>
+            <div class="grid-content small-3 medium-3 large-2">
+  						<label class="card-row-label"></label>
+  						<input type="button" class="button expand success" ng-click="genService.setConfirmAction(MarkAsOfferedDontNotify)" zf-open="confirm_modal" ng-disabled="offer.advisor !== user.email || offer.status !== 'requested' || !offer.comparisons || !isModelValid" value="Push Offer (No Email)"></input>
+  					</div>
+  					<div class="grid-content small-3 medium-3 large-2">
+  						<label class="card-row-label"></label>
+  						<input type="button" class="button expand alert" ng-click="genService.setConfirmAction(RevokeOffer)" zf-open="confirm_modal" ng-disabled="offer.advisor !== user.email || offer.status !== 'pushed'" value="Revoke Offer"></input>
+  					</div>
+  					<div class="grid-content small-3 medium-3 large-2" ng-show="offer.report">
+  						<label class="card-row-label"></label>
+                        <button class="button expand" ng-click="DownloadReport()" ng-disabled="!offer.report || offer_in_progress || offer_broken"><span ng-show="offer_in_progress && !offer_broken"><i class="fa fa-spinner fa-spin"></i></span>
+                            {{offer_in_progress ? "Checking..." : (offer_broken ? "Q&A Unavailable" : "Download Q&A")}}
+                        </button>
+  					</div>
+  					<div class="grid-content small-3 medium-3 large-2" ng-show="!offer.report">
+  						<label class="card-row-label"></label>
+  						<button class="button expand" ng-click="GenerateNewReport()" ng-disabled="offer_in_progress || offer_broken"><span ng-show="offer_in_progress && !offer_broken"><i class="fa fa-spinner fa-spin"></i></span>
+  							{{offer_in_progress ? "Generating..." : (offer_broken ? "Q&A Unavailable" : "Generate Q&A")}}
+  						</button>
+  					</div>
+  					<div class="grid-content small-3 medium-3 large-2">
+  						<label class="card-row-label"></label>
+  						<input type="button" class="button expand" ng-disabled="!offer.products" value="Products ({{number_of_eligible_products || 0}})" zf-open="products_for_offer"></input>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+      <div class="card card-square" ng-show="offer.status === 'accepted'">
+  			<div class="card-divider white-card-divider white-text">Finalization Needed!</div>
+  			<div class="card-section left-card cus-card-sec">
+  				<div class="grid-block align-left">
+  					<div class="grid-content small-12 medium-12 large-12 ">
+  						The client has accepted the offer indicated below. To turn this offer into an <b>active</b> policy for the client, please press the <b>Create Policy</b> button below. This will create a <b>pending policy</b> under the Extractions and move this offer into the <b>Finalized</b> section. If needed, please <b>remember</b> to download the files presented to the client in this offer. You can do this under the <b>View Files</b> button. <br><br> Upon pressing the button, you will be taken directly to the extraction, where some of the information will be pre-filled.
+  					</div>
+  					<div class="grid-content small-3 medium-3 large-2">
+  						<label class="card-row-label"></label>
+  						<input type="button" class="button expand"
+  						zf-open="confirm_modal" ng-click="genService.setConfirmAction(FinalizeOffer, offer.chosen_comparison)" ng-disabled="!offer.chosen_comparison" value="{{offer.chosen_comparison && 'Create Policy' || 'No Chosen Comparison'}}"></input>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+    </div>
+    <table ng-hide="local_load" class="compare-table" style="width: {{Math.min(offer_count + 1, max_offer_count) * 24 + 10}}%">
+        <tr ng-if="!comparisons" class="warning">
+            <th colspan="{{Math.min(offer_count + 1, max_offer_count) + 1}}">
+                <h6>
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Data Structure is broken! Contact the support immediately!
+                </h6>
+            </th>
+        </tr>
+
+        <tr class="subtitle">
+            <th colspan="{{offer_count + 1}}">
+                <h6>Comparison Settings</h6>
+            </th>
+        </tr>
+
+        <tr ng-repeat-end class="edit-link" ng-show="offer.comparisons">
+            <th>Our Recommendation</th>
+            <td ng-repeat="comparison_key in comparison_keys">
+              <a ng-show="offer.preferred === comparison_key">
+                <i class="fa fa-check" aria-hidden="true"></i> <b>Preferred</b>
+              </a>
+              <a ng-show="offer.preferred !== comparison_key && isEditEnabled()" ng-click="MakePreferred(comparison_key)">
+                <i class="fa fa-star" aria-hidden="true"></i> <b>Make Preferred</b>
+              </a>
+            </td>
+        </tr>
+        <tr ng-repeat-end ng-show="offer.comparisons">
+            <th>Chosen by Client</th>
+            <td ng-repeat="comparison_key in comparison_keys" class="{{offer.chosen_comparison !== comparison_key && 'not-chosen-comparison' || ''}}">
+              <a ng-show="offer.chosen_comparison === comparison_key">
+                <i class="fa fa-check" aria-hidden="true"></i> <b>Chosen By Client</b>
+              </a>
+              <a ng-show="offer.chosen_comparison !== comparison_key">
+                <i class="fa fa-times" aria-hidden="true"></i> <b></b>
+              </a>
+            </td>
+        </tr>
+        <tr ng-repeat-end class="edit-link" ng-show="offer.comparisons">
+            <th>Files</th>
+            <td ng-repeat="comparison_key in comparison_keys">
+              <a ng-click="SelectComparison(comparison_key)" zf-open="manage_generic_files_modal" ng-show="isEditEnabled()">
+                <i class="fa fa-files-o" aria-hidden="true"></i> <b>Manage ({{LengthOfObject(offer.comparisons[comparison_key].documents)}})</b>
+              </a>
+              <a ng-click="SelectComparison(comparison_key)" zf-open="manage_files_no_delete_modal" ng-show="!isEditEnabled()">
+                <i class="fa fa-files-o" aria-hidden="true"></i> <b>View ({{LengthOfObject(offer.comparisons[comparison_key].documents)}})</b>
+              </a>
+            </td>
+        </tr>
+        <tr ng-repeat-end class="edit-link" ng-show="offer.comparisons && offer_count < max_offer_count && isEditEnabled()">
+            <th>Duplicate Comparison</th>
+            <td ng-repeat="comparison_key in comparison_keys">
+              <a ng-click="DuplicateComparison(offer.comparisons[comparison_key], comparison_key)">
+                <i class="fa fa-clone" aria-hidden="true"></i> <b>{{copying_comparison[comparison_key] ? 'Copying…' : 'Duplicate Comparison'}}</b>
+              </a>
+            </td>
+        </tr>
+
+        <!-- Basic -->
+        <tr class="subtitle">
+            <th colspan="{{offer_count + 1}}">
+                <h6>General</h6>
+            </th>
+        </tr>
+
+        <tr class="insurance-type">
+            <th colspan="{{offer_count + 1}}">
+                <h6 ng-class="checkEmpty(insurance_types[offer.subject])">
+                    <img class="insurance-type-icon" src="{{insurance_types[offer.subject].icon_url}}"/>
+                    {{insurance_types[offer.subject].name_de}}
+                </h6>
+            </th>
+        </tr>
+
+        <tr>
+            <th>Carrier</th>
+            <td ng-repeat="(key, option) in offer.comparisons" ng-class="option.basic.carrier ? '' : 'is-empty'">
+                <lmx-inline-dropdown disabled="!isEditEnabled()" identity="{comparison_uid: key, value_type: 'basic', key: 'carrier'}" options="carriers" selected="option.basic.carrier" on-change="onInlineChange" property="'name'"></lmx-inline-dropdown>
+            </td>
+            <th ng-click="createNewComparison()" ng-show="offer_count < max_offer_count && isEditEnabled()" rowspan="5" class="new-comparison">
+                <span>{{adding_comparison ? 'Adding…' : 'New Comparison'}}</span>
+                <span ng-hide="adding_comparison"><i class="fa fa-plus-square-o" aria-hidden="true"></i></span>
+                <span ng-show="adding_comparison"><i class="fa fa-spinner fa-spin fa-fw"></i></span>
+            </th>
+        </tr>
+        <tr>
+            <th>Start Date</th>
+            <td ng-repeat="(key, option) in offer.comparisons" ng-class="option.basic.start_date ? '' : 'is-empty'">
+                <lmx-inline-datepicker identity="{comparison_uid: key, value_type: 'basic', key: 'start_date'}" value="option.basic.start_date" on-change="onInlineChange" disabled="!isEditEnabled()"/>
+            </td>
+        </tr>
+        <tr>
+            <th>Insurance Tax</th>
+            <td ng-repeat="(key, option) in offer.comparisons" ng-class="checkEmptyCell(option.basic.insurance_tax)">
+                <lmx-inline-input apply-filter="'percent'" apply-validation="'percent'" placeholder="19"
+                                  identity="{comparison_uid: key, value_type: 'basic', key: 'insurance_tax'}"
+                                  value="option.basic.insurance_tax" on-change="onInlineChange" disabled="!isEditEnabled()"/>
+            </td>
+        </tr>
+        <tr>
+            <th>Annual Net Premium</th>
+            <td ng-repeat="(key, option) in offer.comparisons" ng-class="checkEmptyCell(option.basic.premium)">
+                <lmx-inline-input apply-filter="'euro'" apply-validation="'euro'" placeholder="'€5.000'"
+                                  identity="{comparison_uid: key, value_type: 'basic', key: 'premium'}"
+                                  value="option.basic.premium" on-change="onInlineChange" disabled="!isEditEnabled()"/>
+            </td>
+        </tr>
+        <tr>
+            <th>Annual Gross Premium</th>
+            <td ng-class="!(option.basic.premium && option.basic.insurance_tax) ? 'not-included' : ''" ng-repeat="(key, option) in offer.comparisons">
+                <span ng-show="option.basic.premium && option.basic.insurance_tax">{{option.basic.premium * ((option.basic.insurance_tax * 0.01) + 1) | euro}}</span>
+                <span ng-hide="option.basic.premium && option.basic.insurance_tax">Set Annual Net Premium and Insurance Tax</span>
+            </td>
+        </tr>
+        <tr>
+            <th>Note</th>
+            <td ng-repeat="(key, option) in offer.comparisons" ng-dblclick="EditNote(key)">
+                <span class="html-note" ng-bind-html="transformToHtml(option.basic.note)" ng-if="option.basic.note"></span>
+            </td>
+        </tr>
+      
+        <tr ng-repeat-end class="edit-link" ng-show="true">
+            <th colspan="{{offer.comparisons.length + 2}}"></th>
+        </tr>
+
+        <tr>
+            <th>Sum Insured</th>
+            <td ng-repeat="(key, option) in offer.comparisons" ng-if="option.insurance_types[offer.subject] && option.insurance_types[offer.subject].general" ng-class="checkEmptyCell(option.insurance_types[offer.subject].general.unlimited_sum_insured ? true : option.insurance_types[offer.subject].general.sum_insured)">
+                <lmx-inline-input ng-hide="option.insurance_types[offer.subject].general.unlimited_sum_insured" apply-filter="'euro'" apply-validation="'euro'" placeholder="'€5.000'"
+                                  identity="{comparison_uid: key, insurance_type_uid: offer.subject, value_type: 'general', key: 'sum_insured'}"
+                                  value="option.insurance_types[offer.subject].general.sum_insured" on-change="onInlineChange" disabled="!isEditEnabled()"
+                                  right-key="'to_unlimited'" right-caption="'∞'" on-right-icon="onRightIcon"/>
+
+                <lmx-inline-input ng-show="option.insurance_types[offer.subject].general.unlimited_sum_insured" apply-filter="'euro'" apply-validation="'euro'" placeholder="'€5.000'"
+                                  identity="{comparison_uid: key, insurance_type_uid: offer.subject, value_type: 'general', key: 'unlimited_sum_insured'}"
+                                  value="'Unlimited'" unclickable="true" disabled="!isEditEnabled()"
+                                  right-key="'to_limited'" right-fa="'fa-euro'" on-right-icon="onRightIcon"/>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Deductible</th>
+            <td ng-repeat="(key, option) in offer.comparisons" ng-if="option.insurance_types[offer.subject] && option.insurance_types[offer.subject].general"  ng-class="checkEmptyCell(option.insurance_types[offer.subject].general.deductible_is_percent ? option.insurance_types[offer.subject].general.deductible_percent : option.insurance_types[offer.subject].general.deductible_absolute)">
+                <lmx-inline-input ng-hide="option.insurance_types[offer.subject].general.deductible_is_percent"
+                                  apply-filter="'euro'" apply-validation="'euro'" placeholder="'€5.000'"
+                                  identity="{comparison_uid: key, insurance_type_uid: offer.subject, value_type: 'general', key: 'deductible_absolute'}"
+                                  value="option.insurance_types[offer.subject].general.deductible_absolute" on-change="onInlineChange"
+                                  right-key="'to_percent'" right-fa="'fa-percent'" on-right-icon="onRightIcon" disabled="!isEditEnabled()"/>
+
+                <lmx-inline-input ng-show="option.insurance_types[offer.subject].general.deductible_is_percent"
+                                  apply-filter="'percent'" apply-validation="'percent'" placeholder="19"
+                                  identity="{comparison_uid: key, insurance_type_uid: offer.subject, value_type: 'general', key: 'deductible_percent'}"
+                                  value="option.insurance_types[offer.subject].general.deductible_percent" on-change="onInlineChange"
+                                  right-key="'to_absolute'" right-fa="'fa-euro'" on-right-icon="onRightIcon" disabled="!isEditEnabled()"/>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Max Deductible</th>
+            <td ng-repeat="(key, option) in offer.comparisons" ng-if="option.insurance_types[offer.subject] && option.insurance_types[offer.subject].general">
+                <lmx-inline-input ng-hide="option.insurance_types[offer.subject].general.deductible_max_is_percent"
+                                  apply-filter="'euro'" apply-validation="'euro'" placeholder="'€5.000'"
+                                  identity="{comparison_uid: key, insurance_type_uid: offer.subject, value_type: 'general', key: 'deductible_absolute_max'}"
+                                  value="option.insurance_types[offer.subject].general.deductible_absolute_max" on-change="onInlineChange"
+                                  right-key="'max_to_percent'" right-fa="'fa-percent'" on-right-icon="onRightIcon" empty-caption="'Double click to edit (optional)'" disabled="!isEditEnabled()"/>
+
+                <lmx-inline-input ng-show="option.insurance_types[offer.subject].general.deductible_max_is_percent"
+                                  apply-filter="'percent'" apply-validation="'percent'" placeholder="19"
+                                  identity="{comparison_uid: key, insurance_type_uid: offer.subject, value_type: 'general', key: 'deductible_percent_max'}"
+                                  value="option.insurance_types[offer.subject].general.deductible_percent_max" on-change="onInlineChange"
+                                  right-key="'max_to_absolute'" right-fa="'fa-euro'" on-right-icon="onRightIcon" empty-caption="'Double click to edit (optional)'" disabled="!isEditEnabled()"/>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Maximisation</th>
+            <td ng-repeat="(key, option) in offer.comparisons" ng-if="option.insurance_types[offer.subject] && option.insurance_types[offer.subject].general" ng-class="checkEmptyCell(option.insurance_types[offer.subject].general.maximisation)">
+                <lmx-inline-input apply-filter="'multiply'" apply-validation="'multiply'" placeholder="'×1'"
+                                  identity="{comparison_uid: key, insurance_type_uid: offer.subject, value_type: 'general', key: 'maximisation'}"
+                                  value="option.insurance_types[offer.subject].general.maximisation" on-change="onInlineChange" disabled="!isEditEnabled()"/>
+            </td>
+        </tr>
+
+        <tr ng-repeat-end class="edit-link" ng-show="false">
+
+        </tr>
+
+        <!--Specific, Additional -->
+        <tr class="subtitle" ng-show="branch_key === 'additional'" ng-repeat-start="branch_key in branch_keys | filter : filterNullHandling">
+            <th colspan="{{offer_count + 1}}">
+                <h6>{{getSectionName(branch_key)}}</h6>
+            </th>
+        </tr>
+
+            <!--Insurance Type-->
+            <tr ng-show="branch_key === 'additional'" ng-repeat-start="(insurance_type_key, insurance_type) in tree[branch_key]" class="insurance-type">
+                <th colspan="{{offer_count + 1}}">
+                    <h6 ng-class="checkEmpty(insurance_type)">
+                        <img class="insurance-type-icon" src="{{insurance_types[insurance_type_key].icon_url}}"/>
+                        {{insurance_types[insurance_type_key].name_de}} {{insurance_type === false ? ' (empty)' : ''}}
+                    </h6>
+                    <a class="delete-link" href="" ng-click="requestDeleteInsuranceType(insurance_type_key)" ng-if="insurance_type === false && branch_key === 'additional' && isEditEnabled()"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
+                </th>
+            </tr>
+
+
+            <tr ng-if="branch_key === 'additional'">
+                <th>Sum Insured</th>
+                <td ng-repeat="(comparison_uid, comparison) in offer.comparisons" ng-class="comparison.insurance_types[insurance_type_key] ? checkEmptyCell(comparison.insurance_types[insurance_type_key].general.unlimited_sum_insured ? true : comparison.insurance_types[insurance_type_key].general.sum_insured) : 'not-used'" rowspan="{{comparison.insurance_types[insurance_type_key] ? 1 : 4}}">
+                    <lmx-inline-input ng-show="comparison.insurance_types[insurance_type_key] && !comparison.insurance_types[insurance_type_key].general.unlimited_sum_insured"
+                                      apply-filter="'euro'" apply-validation="'euro'" placeholder="'€5.000'"
+                                      identity="{comparison_uid: comparison_uid, insurance_type_uid: insurance_type_key, value_type: 'general', key: 'sum_insured'}"
+                                      value="comparison.insurance_types[insurance_type_key].general.sum_insured" on-change="onInlineChange" disabled="!isEditEnabled()"
+                                        right-key="'to_unlimited'" right-caption="'∞'" on-right-icon="onRightIcon"/>
+
+                    <lmx-inline-input ng-show="comparison.insurance_types[insurance_type_key] && comparison.insurance_types[insurance_type_key].general.unlimited_sum_insured"
+                                      identity="{comparison_uid: comparison_uid, insurance_type_uid: insurance_type_key, value_type: 'general', key: 'unlimited_sum_insured'}"
+                                      value="'Unlimited'" unclickable="true" disabled="!isEditEnabled()"
+                                      right-key="'to_limited'" right-fa="'fa-euro'" on-right-icon="onRightIcon"/>
+                    <p class="add-insurance-type">
+                        <small>{{insurance_types[insurance_type_key].name_de}} not included in this comparison</small><br/>
+                        <a href="" ng-click="addSingleComparison(comparison_uid, insurance_type_key)" ng-show="isEditEnabled()">
+                            <i class="fa fa-plus-square-o" aria-hidden="true"></i> Add {{insurance_types[insurance_type_key].name_de}} to this Comparison
+                        </a>
+                    </p>
+                </td>
+            </tr>
+    
+            <tr ng-if="branch_key === 'additional'">
+                <th>Deductible</th>
+                <td ng-show="comparison.insurance_types[insurance_type_key]" ng-class="checkEmptyCell(comparison.insurance_types[insurance_type_key].general.deductible_is_percent ? comparison.insurance_types[insurance_type_key].general.deductible_percent : comparison.insurance_types[insurance_type_key].general.deductible_absolute)" ng-repeat="(comparison_uid, comparison) in offer.comparisons">
+                    <lmx-inline-input ng-hide="comparison.insurance_types[insurance_type_key].general.deductible_is_percent"
+                                      apply-filter="'euro'" apply-validation="'euro'" placeholder="'€5.000'"
+                                      identity="{comparison_uid: comparison_uid, insurance_type_uid: insurance_type_key, value_type: 'general', key: 'deductible_absolute'}"
+                                      value="comparison.insurance_types[insurance_type_key].general.deductible_absolute" on-change="onInlineChange"
+                                      right-key="'to_percent'" right-fa="'fa-percent'" on-right-icon="onRightIcon" disabled="!isEditEnabled()"/>
+
+                    <lmx-inline-input ng-show="comparison.insurance_types[insurance_type_key].general.deductible_is_percent"
+                                      apply-filter="'percent'" apply-validation="'percent'" placeholder="19"
+                                      identity="{comparison_uid: comparison_uid, insurance_type_uid: insurance_type_key, value_type: 'general', key: 'deductible_percent'}"
+                                      value="comparison.insurance_types[insurance_type_key].general.deductible_percent" on-change="onInlineChange"
+                                      right-key="'to_absolute'" right-fa="'fa-euro'" on-right-icon="onRightIcon" disabled="!isEditEnabled()"/>
+                </td>
+            </tr>
+    
+            <tr ng-if="branch_key === 'additional'">
+                <th>Max Deductible</th>
+                <td ng-show="comparison.insurance_types[insurance_type_key]" ng-repeat="(comparison_uid, comparison) in offer.comparisons">
+                    <lmx-inline-input ng-hide="comparison.insurance_types[insurance_type_key].general.deductible_max_is_percent"
+                                      apply-filter="'euro'" apply-validation="'euro'" placeholder="'€5.000'"
+                                      identity="{comparison_uid: comparison_uid, insurance_type_uid: insurance_type_key, value_type: 'general', key: 'deductible_absolute_max'}"
+                                      value="comparison.insurance_types[insurance_type_key].general.deductible_absolute_max" on-change="onInlineChange"
+                                      right-key="'max_to_percent'" right-fa="'fa-percent'" on-right-icon="onRightIcon" empty-caption="'Double click to edit (optional)'" disabled="!isEditEnabled()"/>
+
+                    <lmx-inline-input ng-show="comparison.insurance_types[insurance_type_key].general.deductible_max_is_percent"
+                                      apply-filter="'percent'" apply-validation="'percent'" placeholder="19"
+                                      identity="{comparison_uid: comparison_uid, insurance_type_uid: insurance_type_key, value_type: 'general', key: 'deductible_percent_max'}"
+                                      value="comparison.insurance_types[insurance_type_key].general.deductible_percent_max" on-change="onInlineChange"
+                                      right-key="'max_to_absolute'" right-fa="'fa-euro'" on-right-icon="onRightIcon" empty-caption="'Double click to edit (optional)'" disabled="!isEditEnabled()"/>
+                </td>
+            </tr>
+    
+            <tr ng-if="branch_key === 'additional'">
+                <th>Maximisation</th>
+                <td ng-show="comparison.insurance_types[insurance_type_key]" ng-class="checkEmptyCell(comparison.insurance_types[insurance_type_key].general.maximisation)" ng-repeat="(comparison_uid, comparison) in offer.comparisons">
+                    <lmx-inline-input apply-filter="'multiply'" apply-validation="'multiply'" placeholder="'×1'"
+                                      identity="{comparison_uid: comparison_uid, insurance_type_uid: insurance_type_key, value_type: 'general', key: 'maximisation'}"
+                                      value="comparison.insurance_types[insurance_type_key].general.maximisation" on-change="onInlineChange" disabled="!isEditEnabled()"/>
+                </td>
+            </tr>
+
+                <!--Comparison Criteria -->
+                <tr ng-repeat-start="(criteria_key, criteria) in insurance_type" ng-class="checkObsolete(insurance_type_key, criteria_key)">
+                    <th colspan="{{offer_count + 1}}">
+                        <b>{{getSectionName(criteria_key)}} <small ng-show="obsolete_criteria[insurance_type_key][criteria_key]">(Outdated)</small></b>
+                        <a href="" ng-click="requestPurgeCriterion(insurance_type_key, criteria_key)" ng-show="obsolete_criteria[insurance_type_key][criteria_key] && isEditEnabled()">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i> Remove
+                        </a>
+                    </th>
+                </tr>
+                <tr ng-class="checkObsolete(insurance_type_key, criteria_key)">
+                    <th>Sublimit</th>
+                    <td ng-repeat="comparison_uid in comparison_keys" ng-class="checkCoverage(criteria[comparison_uid], comparison_uid, insurance_type_key)">
+                        <lmx-inline-input ng-show="criteria[comparison_uid].included === true" apply-filter="'euro'" apply-validation="'euro'" placeholder="'€5.000'"
+                                          identity="{comparison_uid: comparison_uid, insurance_type_uid: insurance_type_key, value_type: 'general', criteria_uid: criteria_key, value_type: 'specific', key: 'sublimit'}"
+                                          value="criteria[comparison_uid].sublimit" on-change="onInlineChange"
+                                          right-key="'exclude'" right-fa="'fa-check-square-o'" on-right-icon="onRightIcon" disabled="!isEditEnabled()"/>
+
+                        <span ng-hide="!isEditEnabled()">
+                            <span ng-hide="includedDefined(criteria[comparison_uid].included)">Specify:
+                                <a ng-click="includeCriteria(comparison_uid, insurance_type_key, criteria_key)" href=""><i class="fa fa-check-square-o" aria-hidden="true"></i> Included</a> or
+                                <a ng-click="excludeCriteria(comparison_uid, insurance_type_key, criteria_key)" href=""><i class="fa fa-square-o" aria-hidden="true"></i> Not included</a></span>
+                            <span ng-show="criteria[comparison_uid].included === false"><i class="fa fa-square-o" aria-hidden="true"></i> Not included. <a href="" ng-click="includeCriteria(comparison_uid, insurance_type_key, criteria_key)"> Include</a></span>
+                        </span>
+                        <span ng-show="!isEditEnabled()">
+                            <span ng-hide="includedDefined(criteria[comparison_uid].included)">Not specified</span>
+                            <span ng-show="criteria[comparison_uid].included === false">Not included</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr ng-show="false" ng-repeat-end></tr> <!--End Comparison Criteria -->
+
+            <!--End Insurance Type-->
+            <tr ng-show="insurance_type !== false && isEditEnabled()" ng-repeat-end class="edit-link">
+                <th></th>
+                <td ng-if="branch_key === 'general'" ng-repeat="comparison_key in comparison_keys">
+                    <!--<a ui-sref="generaloffercriteria( { offer_uid : offer_id , comparison_uid : comparison_key } )">-->
+                        <!--<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit-->
+                    <!--</a>-->
+                </td>
+                <td ng-if="branch_key !== 'general'" ng-repeat="comparison_key in comparison_keys">
+                    <!--<a ui-sref="specificoffercriteria( { offer_uid : offer_id , comparison_uid : comparison_key , insurance_uid : insurance_type_key } )" ng-show="offer.comparisons[comparison_key].insurance_types[insurance_type_key]">-->
+                        <!--<i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit-->
+                    <!--</a>-->
+                    <a class="delete-link" href="" ng-show="offer.comparisons[comparison_key].insurance_types[insurance_type_key] && isEditEnabled()" ng-click="requestDeleteInsuranceType(insurance_type_key, comparison_key)" ng-if="branch_key === 'additional' && offer.status === 'requested'">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                    </a>
+                </td>
+            </tr>
+
+        <!--End Specific, Additional -->
+        <tr ng-show="offer.comparisons && branch_key === 'additional' && isEditEnabled()" ng-repeat-end  class="edit-link">
+            <th></th>
+            <td ng-repeat="comparison_key in comparison_keys">
+                <a ui-sref="additionalmodulecomparison( { offer_uid : offer_id , comparison_uid : comparison_key } )">
+                    <i class="fa fa-plus-square-o" aria-hidden="true"></i> Add Additional Module
+                </a>
+            </td>
+        </tr>
+        <tr class="delete-link" ng-show="offer_count && isEditEnabled()">
+            <td></td>
+            <td ng-repeat="comparison_key in comparison_keys">
+                <a href="" ng-click="requestDeleteComparison(comparison_key)">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i> Delete Comparison
+                </a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<!-- Includes -->
+<div ng-include="" src="'partials/modals/comparison_deletion_confirm.html'"></div>
+<div ng-include="" src="'partials/modals/insurance_type_deletion_confirm.html'"></div>
+<div ng-include="" src="'partials/modals/criterion_deletion_confirm.html'"></div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>
+<div ng-include="" src="'partials/modals/editalias.html'"></div>
+<div ng-include="" src="'partials/modals/managegenericfiles.html'"></div>
+<div ng-include="" src="'partials/modals/managefiles_nodelete.html'"></div>
+<div ng-include="" src="'partials/modals/productsforoffer.html'"></div>
+<div ng-include="" src="'partials/modals/editnote.html'"></div>

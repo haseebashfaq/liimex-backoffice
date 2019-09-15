@@ -1,0 +1,13 @@
+<div ng-hide="processing">
+    <a href="" class="focus-catcher"></a>
+    <span class="caption" ng-show="mode != 'edit'">
+        <span ng-show="value">{{value | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY'}}</span>
+        <span ng-hide="value">Double click to edit</span>
+    </span>
+    <span ng-show="mode == 'edit'">
+        <input tabindex="-1" ng-model="value" type="date" format-date placeholder="12/12/2010">
+    </span>
+</div>
+<div ng-show="processing">
+    <i class="fa fa-spinner fa-spin fa-fw"></i>
+</div>

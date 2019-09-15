@@ -1,0 +1,23 @@
+<!-- Re-Authenticate Modal -->
+<div zf-modal="" id="comparison-deletion-modal" style="z-index:99999">
+    <div class="title-bar modal-title">
+        <span class="title center">Deleting Comparison</span>
+        <a zf-close="comparison-deletion-modal" class="close-button" id="close_confirm">×</a>
+    </div>
+    <!-- Fill Account Information -->
+    <div class="modal-contents">
+        <p><b>Are you sure?</b></p>
+        <p>You are about to delete the comparison<span ng-show="delete_comparison.comparison.basic.carrier"> by <b>{{carriers[delete_comparison.comparison.basic.carrier].name}}</b></span>.</p>
+        <div class="grid-block force-wrap">
+            <form class="wide-form flex-form" name="reauth_form">
+                <div class="liimefix"></div>
+                <div class="grid-content small-6 medium-6 large-6 left-align">
+                    <button zf-close="comparison-deletion-modal" class="button expand">Cancel</button>
+                </div>
+                <div class="grid-content small-6 medium-6 large-6 right-align">
+                    <button class="button expand alert" ng-click="deleteComparison(delete_comparison.key)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

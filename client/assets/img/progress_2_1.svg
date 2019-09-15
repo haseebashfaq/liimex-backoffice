@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="348px" height="26px" viewBox="0 0 348 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(2.000000, 0.000000)">
+            <g id="Group" transform="translate(238.000000, 11.000000)" stroke="#DADADA" stroke-width="5" stroke-linecap="square">
+                <path d="M0.5,1.5 L105.5,1.5" id="Line"></path>
+            </g>
+            <g id="Group" transform="translate(119.000000, 0.000000)">
+                <path d="M0.5,12.5 L105.5,12.5" id="Line" stroke="#DADADA" stroke-width="5" stroke-linecap="square"></path>
+                <circle id="Oval" fill="#D8D8D8" cx="106" cy="13" r="13"></circle>
+            </g>
+            <g id="Group">
+                <path d="M0.5,12.5 L105.5,12.5" id="Line" stroke="#00558B" stroke-width="5" stroke-linecap="square"></path>
+                <circle id="Oval" fill="#00558B" cx="106" cy="13" r="13"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

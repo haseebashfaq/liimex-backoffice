@@ -1,0 +1,60 @@
+---
+name: activitygroup
+url: /group/:group
+title: Activity Group
+parent: activities
+controller: ActivityGroupController
+loginRequired: true
+---
+
+<div class="grid-block">
+
+	<!-- Editable -->
+	<div class="grid-content large-12 medium-12 small-12" ng-show="group">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Define Activity Question</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Set Group</label>
+						<input class="card-row-input status-highlight" type="number" min="1" max="5" step="1" ng-model="group.group"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Define Question (EN)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="group.name_en"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Define Question (DE)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="group.name_de"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Displayed on Account Page as (EN)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="group.rev_name_en"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Displayed on Account Page as (DE)</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="group.rev_name_de"/>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="SaveGroup()" value="Save"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand success" zf-open="confirm_modal" ng-click="genService.setConfirmAction(EnableGroup)" value="Enable" ng-disabled="!group.disabled"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand alert" zf-open="confirm_modal" ng-click="genService.setConfirmAction(DisableGroup)" value="Disable" ng-disabled="group.disabled"></input>
+	</div>
+
+</div>
+
+
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

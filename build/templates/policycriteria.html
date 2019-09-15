@@ -1,0 +1,191 @@
+
+<div class="grid-block">
+
+	<!-- Policy Type -->
+	<div class="grid-content large-12 medium-12 small-12" ng-show="criteria">
+
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Selected Policy Criteria</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Name</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="criteria.name"/>
+					</div>
+
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Last Updated</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{criteria.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-2">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand" ng-click="SaveCriteria()" value="Save"></input>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-2" ng-show="!criteria.disabled">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand alert" ng-click="genService.setConfirmAction(DisableCriteria)" zf-open="confirm_modal" value="Disable"></input>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-2" ng-show="criteria.disabled === true">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand success" ng-click="genService.setConfirmAction(EnableCriteria)" zf-open="confirm_modal" value="Enable"></input>
+					</div>
+
+					<div class="grid-content small-3 medium-4 large-3">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand" ng-click="extracting = !extracting" value="Show Default Information"></input>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- When Extracting -->
+	<div class="grid-content large-12 medium-12 small-12" ng-show="extracting">
+
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Default Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">Carrier</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="i.e. HISCOX"/>
+					</div>
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">Policy Number</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="i.e. HS3490"/>
+					</div>
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">Subject</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="i.e. Liability"/>
+					</div>
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">deductible</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="i.e. 3.500 EUR"/>
+					</div>
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">Start Date</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="i.e. 12/12/2012"/>
+					</div>
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">End Date</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="i.e. 12/12/2020"/>
+					</div>
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">Premium</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="i.e. 10.000 EUR"/>
+					</div>
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">Sum Insured</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="i.e. 2.000.000 EUR"/>
+					</div>
+					<div class="liimefix">
+
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<p>These fields are included and cannot be removed</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Triggers -->
+	<div class="grid-content large-12 medium-12 small-12" ng-show="criteria">
+
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Trigger</div>
+			<div class="card-section left-card cus-card-sec">
+				Pick the insurance type to trigger these extraction criterias
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-4 large-4">
+						<label class="card-row-label"></label>
+						<span>
+							<select name="typeselector" ng-model="criteria.trigger" required>
+								<option selected disabled>Choose Subject</option>
+								<option ng-repeat="(key, insurance_type) in insurance_types" value="{{insurance_type.key}}" ng-show="!insurance_type.insurance_type.disabled" >{{insurance_type.insurance_type.name_en}}</option>
+							</select>
+						</span>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<!-- Add Custom Field -->
+	<div class="grid-content small-12 medium-12 large-12" ng-show="criteria">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button" ng-click="AddCustomField()" value="+ Add Custom Field"></input>
+	</div>
+
+	<!-- Fields -->
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, field) in criteria.fields" ng-show="criteria">
+
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Criteria</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">Title_en</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="field.title_en"/>
+					</div>
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">Title_de</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="field.title_de"/>
+					</div>
+
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label">Placeholder</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="field.placeholder"/>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-3">
+						<input name="{{key}}" type="radio" id="{{key}}1" value="text" ng-model="field.type"/>
+		        <label for="{{key}}1">Text</label>
+						<input name="{{key}}" type="radio" id="{{key}}2" value="currency" ng-model="field.type"/>
+		        <label for="{{key}}2">Currency</label>
+						<input name="{{key}}" type="radio" id="{{key}}3" value="date" ng-model="field.type"/>
+		        <label for="{{key}}3">Date</label>
+						<input name="{{key}}" type="radio" id="{{key}}4" value="choice" ng-model="field.type"/>
+						<label for="{{key}}4">Choice</label>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-2" ng-show="!field.disabled">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand alert" ng-click="DisableCustomField(key)" value="Disable"></input>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-2" ng-show="field.disabled === true">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand success" ng-click="EnableCustomField(key)" value="Enable"></input>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

@@ -1,0 +1,325 @@
+{
+  "development": {
+    "navigation" : {
+      "link_to_policies" : "lmx3.liimex.com/#!/de/my/policies"
+    },
+    "firebase" : {
+      "database" : "https://liimex-development.firebaseio.com/",
+
+      "activities": "/meta/activities",
+      "addresses" : "/addresses/",
+      "admins": "/admins/",
+      "carriers": "/meta/carriers",
+      "companies" : "/companies/",
+      "emails" : "/mails/",
+      "email_verifications": "/email_verifications/",
+      "industry_codes": "/meta/industry_codes",
+      "insurance_types": "/meta/insurance_types",
+      "insurance_questions" : "meta/insurance_questionnaire",
+      "insurance_question_mapping" : "meta/insurance_question_mapping",
+      "mandates" : "/documents/mandates/",
+      "offers" : "/offers/",
+      "policies" : "/policies/",
+      "products" : "/meta/products/",
+      "recommendations": "/recommendations/",
+      "recommendation_mapping": "meta/recommendation_mapping",
+      "users": "/users/",
+      "user_requests":"/user_requests/",
+      "instant_product_request": "/instant_product_request/",
+      "employments": "/employments/",
+
+      "path_to_service_account" : "../config/firebase_service_account_development.json",
+      "root_path_to_service_account" : "./server/config/firebase_service_account_development.json",
+      "storage_urls" : {
+        "storage_bucket" : "liimex-development.appspot.com",
+        "documents" : "documents/",
+        "mandates" : "mandates/",
+        "sepa_mandates" : "sepa_mandates/"
+      }
+    },
+    "logging" : {
+      "papertrail_host" : "logs5.papertrailapp.com",
+      "papertrail_port" : 26557,
+      "hostname" :  "platform-backoffice-development",
+      "hostname_plat" :  "platform-development"
+    },
+    "jobs" : {
+      "max_attempts_to_send_email" : 2
+    },
+    "sendgrid": {
+      "api_key" : "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",
+      "support_mail"          : "hello@liimex.com",
+      "no_reply" 			        : "noreply@liimex.com",
+      "welcome_email" 	      : "hello@liimex.com",
+      "christian"             : "christian@liimex.com",
+      "benno"                 : "benno@liimex.com",
+      "sales"                 : "sales@liimex.com",
+      "advisory" : "insurance.advisory@liimex.com",
+      "insurance_support_phone_number" : "+49 40-60 59 09 180",
+      "welcome_template_id" : {
+        "en" : "c719b13f-0dfd-4531-ae12-275e1ce8616f",
+        "de" : "cf161320-96e5-4366-b277-bbe595cef778"
+      },
+      "offer_requested_template_id" : {
+        "en" : "8c82ad4f-28cf-4284-bffc-35ee48ffdce5",
+        "de" : "b89e5e62-7ca6-4843-9e2a-dc33e02c26a2"
+      },
+      "new_offer_with_request" : {
+        "en" : "8f537f8a-4ecb-4da3-adc1-3cfe02058e37",
+        "de" : "f6bd49df-1b7b-45ca-83b0-591a8efb8074"
+      },
+      "new_offer_without_request" : {
+        "en" : "b35c532b-9cb9-4b51-8971-bdc6335017e3",
+        "de" : "66e22efe-ed20-4ff0-97f7-22dcfb443181"
+      },
+      "policy_digitized" : {
+        "en" : "2464b3cf-57e8-4c52-b0ef-06c881e6850b",
+        "de" : "eeaca704-7900-49ce-8af8-3d86bd23fefe"
+      },
+      "policy_cancelled" : {
+        "en" : "15c13be0-1aa0-4fbd-b583-9ae2b375f1ae",
+        "de" : "10543c4d-3077-45d9-bdf8-533f53b4b0b3"
+      },
+      "mandate_signed" : {
+        "en" : "992c912b-f179-455f-9636-e7222d2ecc71",
+        "de" : "e78728d9-fa22-4cd9-8462-582b62f20ae4"
+      },
+      "offer_accepted" : {
+        "en" : "e34fb361-ed29-4eb8-a81d-272c894089bd",
+        "de" : "3ef7bc5b-6b30-4d47-86a6-452475d0b14a"
+      },
+      "could_not_find_industry" : {
+        "en" : "bc5fe05e-a7a0-4b49-869c-c673b36263b8",
+        "de" : "bc5fe05e-a7a0-4b49-869c-c673b36263b8"
+      },
+      "email_verification" : {
+        "en" : "5292dc10-a204-435b-975f-81aea7a8cdec",
+        "de" : "e29a1afc-28e6-42f8-b651-f49571a17ed2"
+      },
+      "internal_offer_requested" : {
+        "en" : "88521de9-9f5b-4b5a-92de-15811e0c3fd5",
+        "de" : "88521de9-9f5b-4b5a-92de-15811e0c3fd5"  
+      },
+      "internal_offer_accepted" : {
+        "en" : "8dbcb6a8-bbd4-41c0-aca8-cadc697ddcfd",
+        "de" : "8dbcb6a8-bbd4-41c0-aca8-cadc697ddcfd"  
+      }
+    }
+  },
+
+
+  "staging": {
+    "navigation" : {
+      "link_to_policies" : "lmx3.liimex.com/#!/de/my/policies"
+    },
+    "firebase" : {
+      "database" : "https://liimex-staging.firebaseio.com/",
+
+      "activities": "/meta/activities",
+      "addresses" : "/addresses/",
+      "admins": "/admins/",
+      "carriers": "/meta/carriers",
+      "companies" : "/companies/",
+      "emails" : "/mails/",
+      "email_verifications": "/email_verifications/",
+      "industry_codes": "/meta/industry_codes",
+      "insurance_types": "/meta/insurance_types",
+      "insurance_questions" : "meta/insurance_questionnaire",
+      "insurance_question_mapping" : "meta/insurance_question_mapping",
+      "mandates" : "/documents/mandates/",
+      "offers" : "/offers/",
+      "policies" : "/policies/",
+      "products" : "/meta/products/",
+      "recommendations": "/recommendations/",
+      "recommendation_mapping": "meta/recommendation_mapping",
+      "users": "/users/",
+      "user_requests":"/user_requests/",
+      "instant_product_request": "/instant_product_request/",
+      "employments": "/employments/",
+
+      "path_to_service_account" : "../config/firebase_service_account_staging.json",
+      "root_path_to_service_account" : "./server/config/firebase_service_account_staging.json",
+      "storage_urls" : {
+        "storage_bucket" : "liimex-staging.appspot.com",
+        "documents" : "documents/",
+        "mandates" : "mandates/"
+      }
+    },
+    "logging" : {
+      "papertrail_host" : "logs5.papertrailapp.com",
+      "papertrail_port" : 26557,
+      "hostname" :  "platform-backoffice-staging",
+      "hostname_plat" :  "platform-staging"
+    },
+    "jobs" : {
+      "max_attempts_to_send_email" : 2
+    },
+    "sendgrid": {
+      "api_key" : "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",
+      "support_mail"          : "hello@liimex.com",
+      "no_reply" 			        : "noreply@liimex.com",
+      "welcome_email" 	      : "hello@liimex.com",
+      "christian"             : "christian@liimex.com",
+      "benno"                 : "benno@liimex.com",
+      "sales"                 : "sales@liimex.com",
+      "advisory" : "insurance.advisory@liimex.com",      
+      "insurance_support_phone_number" : "+49 40-60 59 09 180",
+      "welcome_template_id" : {
+        "en" : "c719b13f-0dfd-4531-ae12-275e1ce8616f",
+        "de" : "cf161320-96e5-4366-b277-bbe595cef778"
+      },
+      "offer_requested_template_id" : {
+        "en" : "8c82ad4f-28cf-4284-bffc-35ee48ffdce5",
+        "de" : "b89e5e62-7ca6-4843-9e2a-dc33e02c26a2"
+      },
+      "new_offer_with_request" : {
+        "en" : "8f537f8a-4ecb-4da3-adc1-3cfe02058e37",
+        "de" : "f6bd49df-1b7b-45ca-83b0-591a8efb8074"
+      },
+      "new_offer_without_request" : {
+        "en" : "b35c532b-9cb9-4b51-8971-bdc6335017e3",
+        "de" : "66e22efe-ed20-4ff0-97f7-22dcfb443181"
+      },
+      "policy_digitized" : {
+        "en" : "2464b3cf-57e8-4c52-b0ef-06c881e6850b",
+        "de" : "eeaca704-7900-49ce-8af8-3d86bd23fefe"
+      },
+      "policy_cancelled" : {
+        "en" : "15c13be0-1aa0-4fbd-b583-9ae2b375f1ae",
+        "de" : "10543c4d-3077-45d9-bdf8-533f53b4b0b3"
+      },
+      "mandate_signed" : {
+        "en" : "992c912b-f179-455f-9636-e7222d2ecc71",
+        "de" : "e78728d9-fa22-4cd9-8462-582b62f20ae4"
+      },
+      "offer_accepted" : {
+        "en" : "e34fb361-ed29-4eb8-a81d-272c894089bd",
+        "de" : "3ef7bc5b-6b30-4d47-86a6-452475d0b14a"
+      },
+      "could_not_find_industry" : {
+        "en" : "bc5fe05e-a7a0-4b49-869c-c673b36263b8",
+        "de" : "bc5fe05e-a7a0-4b49-869c-c673b36263b8"
+      },
+      "email_verification" : {
+        "en" : "5292dc10-a204-435b-975f-81aea7a8cdec",
+        "de" : "e29a1afc-28e6-42f8-b651-f49571a17ed2"
+      },
+      "internal_offer_requested" : {
+        "en" : "88521de9-9f5b-4b5a-92de-15811e0c3fd5",
+        "de" : "88521de9-9f5b-4b5a-92de-15811e0c3fd5"  
+      },
+      "internal_offer_accepted" : {
+        "en" : "8dbcb6a8-bbd4-41c0-aca8-cadc697ddcfd",
+        "de" : "8dbcb6a8-bbd4-41c0-aca8-cadc697ddcfd"  
+      }
+    }
+  },
+
+
+  "production": {
+    "navigation" : {
+      "link_to_policies" : "lmx3.liimex.com/#!/de/my/policies"
+    },
+    "firebase" : {
+      "database" : "https://liimex-production.firebaseio.com",
+
+      "activities": "/meta/activities",
+      "addresses" : "/addresses/",
+      "admins": "/admins/",
+      "carriers": "/meta/carriers",
+      "companies" : "/companies/",
+      "emails" : "/mails/",
+      "email_verifications": "/email_verifications/",
+      "industry_codes": "/meta/industry_codes",
+      "insurance_types": "/meta/insurance_types",
+      "insurance_questions" : "meta/insurance_questionnaire",
+      "insurance_question_mapping" : "meta/insurance_question_mapping",
+      "mandates" : "/documents/mandates/",
+      "offers" : "/offers/",
+      "policies" : "/policies/",
+      "products" : "/meta/products/",
+      "recommendations": "/recommendations/",
+      "recommendation_mapping": "meta/recommendation_mapping",
+      "users": "/users/",
+      "user_requests":"/user_requests/",
+      "instant_product_request": "/instant_product_request/",
+      "employments": "/employments/",
+
+      "path_to_service_account" : "../config/firebase_service_account_production.json",
+      "root_path_to_service_account" : "./server/config/firebase_service_account_production.json",
+      "storage_urls" : {
+        "storage_bucket" : "liimex-production.appspot.com",
+        "documents" : "documents/",
+        "mandates" : "mandates/"
+      }
+    },
+    "logging" : {
+      "papertrail_host" : "logs5.papertrailapp.com",
+      "papertrail_port" : 26557,
+      "hostname" : "platform-backoffice-production",
+      "hostname_plat" : "platform-production"
+    },
+    "jobs" : {
+      "max_attempts_to_send_email" : 2
+    },
+    "sendgrid": {
+      "api_key" : "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",
+      "support_mail"          : "hello@liimex.com",
+      "no_reply" 			        : "noreply@liimex.com",
+      "welcome_email" 	      : "hello@liimex.com",
+      "christian"             : "christian@liimex.com",
+      "benno"                 : "benno@liimex.com",
+      "sales"                 : "sales@liimex.com",
+      "advisory" : "insurance.advisory@liimex.com",      
+      "insurance_support_phone_number" : "+49 40-60 59 09 180",
+      "welcome_template_id" : {
+        "en" : "c719b13f-0dfd-4531-ae12-275e1ce8616f",
+        "de" : "cf161320-96e5-4366-b277-bbe595cef778"
+      },
+      "offer_requested_template_id" : {
+        "en" : "8c82ad4f-28cf-4284-bffc-35ee48ffdce5",
+        "de" : "b89e5e62-7ca6-4843-9e2a-dc33e02c26a2"
+      },
+      "new_offer_with_request" : {
+        "en" : "8f537f8a-4ecb-4da3-adc1-3cfe02058e37",
+        "de" : "f6bd49df-1b7b-45ca-83b0-591a8efb8074"
+      },
+      "new_offer_without_request" : {
+        "en" : "b35c532b-9cb9-4b51-8971-bdc6335017e3",
+        "de" : "66e22efe-ed20-4ff0-97f7-22dcfb443181"
+      },
+      "policy_digitized" : {
+        "en" : "2464b3cf-57e8-4c52-b0ef-06c881e6850b",
+        "de" : "eeaca704-7900-49ce-8af8-3d86bd23fefe"
+      },
+      "policy_cancelled" : {
+        "en" : "15c13be0-1aa0-4fbd-b583-9ae2b375f1ae",
+        "de" : "10543c4d-3077-45d9-bdf8-533f53b4b0b3"
+      },
+      "mandate_signed" : {
+        "en" : "992c912b-f179-455f-9636-e7222d2ecc71",
+        "de" : "e78728d9-fa22-4cd9-8462-582b62f20ae4"
+      },
+      "offer_accepted" : {
+        "en" : "e34fb361-ed29-4eb8-a81d-272c894089bd",
+        "de" : "3ef7bc5b-6b30-4d47-86a6-452475d0b14a"
+      },
+      "could_not_find_industry" : {
+        "en" : "bc5fe05e-a7a0-4b49-869c-c673b36263b8",
+        "de" : "bc5fe05e-a7a0-4b49-869c-c673b36263b8"
+      },
+      "email_verification" : {
+        "en" : "5292dc10-a204-435b-975f-81aea7a8cdec",
+        "de" : "e29a1afc-28e6-42f8-b651-f49571a17ed2"
+      },
+      "internal_offer_requested" : {
+        "en" : "88521de9-9f5b-4b5a-92de-15811e0c3fd5",
+        "de" : "88521de9-9f5b-4b5a-92de-15811e0c3fd5"  
+      },
+      "internal_offer_accepted" : {
+        "en" : "8dbcb6a8-bbd4-41c0-aca8-cadc697ddcfd",
+        "de" : "8dbcb6a8-bbd4-41c0-aca8-cadc697ddcfd"  
+      }
+    }
+  }
+}

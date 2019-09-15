@@ -1,0 +1,95 @@
+---
+name: selectindustry
+url: /usermanagement/selectindustry/:company_id
+title: Select Industry
+parent: dashboard
+controller: SelectIndustryController
+loginRequired: true
+---
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12" ng-show="outdated_indstries">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec info-div">
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="info-label card-row-label center">INFO: This Company has Outdated Industry Codes. Please Update!</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Company Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Company Name</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.name}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Liimex-id</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.liimex_id}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 ">
+		<form class="flex-form force-wrap large-12 medium-12 small-12" name="industry_form">
+			<div class="card card-square large-12 medium-12 small-12">
+				<div class="card-divider white-card-divider white-text">Industries ({{company.industry_codes.length || '0'}})</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-content large-12 medium-12 small-12" ng-repeat="i in [1,2,3] | limitTo:cat_limit" style="margin-top:1rem;">
+						<div class="grid-content large-12 medium-12 small-12">
+							<select ng-model="picked_levels[i][1]" required class="form-input-fields" ng-change="RefreshModel(i, [2,3,4])">
+								<option value="" disabled selected="selected" style="display: none;">Bitte wählen Sie eine passende Industrie</option>
+								<option ng-repeat="code in industries | sortcodes:{key:1}" value="{{code.code.code}}">{{code.code.name_de}}</option>
+							</select>
+						</div>
+						<div class="grid-content large-12 medium-12 small-12">
+							<select ng-disabled="!picked_levels[i][1]" ng-model="picked_levels[i][2]" required class="form-input-fields {{!picked_levels[i][1] && 'pickindustry-disable'}}" ng-change="RefreshModel(i, [3,4])">
+								<option value="" disabled selected="selected" style="display: none;">Bitte wählen Sie eine passende Kategorie</option>
+								<option ng-repeat="code in industries | sortcodes:{key:2, parent:picked_levels[i][1]}" value="{{code.code.code}}">{{code.code.name_de}}</option>
+							</select>
+						</div>
+						<div class="grid-content large-12 medium-12 small-12" ng-hide="picked_levels[i][2] && !industry_set.has(picked_levels[i][2].concat('.1'))">
+							<select ng-disabled="!picked_levels[i][2]" ng-model="picked_levels[i][3]" ng-required="industry_set.has(picked_levels[i][2].concat('.1'))" class="form-input-fields {{!picked_levels[i][2] && 'pickindustry-disable'}}" ng-change="RefreshModel(i, [4])">
+								<option value="" disabled selected="selected" style="display: none;">Bitte wählen Sie eine passende Sub-Kategorie</option>
+								<option ng-repeat="code in industries | sortcodes:{key:3, parent:picked_levels[i][2]}" value="{{code.code.code}}">{{code.code.name_de}}</option>
+							</select>
+						</div>
+						<div class="grid-content large-12 medium-12 small-12" ng-hide="!picked_levels[i][3] || !industry_set.has(picked_levels[i][3].concat('.1'))">
+							<select ng-disabled="!picked_levels[i][3]" ng-required="industry_set.has(picked_levels[i][3].concat('.1'))" class="form-input-fields {{!picked_levels[i][3] && 'pickindustry-disable'}}">
+								<option value="" disabled selected="selected" style="display: none;">Bitte wählen Sie eine passende Sub-Kategorie</option>
+								<option ng-repeat="code in industries | sortcodes:{key:4, parent:picked_levels[i][3]}" value="{{code.code.code}}">{{code.code.name_de}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="grid-content small-3 medium-3 large-2" ng-show="cat_limit>1">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand" value="Remove" ng-click="RemoveCat()">
+					</div>
+					<div class="grid-content small-3 medium-3 large-3" ng-hide="cat_limit === 3">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand" value="+ Add another category" ng-click="cat_limit = cat_limit+1">
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="red small-margin-above-below" ng-show="unsaved"><b>You have unsaved changes. Please save</b></div>
+	</div>
+	<div class="grid-content small-3 medium-3 large-3">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" value="Save" ng-click="submitIndustries()" ng-disabled="!industry_form.$valid || local_load">
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" value="Pick Activities" ng-click="pickActivity()" ng-disabled="local_load || !company.industry_codes">
+	</div>
+</div>

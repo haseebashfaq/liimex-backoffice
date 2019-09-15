@@ -1,0 +1,137 @@
+---
+name: meta
+url: /meta
+title: Meta
+parent: dashboard
+controller: MetaController
+loginRequired: true
+---
+
+
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block"  ng-show="currentState === 'meta'">
+
+	<div class="grid-content large-12 medium-12 small-12">
+		<h6>Pick a subpage</h6>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow">
+			<h6>Extraction Criteria</h6>
+	</div>
+
+	<div class="grid-content large-4 medium-12 small-12">
+		<div class="card card-hover card-square" ui-sref="policycriterias">
+			<div class="card-divider cus-card-divider white-text">
+				<h5>Policy Specific</h5>
+			</div>
+ 			<div class="card-section left-card cus-card-sec meta-height-min">
+				<p>View, change, or add extraction criteria that is specific to insurance types. The insurance types are defined in are defined in a seperate section called "Insurance Types"</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-4 medium-12 small-12">
+		<div class="card card-hover card-square" ui-sref="industrycriterias">
+			<div class="card-divider cus-card-divider white-text">
+				<h5>Industry & Policy Specific</h5>
+			</div>
+			<div class="card-section left-card cus-card-sec meta-height-min">
+				<p>View, change, or add extraction criteria that is specific to insurance types and a certain industry. The insurance types are defined in are defined in a seperate section called "Insurance Types"</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow">
+			<h6>Recommendations</h6>
+	</div>
+
+	<!-- <div class="grid-content large-4 medium-12 small-12">
+		<div class="card card-hover card-square" ui-sref="products">
+			<div class="card-divider cus-card-divider white-text">
+				<h5>Products (in dev)</h5>
+			</div>
+			<div class="card-section left-card cus-card-sec meta-height-min">
+				<p>Define preferred products (or non-preferred)</p>
+			</div>
+		</div>
+	</div> -->
+
+	<div class="grid-content large-4 medium-12 small-12">
+		<div class="card card-hover card-square" ui-sref="activities">
+			<div class="card-divider cus-card-divider white-text">
+				<h5>Activity Questions</h5>
+			</div>
+			<div class="card-section left-card cus-card-sec meta-height-min">
+				<p>Define Activity Questions and for what Industry codes they apply for</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-4 medium-12 small-12">
+		<div class="card card-hover card-square" ui-sref="industrydemands">
+			<div class="card-divider cus-card-divider white-text">
+				<h5>Demands by Industry</h5>
+			</div>
+			<div class="card-section left-card cus-card-sec meta-height-min">
+				<p>Change what insurances are required or excluded for different industries</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow">
+			<h6>Single Definitions</h6>
+	</div>
+
+	<div class="grid-content large-4 medium-12 small-12">
+		<div class="card card-hover card-square" ui-sref="carriers">
+			<div class="card-divider cus-card-divider white-text">
+				<h5>Carriers</h5>
+			</div>
+			<div class="card-section left-card cus-card-sec meta-height-min">
+				<p>Define carriers to be referenced on other pages, and in insurance products</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-4 medium-12 small-12">
+		<div class="card card-hover card-square" ui-sref="insurancetypes">
+			<div class="card-divider cus-card-divider white-text">
+				<h5>Insurance Types</h5>
+			</div>
+			<div class="card-section left-card cus-card-sec meta-height-min">
+				<p>Define types of insurances (i.e. financial liability)</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-4 medium-12 small-12">
+		<div class="card card-hover card-square" ui-sref="codes">
+			<div class="card-divider cus-card-divider white-text">
+				<h5>Industry Codes</h5>
+			</div>
+ 			<div class="card-section left-card cus-card-sec meta-height-min">
+				<p>This is where everything industry code related happens. Adding, viewing, editing, translating (german), synonyms, everything happens</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-show="access.has('admin')">
+			<h6>Mandate</h6>
+	</div>
+
+	<div class="grid-content large-4 medium-12 small-12" ng-show="access.has('admin')">
+		<div class="card card-hover card-square" ui-sref="mandates">
+			<div class="card-divider cus-card-divider white-text">
+				<h5>Mandate</h5>
+			</div>
+			<div class="card-section left-card cus-card-sec meta-height-min">
+				<p>View or edit the mandate that is presented on the website</p>
+			</div>
+		</div>
+	</div>
+
+</div>

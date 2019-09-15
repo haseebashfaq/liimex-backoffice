@@ -1,0 +1,395 @@
+<div class="grid-block" ng-show="company">
+
+	<div class="grid-content large-12 medium-12 small-12 small-buttom-margin">
+		<!-- <div class="card card-square"> -->
+			<!-- <div class="card-divider cus-card-divider white-text" ng-show="!company.disabled">
+				Company Information
+			</div>
+			<div class="card-divider red-card-divider white-text" ng-show="company.disabled === true">
+				Company Information (blocked)
+			</div> -->
+			<!-- <div class="card-section left-card cus-card-sec"> -->
+				<div class="grid-block align-left">
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Company Name</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{company.name}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Type</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{company.type}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Liimex ID</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{company.liimex_id}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Signed Up</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{company.created_at ? (company.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'N/A'}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Last Activity (regarding company info.)</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{company.updated_at ? (company.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}"/>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Phone Number</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{company.phone}}"/>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">Industry</label>
+					</div>
+					<div class="grid-content small-12 medium-12 large-12">
+						<input class="card-row-input status-highlight small-buttom-margin-2 " ng-repeat="(index, code) in codes_to_show" type="text" readonly value="{{code.code}} - {{code.name_de}}"/>
+					</div>
+					<p class="pointer developer-details" zf-open="view_company_modal">...</p>
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label"></label>
+						<input type="submit" value="Edit Industries" class="button button-slim" ui-sref="selectindustry({company_id:this_company})"></input>
+					</div>
+				</div>
+			<!-- </div> -->
+		<!-- </div> -->
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-click="show_address = !show_address">
+		<h6>Addresses ({{addresses.length}}) <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_address"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_address"></i></h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, address) in addresses" ng-show="show_address">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">
+				{{address.main === true && 'Main Address' || 'Secondary Address'}}
+			</div>
+ 			<div class="card-section left-card cus-card-sec">
+ 				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Street</label>
+			    	<input class="card-row-input status-highlight" type="text" readonly value="{{address.street}}"/>
+			    </div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">City</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{address.city}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Zip Code</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{address.zip}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Country</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{address.country}}"/>
+					</div>
+				</div>
+			</div>
+			<div class="grid-content small-6 medium-4 large-3">
+				<label class="card-row-label"></label>
+				<input type="submit" value="Edit Address" class="button button-slim" ui-sref="updateaddress({company_id:this_company})"></input>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-click="show_policies = !show_policies">
+			<h6>Policies ({{policies.length}}) <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_policies"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_policies"></i></h6>
+	</div>
+	<div class="grid-content small-6 medium-4 large-3" ng-show="show_policies">
+		<label class="card-row-label"></label>
+		<input
+		type="submit"
+		class="button button-slim"
+		zf-open="confirm_modal"
+		ng-click="genService.setConfirmAction(RegisterNewPolicy)"
+		value="Manually add policy"></input>
+	</div>
+	<div class="grid-content small-6 medium-4 large-3" ng-show="show_policies">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button button-slim" ng-click="show_deleted = !show_deleted" value="{{show_deleted && 'Close Graveyard' || 'Show Graveyard'}}" ></input>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, policy) in policies" ng-show="show_policies && !show_deleted">
+		<div class="card card-square" ng-hide="policy.policy.status === 'deleted'">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Insurance Type</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{insurance_types[policy.policy.subject].name_de}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Status</label>
+						<input class="card-row-input status-highlight bold-input" type="text" readonly value="{{(policy.policy.status | capitalize) || 'N/A'}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Policy number</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{policy.policy.basic.policy_number || policy.policy.policy_number}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Carrier</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{carriers[policy.policy.basic.carrier].name || carriers[policy.policy.carrier].name}}"/>
+					</div>
+					<p class="pointer developer-details" zf-open="view_policy_modal" ng-click="SelectPolicy(policy.policy)">...</p>
+				</div>
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button button-slim" ng-click="GoToExtractionView(policy.policy, policy.key)" value="Details"></input>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, policy) in policies | orderBy:'-status':true" ng-show="show_policies && show_deleted">
+		<div class="card card-square" ng-show="policy.policy.status === 'deleted'">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Insurance Type</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{insurance_types[policy.policy.subject].name_de}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Status</label>
+						<input class="card-row-input status-highlight bold-input" type="text" readonly value="{{(policy.policy.status | capitalize) || 'N/A'}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Policy number</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{policy.policy.basic.policy_number || policy.policy.policy_number}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Carrier</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{carriers[policy.policy.basic.carrier].name || carriers[policy.policy.carrier].name}}"/>
+					</div>
+					<p class="pointer developer-details" zf-open="view_policy_modal" ng-click="SelectPolicy(policy.policy)">...</p>
+				</div>
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-4 large-3">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button button-slim" ng-click="GoToExtractionView(policy.policy, policy.key)" value="Details"></input>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-click="show_offers = !show_offers">
+		<h6>Offers ({{offers.length}}) <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_offers"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_offers"></i></h6>
+	</div>
+		<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, offer) in offers" ng-show="show_offers">
+			<div class="card card-square">
+				<div class="card-divider white-card-divider white-text">
+					Offer
+				</div>
+				<div class="card-section left-card cus-card-sec">
+					<div class="grid-block align-left">
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Insurance Type</label>
+							<input class="card-row-input status-highlight" type="text" readonly value="{{insurance_types[offer.offer.basic.subject].name_en || insurance_types[offer.offer.subject].name_en}}"/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Status</label>
+							<input class="card-row-input status-highlight bold-input" type="text" readonly value="{{genService.capitalize(offer.offer.status)}}"/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Requested On</label>
+							<input class="card-row-input status-highlight" type="text" readonly value="{{offer.offer.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+						</div>
+						<div class="grid-content small-6 medium-6 large-6">
+							<label class="card-row-label">Last updated</label>
+							<input class="card-row-input status-highlight" type="text" readonly value="{{offer.offer.updated_at ? (offer.offer.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}"/>
+						</div>
+						<div class="grid-block align-left">
+							<div class="grid-content small-6 medium-4 large-3">
+								<label class="card-row-label"></label>
+								<input type="submit" class="button button-slim" ng-click="GoToOfferView(offer.offer, offer.key)" value="Details"></input>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid-content small-6 medium-4 large-3" ng-show="show_offers">
+			<label class="card-row-label"></label>
+			<input
+			type="submit"
+			ng-click="GetOffers()"
+			value="Get Offer"
+			class="button button-slim"></input>
+		</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-click="show_claims = !show_claims">
+			<h6>Claims ({{claims.length}}) <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_claims"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_claims"></i></h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, claim) in claims" ng-show="show_claims">
+		<div class="card card-square">
+			<div ng-show="claim.status === 'active'" class="card-divider cus-card-divider white-text">
+				Claim {{key+1}}
+			</div>
+			<div ng-hide="claim.status === 'active'" class="card-divider cus-card-divider pending-card-divider white-text">
+				Claim {{key+1}}
+			</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-4 large-2">
+						<label class="card-row-label">Status</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{claim.status}}"/>
+					</div>
+					<div class="grid-content small-6 medium-4 large-2">
+						<label class="card-row-label">Created at</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{claim.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+					</div>
+					<div class="grid-content small-6 medium-4 large-8">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button" zf-open="view_claim_modal" ng-click="SelectClaim(claim)" value="View Details"></input>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-click="show_users = !show_users">
+			<h6>Users ({{users.length}}) <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_users"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_users"></i></h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, user) in users" ng-show="show_users">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">First Name</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{user.user.first_name}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Last Name</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{user.user.last_name}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Email</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{user.user.email}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Created At</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{user.user.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+					</div>
+					<div class="grid-block align-left">
+						<div class="grid-content small-6 medium-4 large-3">
+							<label class="card-row-label"></label>
+							<!-- <input type="submit" class="button button-slim" value="Block"></input> -->
+						</div>
+					</div>
+				</div>
+				<div class="grid-content small-6 medium-4 large-3" ng-show="show_users">
+						<label class="card-row-label"></label>
+						<input
+						type="submit"
+						value="Reset User Password"
+						ng-click="genService.setConfirmAction(ResetUserPassword,user.user.email)"
+						zf-open="confirm_modal"
+						class="button button-slim"></input>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-click="show_mandates = !show_mandates">
+		<h6>
+			Mandate ({{!mandate.signed_document_url ? 'not ' : ''}}signed)
+            <i class="{{show_mandates ? 'fa fa-angle-up' : 'fa fa-angle-down'}}" aria-hidden="true"></i>
+        </h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="show_mandates">
+		<div class="card card-square" ng-show="mandate.signed_document_url">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Status</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{mandate.status}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Signed At</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{mandate.timestamp ? (mandate.timestamp | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}"/>
+					</div>
+					<div class="grid-block align-left">
+						<div class="grid-content small-6 medium-4 large-3">
+							<label class="card-row-label"></label>
+                            <button class="button button-slim" ng-click="downloadMandate(mandate)"><i class="fa fa-cloud-download" aria-hidden="true"></i> Download</button>
+						</div>
+					</div>
+                    <div class="grid-block align-left">
+                        <div class="grid-content small-6 medium-4 large-3">
+                            <label class="card-row-label"></label>
+                            <button class="button button-slim" zf-open="upload_mandate_modal"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</button>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+        <div class="card card-square" ng-show="!mandate.signed_document_url">
+            <div class="card-section left-card cus-card-sec">
+                <div class="grid-block align-left">
+                    <div class="grid-content small-6 medium-6 large-6">
+                        <label class="card-row-label">No Mandate uploaded</label>
+                        <button class="button button-slim" zf-open="upload_mandate_modal"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-click="show_activities = !show_activities">
+		<h6>Activities <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_activities"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_activities"></i></h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="show_activities">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">
+				This is an overview of the company's activities. Whatever is listed below here, is what the client answered <b>yes</b> to in the signupphase.
+			</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left" ng-repeat="(index, activity) in company.activities" >
+					<div class="grid-content small-12 medium-12 large-12" ng-hide="company.activities">
+						<p class="" style="font-size:10pt">The company has not indicated any Activities</p>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Activity {{index+1}} (EN)</label>
+						<p class="" style="font-size:10pt">{{activities[activity].name_en}}</p>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Activity {{index+1}} (DE)</label>
+						<p class="" style="font-size:10pt">{{activities[activity].name_de}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12 subheader-in-section btm-shadow" ng-click="show_question_answers = !show_question_answers">
+		<h6>Insurance Questions <i class="fa fa-angle-up" aria-hidden="true" ng-show="show_question_answers"></i><i class="fa fa-angle-down" aria-hidden="true" ng-show="!show_question_answers"></i></h6>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-show="show_question_answers">
+		<div class="card card-square">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left" ng-repeat="(key, question) in company.insurance_questionnaire" ng-show="questions[key]">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Question</label>
+						<p class="" style="font-size:10pt">{{genService.capitalize(questions[key].question_text_de)}}</p>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6" ng-show="questions[key].input_type === 'bool'">
+						<label class="card-row-label">Answer</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{company.insurance_questionnaire[key].answer === true && 'Yes' || 'No'}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6" ng-show="questions[key].input_type === 'text'">
+						<label class="card-row-label">Answer</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{company.insurance_questionnaire[key].answer}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6" ng-show="questions[key].input_type === 'currency'">
+						<label class="card-row-label">Answer</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="company.insurance_questionnaire[key].answer" readonly awnum num-thousand="true" num-sep="," num-prepend="€" num-int="16"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6" ng-show="questions[key].input_type === 'number'">
+						<label class="card-row-label">Answer</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="company.insurance_questionnaire[key].answer" readonly awnum num-thousand="true" num-sep="," num-int="16"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6" ng-show="questions[key].input_type === 'date'">
+						<label class="card-row-label">Answer</label>
+						<input class="card-row-input status-highlight" type="text" readonly value="{{(company.insurance_questionnaire[key].answer*1000) | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY'}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- Modals Include -->
+<div ng-include="" src="'partials/modals/viewpolicy.html'"></div>
+<div ng-include="" src="'partials/modals/viewcompany.html'"></div>
+<div ng-include="" src="'partials/modals/existingpolicy.html'"></div>
+<div ng-include="" src="'partials/modals/viewclaim.html'"></div>
+<div ng-include="" src="'partials/modals/uploadmandate.html'"></div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

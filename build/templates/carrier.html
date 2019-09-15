@@ -1,0 +1,102 @@
+
+<div class="grid-block" ng-show="carrier">
+
+	<!-- Carrier -->
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Selected Carrier</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Name</label>
+						<input class="card-row-input status-highlight" type="text" ng-model="carrier.name"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Disabled</label>
+						<input class="card-row-input status-highlight grey-out" type="text" value="{{carrier.disabled || 'false'}}" readonly=""/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Created at</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{carrier.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6 ">
+						<label class="card-row-label">Last Updated</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{carrier.updated_at ? (carrier.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="SaveCarrier()" value="Save"></input>
+	</div>
+
+	<div class="grid-content small-3 medium-3 large-2" ng-show="!carrier.disabled">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand alert" ng-click="genService.setConfirmAction(DisableCarrier)" zf-open="confirm_modal" value="Disable"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2" ng-show="carrier.disabled === true">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand success" ng-click="genService.setConfirmAction(EnableCarrier)" zf-open="confirm_modal" value="Enable"></input>
+	</div>
+	<!-- Photo -->
+	<!-- <div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Uploader</p></div>
+			<div class="card-section left-card cus-card-sec">
+				This is the thumbnail for the Carrier (200 x 200)
+				<div class="grid-block align-left">
+
+					<div class="grid-content small-3 medium-3 large-2">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand" zf-open="upload_file_modal" value="Upload"></input>
+					</div>
+
+					<div class="grid-content small-3 medium-3 large-2">
+						<label class="card-row-label"></label>
+						<input type="submit" class="button expand" ng-click="DownloadPhoto()" ng-disabled="!carrier.file"value="Download"></input>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+	<!-- Thumbnail -->
+	<!-- <div class="grid-content large-6 medium-6 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Thumbnail</p></div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+
+					<div class="grid-content small-12 medium-12 large-12">
+						<img src="{{carrier_photo}}" alt="No Image" class="carrier_thumbnail"/>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+	<!-- Url -->
+	<!-- <div class="grid-content large-6 medium-6 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">URL</p></div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+
+					<div class="grid-content small-12 medium-12 large-12">
+						<label class="card-row-label">{{carrier_photo}}</label>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div> -->
+
+</div>
+
+<div ng-include="" src="'partials/modals/confirm.html'"></div>
+<div ng-include="" src="'partials/modals/uploadfile.html'"></div>

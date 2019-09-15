@@ -1,0 +1,139 @@
+<!-- Sidebar for Dashboard -->
+<div class="grid-container">
+	<zf-panel class="panel panel-full-left is-active large-2 medium-2 small-2" id="sidebar" position="top">
+		<div class="grid-block vertical">
+			<div class="grid-content" onclick="closeSubMenu()" ng-show="access.has('search')">
+				<ul class="menu-bar dashboardbar">
+					<li class="sidebar-text {{currentState==='search' && 'sidebar-picked' || ''}}"><a ui-sref="search">Companies</a></li>
+				</ul>
+			</div>
+			<div class="grid-content" ng-show="access.has('carriers')">
+				<ul class="menu-bar dashboardbar">
+					<li class="sidebar-text {{currentState==='carriers' && 'sidebar-picked' || ''}}"><a ui-sref="carriers">Carriers</a></li>
+				</ul>
+			</div>
+			<div class="grid-content" ng-show="access.has('advisory')">
+				<zf-accordion auto-open="true" collapsible="false" multi-open="true">
+					<zf-accordion-item class="sidebar-text accordation-sidebar items-under" title="Insurance Advisory">
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{currentState==='extractions' && 'sidebar-picked' || ''}}"><a ui-sref="extractions">Extractions</a></li>
+						</ul>
+						<zf-accordion-item class="sidebar-text accordation-sidebar items-indent-1-accord items-under" title="Offers">
+							<ul class="menu-bar li-indent-2">
+								<li class="sidebar-text {{currentState==='offers' && 'sidebar-picked' || ''}}"><a ui-sref="offers">Requested Offers</a></li>
+							</ul>
+							<ul class="menu-bar li-indent-2">
+								<li class="sidebar-text {{(currentState==='alloffers' && offer_status === 'accepted') && 'sidebar-picked' || ''}}"><a ui-sref="alloffers({status:'accepted'})">Accepted Offers</a></li>
+							</ul>
+							<ul class="menu-bar li-indent-2">
+								<li class="sidebar-text {{(currentState==='alloffers' && offer_status === 'finalized') && 'sidebar-picked' || ''}}"><a ui-sref="alloffers({status:'finalized'})">Finalized Offers</a></li>
+							</ul>
+							<ul class="menu-bar li-indent-2">
+								<li class="sidebar-text {{(currentState==='alloffers' && offer_status === 'dismissed') && 'sidebar-picked' || ''}}"><a ui-sref="alloffers({status:'dismissed'})">Dismissed Offers</a></li>
+							</ul>
+						</zf-accordion-item>
+					</zf-accordion-item>
+				</zf-accordion>
+			</div>
+			<div class="grid-content" ng-show="access.has('demand')">
+				<zf-accordion auto-open="true" collapsible="false" multi-open="true">
+					<zf-accordion-item class="sidebar-text accordation-sidebar items-under" title="Demand Analysis">
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{currentState==='codes' && 'sidebar-picked' || ''}}"><a ui-sref="codes">Industries</a></li>
+						</ul>
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{currentState==='activities' && 'sidebar-picked' || ''}}"><a ui-sref="activities">Activity Questions</a></li>
+						</ul>
+					</zf-accordion-item>
+				</zf-accordion>
+			</div>
+			<div class="grid-content" ng-show="access.has('questions')">
+				<zf-accordion auto-open="true" collapsible="false" multi-open="true">
+					<zf-accordion-item class="sidebar-text accordation-sidebar items-under" title="Question Database">
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{currentState==='questionsearch' && 'sidebar-picked' || ''}}"><a ui-sref="questionsearch">All Questions</a></li>
+						</ul>
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{(currentState==='insurancequestions' && insurance_type==='general') && 'sidebar-picked' || ''}}"><a ui-sref="insurancequestions({insuranceType:'general'})">General Questionnarie</a></li>
+						</ul>
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{currentState==='insurancespecifics' && 'sidebar-picked' || ''}}"><a ui-sref="insurancespecifics">Specific Questionnarie</a></li>
+						</ul>
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{(currentState==='insurancequestions' && insurance_type==='confirmatory') && 'sidebar-picked' || ''}}"><a ui-sref="insurancequestions({insuranceType:'confirmatory'})">Confirmatory Questionnarie</a></li>
+						</ul>
+					</zf-accordion-item>
+				</zf-accordion>
+			</div>
+			<div class="grid-content" ng-show="access.has('product')">
+				<zf-accordion auto-open="true" collapsible="false" multi-open="true">
+					<zf-accordion-item class="sidebar-text accordation-sidebar items-under" title="Product Management">
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{currentState==='insurancetypes' && 'sidebar-picked' || ''}}"><a ui-sref="insurancetypes">Insurance Types</a></li>
+						</ul>
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{currentState==='products' && 'sidebar-picked' || ''}}"><a ui-sref="products">Insurance Products</a></li>
+						</ul>
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{currentState==='comparisoncriterias' && 'sidebar-picked' || ''}}"><a ui-sref="comparisoncriterias">Comparison Criterias</a></li>
+						</ul>
+					</zf-accordion-item>
+				</zf-accordion>
+			</div>
+			<div class="grid-content" ng-show="access.has('admin')">
+				<zf-accordion auto-open="true" collapsible="false" multi-open="true">
+					<zf-accordion-item class="sidebar-text accordation-sidebar items-under" title="Admin">
+						<ul class="menu-bar li-indent-1">
+							<li class="sidebar-text {{currentState==='access' && 'sidebar-picked' || ''}}"><a ui-sref="access">Access</a></li>
+						</ul>
+						<ul class="menu-bar li-indent-1" ng-show="access.has('admin')">
+							<li class="sidebar-text {{currentState==='mandates' && 'sidebar-picked' || ''}}"><a ui-sref="mandates">Mandate</a></li>
+						</ul>
+					</zf-accordion-item>
+				</zf-accordion>
+			</div>
+			<div class="grid-content signout-div ">
+				<ul class="menu-bar signout-button">
+					<li><a ui-sref="login" ng-click="Signout()">Signout</a></li>
+				</ul>
+			</div>
+			<div class="grid-content liimefix-small"></div>
+		</zf-panel>
+	</div>
+
+	<script type="text/javascript">
+
+		function closeSubMenu() {
+			$(".sub2").hide();
+			$(".sub1").hide();
+		}
+
+		function toggleDisplayChild1() {
+			$( ".sub1" ).toggle(0,function(){
+				$(".sub2").hide();
+			});
+		}
+
+		function toggleDisplayChild2() {
+			$( ".sub2" ).toggle();
+			$(".sub2 li").click(function(){
+				$(".sub2 li").css('background','none');
+				$(this).css('background','#00558b');
+				$(".sub2 li").css('color','#222');
+				$(this).css('color','#fff');
+				$(this).hover(function(){});
+			})
+		}
+
+		function toggleDisplayChild3() {
+			$( "#sub3" ).toggle();
+			$("#sub3 li").click(function(){
+				$("#sub3 li").css('background','none');
+				$(this).css('background','#00558b');
+				$("#sub3 li").css('color','#222');
+				$(this).css('color','#fff');
+				$(this).hover(function(){});
+			})
+		}
+
+	</script>

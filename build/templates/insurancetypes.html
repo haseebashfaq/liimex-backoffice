@@ -1,0 +1,37 @@
+
+<div ui-view> <!-- Child Page --> </div>
+<div class="grid-block" ng-show="currentState === 'insurancetypes'">
+	<div class="grid-content small-6 medium-4 large-3">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" zf-open="confirm_modal" ng-click="genService.setConfirmAction(AddInsuranceType)" value="+ Add Insurance Type"></input>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="submit" class="button expand" ng-click="disabled = !disabled" value="{{disabled && 'Hide disabled' || 'Show disabled'}}"></input>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, insurance_type) in insurance_types" ui-sref="insurancetype({insurancetype : insurance_type.key})" ng-hide="!disabled && insurance_type.insurance_type.disabled === true">
+		<div class="card card-hover card-square industry-margin">
+			<div class="card-section left-card cus-card-sec" ng-hide="insurance_type.insurance_type.disabled">
+				<div class="grid-block align-left">
+					<div class="insurance-type grid-content small-6 medium-6 large-6">
+						<span><img src="{{insurance_type.insurance_type.icon_url || 'assets/img/shield.svg'}}"> {{insurance_type.insurance_type.name_en || 'Unnamed'}} {{insurance_type.icon_url}}</span>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6 right-align">
+            {{insurance_type.insurance_type.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}
+					</div>
+				</div>
+			</div>
+			<div class="card-section left-card cus-card-sec pending-card-divider white-text" ng-show="insurance_type.insurance_type.disabled">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						{{insurance_type.insurance_type.name_en || 'Unnamed'}}
+					</div>
+					<div class="grid-content small-6 medium-6 large-6 right-align">
+            {{insurance_type.insurance_type.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div ng-include="" src="'partials/modals/confirm.html'"></div>

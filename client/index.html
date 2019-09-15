@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" ng-app="application">
+  <header></header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="" />
+    <title>Liimex Platform</title>
+    <link href="./assets/css/app.css" rel="stylesheet" type="text/css">
+    <script src="./assets/js/foundation.js"></script>
+    <script src="./assets/js/templates.js"></script>
+    <script src="./assets/js/routes.js"></script>
+    <script src="./assets/js/app.js"></script>
+  </head>
+  <body ng-class="developmentEnvironment ? 'dev-env' : ''">
+    <div class="grid-frame vertical" ng-show="authenticating === false || !authenticating">
+      <div class="grid-content shrink nav-pad new-margin">
+        <div ng-include="" src="'partials/nav.html'"  class="fixed-navheight"></div>
+        <div ng-include="" src="'partials/notifications.html'"></div>
+      </div>
+      <div ui-view class="grid-content">
+            <!-- View Area -->
+      </div>
+    </div>
+
+    <div class="grid-frame vertical" ng-show="authenticating === true">
+      <div class="grid-content shrink nav-pad">
+        <div ng-include="" src="'templates/waitauth.html'"></div>
+      </div>
+    </div>
+  </body>
+  <footer></footer>
+</html>

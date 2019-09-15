@@ -1,0 +1,64 @@
+<!-- Signup Form -->
+<form  class="login-form" name="signupform">
+  <div class="grid-block">
+
+    <div class="grid-content small-12 medium-12 large-12">
+      <label class="card-row-label">Company Name</label>
+      <span class="inline-label inline-bottom">
+        <input class="no-border-right card-row-input" type="text" placeholder="Example name" required ng-model="signup.company.name" />
+        <span>
+          <select name="typeselector" ng-model="signup.company.type">
+            <option value="AG">AG</option>
+            <option value="GmbH">GmbH</option>
+          </select>
+        </span>
+      </span>
+    </div>
+
+    <div class="grid-content small-12 medium-12 large-12">
+      <label class="card-row-label">Company Address</label>
+      <input class="card-row-input" type="text" placeholder="Abendrothsweg 67" required ng-model="signup.address.street"/>
+    </div>
+    <div class="grid-content small-8 medium-8 large-8 no-space-input-right">
+      <input class="no-border-right card-row-input" type="text" placeholder="Hamburg" required ng-model="signup.address.city"/>
+    </div>
+    <div class="grid-content small-4 medium-4 large-4 no-space-input-left">
+      <input class="card-row-input" type="text" placeholder="20251" required ng-model="signup.address.zip"/>
+    </div>
+    <div class="grid-content small-12 medium-12 large-12">
+      <input class="card-row-input" type="text" placeholder="Germany" required ng-model="signup.address.country"/>
+    </div>
+
+    <div class="grid-content small-12 medium-12 large-12">
+      <label class="card-row-label">Company Phone</label>
+      <input class="card-row-input" type="text" placeholder="+49 12 34 56 79" required ng-model="signup.company.phone"/>
+    </div>
+
+    <div class="grid-content small-12 medium-12 large-12">
+      <label class="card-row-label">Your Email</label>
+      <input class="card-row-input" type="text" placeholder="example@gmail.com" required ng-model="signup.user.email"/>
+    </div>
+
+    <div class="grid-content small-12 medium-12 large-12">
+      <label class="card-row-label">Your Name</label>
+      <input class="card-row-input" type="text" placeholder="First Name" required ng-model="signup.user.first_name"/>
+    </div>
+    <div class="grid-content small-12 medium-12 large-12">
+      <input class="card-row-input" type="text" placeholder="Last Name" required ng-model="signup.user.last_name"/>
+    </div>
+
+    <div class="grid-content small-12 medium-12 large-12">
+      <label class="card-row-label">Password</label>
+      <input class="card-row-input" type="password" placeholder="Password" required ng-model="signup.user.password"/>
+    </div>
+
+    <div class="grid-content small-12 medium-12 large-12"> 
+      <input class="button expand" type="submit" ng-click="Signup(signupform)" value="Sign Up"></input>
+    </div>
+
+    <div class="login-subtext grid-content small-12 medium-12 large-12">
+      <a ui-sref="login" class="login-subtext">I already have an Account</a>
+    </div>
+
+  </div>
+</form>

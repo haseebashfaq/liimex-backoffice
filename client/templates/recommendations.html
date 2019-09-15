@@ -1,0 +1,37 @@
+---
+name: recommendations
+url: /recommendations
+parent: dashboard
+loginRequired: true
+controller: RecommendationController
+---
+<div class="grid-block">
+	<div class="grid-content large-12 medium-12 small-12">
+		<h2>Recommendations</h2>
+	</div>
+	
+    <!-- Active Policy Iterator -->
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="recommendation in recommendations">	
+		<div class="card card-hover card-square" ng-click="" zf-open="view_policy_modal">
+			<div class="card-divider cus-card-divider">
+				<!-- <p class="white card-title">Active</p> -->
+			</div>
+ 			<div class="card-section left-card cus-card-sec">
+ 				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-3 large-1">
+  						<label class="card-row-label">Carrier</label>
+				    	<input class="card-row-input" type="text" placeholder="Carrier" readonly value="{{policy.carrier}}"/>
+				    </div>
+				    
+				</div>
+			</div>
+		</div>
+	</div>
+	<div layout="row" layout-sm="column" layout-align="space-around">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+
+	<div class="grid-content small-12 medium-12 large-12 align-center" ng-hide="notempty"> 
+		<h5 class="no-policies-text">No recommendations from Liimex</h5>
+    </div>
+</div>

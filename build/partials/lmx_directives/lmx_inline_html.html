@@ -1,0 +1,8 @@
+<div>
+    <a href="" class="focus-catcher"></a>
+    <span ng-class="isEmpty()" ng-show="mode != 'edit'">{{value || 'Double click to edit' | meta:applyFilter}}</span>
+    <span ng-show="mode == 'edit'">
+        <input type="text" awnum="{{applyValidation}}" placeholder="{{placeholder}}" tabindex="-1" ng-model="value">
+    </span>
+
+</div>

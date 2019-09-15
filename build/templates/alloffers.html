@@ -1,0 +1,61 @@
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block" ng-show="currentState === 'alloffers'">
+
+	<div class="grid-content large-12 medium-12">
+		<label class="task-search">
+			<span class="inline-label no-top-margin">
+				<span class="form-label">Search</span>
+				<input type="text" ng-model="offerSearch" class="search-bar">
+				<span class="form-label"><b>{{filteredOffers.length}}</b>&nbsp;Matches of&nbsp; <b>{{offers.length}}</b>&nbsp;Offers</span>
+			</span>
+		</label>
+	</div>
+
+  <!-- Requested Offer Iterator -->
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-2 medium-2 large-2">
+						 Status
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3">
+						 Company
+					 </div>
+					 <div class="grid-content small-3 medium-3 large-3">
+						 Liimex ID
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-4 right-align pointer" ng-click="fifo = !fifo">
+						 <i class="fa fa-caret-{{fifo && 'up' || 'down'}}" aria-hidden="true"></i>
+						 Created
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, offer) in offers | orderBy:'-offer.created_at':fifo | filter:offerSearch as filteredOffers" ng-show="companies[offer.offer.company]">
+		<div ng-click="openOffer(offer)" class="card card-hover card-square industry-margin pointer">
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+				 <div class="grid-content small-2 medium-2 large-2">
+					 {{genService.capitalize(offer.offer.status)}}
+				 </div>
+				 <div class="grid-content small-3 medium-3 large-3">
+					 {{companies[offer.offer.company].name}}
+				 </div>
+				 <div class="grid-content small-3 medium-3 large-3">
+					 {{companies[offer.offer.company].liimex_id}}
+				 </div>
+				 <div class="grid-content small-4 medium-4 large-4 right-align">
+					 {{offer.offer.created_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss'}}
+				 </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

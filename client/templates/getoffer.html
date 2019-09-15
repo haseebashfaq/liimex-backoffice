@@ -1,0 +1,89 @@
+---
+name: getoffer
+url: /usermanagement/getoffer/:companyid
+title: Get Offer
+parent: dashboard
+controller: GetOffersController
+loginRequired: true
+securityLevel: 1
+---
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block" >
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Company Information</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Company Name</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.name}}"/>
+					</div>
+					<div class="grid-content small-6 medium-6 large-6">
+						<label class="card-row-label">Liimex-id</label>
+						<input class="card-row-input status-highlight grey-out" type="text" readonly value="{{company.liimex_id}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Essential Insurance Types</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-3 medium-3 large-6 pickactivity-mainblock">
+						<label class="card-row-label pickactivity-question">Please select the essential insurances you want</label>
+						<div ng-repeat="type in weighted_insurance_types.essential | orderBy : '-score'">
+							<input class="card-row-input status-highlight grey-out activity-checkbox" type="checkbox" required value="" ng-model="insurance_types[type.key].selected"/>
+							<span class="activity-checkbox-span">{{type.type.name_de}} (score: {{type.score}})</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Additional Insurance Types</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-3 medium-3 large-6 pickactivity-mainblock">
+						<label class="card-row-label pickactivity-question">Please select the additional insurances you want</label>
+						<div ng-repeat="type in weighted_insurance_types.additional | orderBy : '-score'">
+							<input class="card-row-input status-highlight grey-out activity-checkbox" type="checkbox" required value="" ng-model="insurance_types[type.key].selected"/>
+							<span class="activity-checkbox-span">{{type.type.name_de}} (score: {{type.score}})</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square">
+			<div class="card-divider white-card-divider white-text">Others Insurance Types</div>
+			<div class="card-section left-card cus-card-sec">
+				<div class="grid-block align-left">
+					<div class="grid-content small-3 medium-3 large-6 pickactivity-mainblock">
+						<label class="card-row-label pickactivity-question">Please select the others insurances you want</label>
+						<div ng-repeat="type in weighted_insurance_types.others | orderBy : '-score'">
+							<input class="card-row-input status-highlight grey-out activity-checkbox" type="checkbox" required value="" ng-model="insurance_types[type.key].selected"/>
+							<span class="activity-checkbox-span">{{type.type.name_de}} (score: {{type.score}})</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" onclick="window.history.back();" value="Back">
+	</div>
+	<div class="grid-content small-3 medium-3 large-2">
+		<label class="card-row-label"></label>
+		<input type="button" class="button expand" value="Go to Questionnaire" ng-click="gotoQuestionaire()">
+	</div>
+</div>

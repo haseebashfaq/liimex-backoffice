@@ -1,0 +1,55 @@
+
+<!-- Child View -->
+<div ui-view> <!-- Child Page --> </div>
+
+<!-- Page View -->
+<div class="grid-block" ng-show="currentState === 'search'">
+	<div class="grid-content small-3 medium-3 large-2" ng-show="access.has('addusers')">
+		<label class="card-row-label"></label>
+		<input type="button" class="button button-slim" ui-sref="createuser" value="New Client">
+	</div>
+	<div class="grid-content large-12 medium-12">
+		<label class="task-search">
+			<span class="inline-label no-top-margin">
+				<span class="form-label">Search</span>
+				<input type="text" ng-model="companySearch" class="search-bar">
+				<span class="form-label"><b>{{filteredCompanies.length}}</b>&nbsp;Matches of&nbsp; <b>{{companies.length}}</b>&nbsp;Total Companies</span>
+			</span>
+		</label>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12">
+		<div class="card card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec status-highlight">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-4 medium-4 large-4">
+						 Liimex-id
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-4">
+						 Company
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-4 right-align pointer" ng-click="fifo = !fifo">
+						 <i class="fa fa-caret-{{fifo && 'up' || 'down'}}" aria-hidden="true"></i>
+						 Last Updated
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+	<div class="grid-content large-12 medium-12 small-12" ng-repeat="(key, company) in companies | orderBy:'-company.updated_at':fifo | filter:companySearch as filteredCompanies">
+		<div ui-sref="company({company:company_keys[company.liimex_id]})" class="card card-hover card-square industry-margin">
+			 <div class="card-section left-card cus-card-sec">
+				 <div class="grid-block align-left">
+					 <div class="grid-content small-4 medium-4 large-4">
+						 {{company.liimex_id}}
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-4">
+						 {{company.name}}
+					 </div>
+					 <div class="grid-content small-4 medium-4 large-4 right-align">
+						 {{::company.updated_at ? (company.updated_at | amTimezone:'Europe/Berlin' | amDateFormat:'D MMMM YYYY HH:mm:ss') : 'never'}}
+					 </div>
+				 </div>
+			 </div>
+		</div>
+	</div>
+</div>
