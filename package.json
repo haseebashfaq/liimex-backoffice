@@ -52,7 +52,7 @@
     "request-ip": "^2.0.2",
     "run-sequence": "^1.1.1",
     "sendgrid": "^4.7.1",
-    "sequelize": "^3.24.3",
+    "sequelize": "^5.21.2",
     "serve-favicon": "^2.0.1",
     "slack-node": "^0.1.8",
     "uuid": "^3.1.0",
